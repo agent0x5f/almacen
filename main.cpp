@@ -10,6 +10,7 @@
 using namespace std;
 extern int m[];
 int m[256];
+string datos="";
 
 void inicializa_memoria()
 {
@@ -38,7 +39,17 @@ void muestra_memoria()
 
 void carga_archivo()
 {
- ifstream file;
+ ifstream file("datos.txt");
+ while(!file.eof())
+ {
+     file>>datos;
+ }
+
+ for(unsigned long int x=0;x<datos.size();x++)
+     cout<<datos[x];
+
+ cout<<endl;
+
 }
 
 void menu()
@@ -55,7 +66,7 @@ void menu()
         cin>>opcion;
 
         switch (opcion) {
-        case 1: break;
+        case 1: carga_archivo(); break;
         case 2: muestra_memoria(); break;
         case 3: break;
         }
