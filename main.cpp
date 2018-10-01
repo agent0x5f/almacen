@@ -8,12 +8,13 @@
 #include <iomanip>
 #include <fstream>
 #include <string>
+
 using namespace std;
 extern int m[];
 int m[256];
 const int tam_datos=12;
 string datos[tam_datos];
-
+string pre_salida="";
 void inicializa_memoria()
 {
     for(int x=0;x<256;x++)
@@ -65,10 +66,15 @@ void carga_archivo()
  { 
  for(unsigned long int y=0;y<tam_datos;y++)
  {
- cout<<setw(3)<<y<<",c:"<<datos[y].length()<<'\t'<<"|";	 
+ cout<<setw(4)<<y<<",c:"<<datos[y].length()<<'\t'<<"|";	 
 
 	 for(int x=0;x<datos[y].length();x++)
-	 cout<<datos[y][x];
+	 {
+		 if(datos[y][x]==' ')
+			cout<<"~";
+		 else
+	 		cout<<datos[y][x];
+	 }
  cout<<"|"<<endl;
  }
  }
@@ -90,7 +96,7 @@ void quitar_lineas()
 	for(int y=0;y<tam_datos-1;y++)
 	for(int x=0;x<tam_datos-1;x++)
 	{
-		if(datos[x].size()== 0)//para las lineas vacias
+		if(datos[x].size() <= 1 )//para las lineas vacias o saltos de linea
 		{
 			datos[x]=datos[x+1];
 			datos[x+1]="";
@@ -105,14 +111,29 @@ void quitar_espacios()
 	for(int x=0;x<tam_datos;x++)
 	{
 		if(!datos[x].empty())//si no esta vacio
-			if(datos[x].back()==' ' or datos[x].back()=='\t' or datos[x].back()=='\n' or datos[x].back()=='\13')//si  el ultimo es vacio
+		{
+			if(datos[x].back()==' ' or datos[x].back()=='\t' or datos[x].back()=='\n')//si  el ultimo es vacio
 			{
 			       datos[x].pop_back();	//quitalo
 			       quitar_espacios();   //repite 
 			}
+		}
 	}
 }
 
+void muestra_presalida()
+{
+	if(pre_salida.length()==0)
+		cout<<"Vacio"<<endl;
+	else
+	for(int x=0;x<pre_salida.length();x++)
+		cout<<pre_salida[x];
+}
+
+void recibir_datos()
+{
+	//Hacer metodo que sume el numero que esta en ese string
+}
 
 void menu()
 {
@@ -127,7 +148,10 @@ void menu()
         cout<<"4.-Remover comentarios"<<endl;
 	cout<<"5.-Quitar lineas vacias"<<endl;
 	cout<<"6.-Quitar espacios"<<endl;
-	cout<<"9.-Salir"<<endl;
+	cout<<"7.-Procesar entrada(hace 1,4,5,6,2)"<<endl;
+	cout<<"8.-Mostrar pre-salida"<<endl;
+	cout<<"9.-Recibir datos"<<endl;
+	cout<<"99.-Salir"<<endl;
         cout<<"opcion?: ";
         cin>>opcion;
 
@@ -138,10 +162,17 @@ void menu()
 	case 4: remueve_comentarios(); break;
 	case 5: quitar_lineas(); break;
 	case 6: quitar_espacios();break;
+	case 7: carga_archivo();
+		remueve_comentarios();
+		quitar_lineas();
+		quitar_espacios();
+		muestra_archivo(); break;
+	case 8: muestra_presalida(); break;
+	case 9: recibir_datos(); break;
         default: break;
         }
 
-    }while (opcion!=9);
+    }while (opcion!=99);
 
 }
 
