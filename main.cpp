@@ -100,6 +100,20 @@ void quitar_lineas()
 		cout<<x<<": "<<datos[x].length()<<endl;
 }
 
+void quitar_espacios()
+{
+	for(int x=0;x<tam_datos;x++)
+	{
+		if(!datos[x].empty())//si no esta vacio
+			if(datos[x].back()==' ' or datos[x].back()=='\t' or datos[x].back()=='\n' or datos[x].back()=='\13')//si  el ultimo es vacio
+			{
+			       datos[x].pop_back();	//quitalo
+			       quitar_espacios();   //repite 
+			}
+	}
+}
+
+
 void menu()
 {
     //se busca que luego se pueda llamar el programa desde la terminal
@@ -112,6 +126,7 @@ void menu()
         cout<<"3.-Mostrar memoria"<<endl;
         cout<<"4.-Remover comentarios"<<endl;
 	cout<<"5.-Quitar lineas vacias"<<endl;
+	cout<<"6.-Quitar espacios"<<endl;
 	cout<<"9.-Salir"<<endl;
         cout<<"opcion?: ";
         cin>>opcion;
@@ -122,6 +137,7 @@ void menu()
         case 3: muestra_memoria(); break;
 	case 4: remueve_comentarios(); break;
 	case 5: quitar_lineas(); break;
+	case 6: quitar_espacios();break;
         default: break;
         }
 
