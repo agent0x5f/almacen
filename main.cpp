@@ -7,10 +7,12 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <string>
 using namespace std;
 extern int m[];
 int m[256];
-string datos="";
+const int tam_datos=12;
+string datos[tam_datos];
 
 void inicializa_memoria()
 {
@@ -36,39 +38,74 @@ void muestra_memoria()
         cout<<endl;
     }
 }
+void limpia_datos()
+{
+    for(int x=0;x<tam_datos;x++)
+    datos[x]="";
+}
 
 void carga_archivo()
 {
- ifstream file("datos.txt");
- while(!file.eof())
+
+    ifstream file("suma.asm8");
+    if(file)
+    {
+        int x=0;
+        while(x<tam_datos)
+        {           
+            getline(file,datos[x]);
+            x++;
+        }
+    }
+    else
+    cout<<"Error-No se encontro el archivo"<<endl;
+}
+
+ void muestra_archivo()
+ {    
+ for(unsigned long int y=0;y<tam_datos;y++)
  {
-     file>>datos;
+ cout<<setw(3)<<y<<": ";	 
+ for(int x=0;x<datos[y].length();x++)
+     cout<<datos[y][x];
+ 
+ cout<<endl;
+ }
  }
 
- for(unsigned long int x=0;x<datos.size();x++)
-     cout<<datos[x];
-
- cout<<endl;
-
+void remueve_comentarios()
+{
+	for(int y=0;y<tam_datos;y++)
+	for(int x=0;x<datos[y].length();x++)
+	if(datos[y][x]==';')
+	{
+		datos[y].pop_back();
+		remueve_comentarios();
+	}
+	
 }
 
 void menu()
 {
     //se busca que luego se pueda llamar el programa desde la terminal
     //ej: ensamblador-8 programa1.asm8  --> programa1.abc8
-    cout<<"Menu para administrar el ensamblador"<<endl;
     int opcion=0;
     do{
+	cout<<"Menu"<<endl;    
         cout<<"1.-Cargar archivo"<<endl;
-        cout<<"2.-Mostrar memoria"<<endl;
-        cout<<"9.-Salir"<<endl;
+        cout<<"2.-Mostrar archivo"<<endl;
+        cout<<"3.-Mostrar memoria"<<endl;
+        cout<<"4.-Remover comentarios"<<endl;
+	cout<<"9.-Salir"<<endl;
         cout<<"opcion?: ";
         cin>>opcion;
 
         switch (opcion) {
         case 1: carga_archivo(); break;
-        case 2: muestra_memoria(); break;
-        case 3: break;
+        case 2: muestra_archivo(); break;
+        case 3: muestra_memoria(); break;
+	case 4: remueve_comentarios();break;
+        default: break;
         }
 
     }while (opcion!=9);
@@ -80,3 +117,4 @@ int main()
     menu();
     return 0;
 }
+

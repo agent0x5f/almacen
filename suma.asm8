@@ -1,0 +1,12 @@
+;----------------------------------------------------------------------
+;programa que suma dos numeros A y B y deja el resultado en C
+;----------------------------------------------------------------------
+datos 10                      ;los datos empiezan en la direccion 10 de memoria
+A 15                            ;declaramos e inicializamos la variable A
+B 21		;variable b
+C 0			;c=0
+
+codigo 25                   ;el codigo empieza en la direccion 25 de memoria
+cargaAD A                 ;carga 15 en el acumulador
+sumaAD B                  ;suma 21 al acumulador
+guardaAD C                ;guarda el acumulador
