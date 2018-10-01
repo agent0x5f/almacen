@@ -62,14 +62,14 @@ void carga_archivo()
 }
 
  void muestra_archivo()
- {    
+ { 
  for(unsigned long int y=0;y<tam_datos;y++)
  {
- cout<<setw(3)<<y<<": ";	 
- for(int x=0;x<datos[y].length();x++)
-     cout<<datos[y][x];
- 
- cout<<endl;
+ cout<<setw(3)<<y<<",c:"<<datos[y].length()<<'\t'<<"|";	 
+
+	 for(int x=0;x<datos[y].length();x++)
+	 cout<<datos[y][x];
+ cout<<"|"<<endl;
  }
  }
 
@@ -85,6 +85,21 @@ void remueve_comentarios()
 	
 }
 
+void quitar_lineas()
+{
+	for(int y=0;y<tam_datos-1;y++)
+	for(int x=0;x<tam_datos-1;x++)
+	{
+		if(datos[x].size()== 0)//para las lineas vacias
+		{
+			datos[x]=datos[x+1];
+			datos[x+1]="";
+		}
+	}
+	for(int x=0;x<tam_datos;x++)
+		cout<<x<<": "<<datos[x].length()<<endl;
+}
+
 void menu()
 {
     //se busca que luego se pueda llamar el programa desde la terminal
@@ -96,6 +111,7 @@ void menu()
         cout<<"2.-Mostrar archivo"<<endl;
         cout<<"3.-Mostrar memoria"<<endl;
         cout<<"4.-Remover comentarios"<<endl;
+	cout<<"5.-Quitar lineas vacias"<<endl;
 	cout<<"9.-Salir"<<endl;
         cout<<"opcion?: ";
         cin>>opcion;
@@ -104,7 +120,8 @@ void menu()
         case 1: carga_archivo(); break;
         case 2: muestra_archivo(); break;
         case 3: muestra_memoria(); break;
-	case 4: remueve_comentarios();break;
+	case 4: remueve_comentarios(); break;
+	case 5: quitar_lineas(); break;
         default: break;
         }
 
