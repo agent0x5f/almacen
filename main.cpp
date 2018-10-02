@@ -167,6 +167,104 @@ void procesa_tabla()
 	}
 }
 
+int a_numero(string cad)
+{
+	return stoi(cad,nullptr,10);
+}
+
+bool es_reservada(string cad)
+{
+	return  (cad=="DATOS"||cad=="CODIGO");
+}
+
+int valor_intruccion(string cad)
+{
+	if(cad == "CARGAAI")
+		return 1;
+	if(cad == "CARGAAD")
+		return 2;
+	if(cad == "CARGAAX")
+		return 3;
+	if(cad == "GUARDAAD")
+		return 4;
+	if(cad == "GUARDAAX")
+		return 5;
+	if(cad == "SUMAAI")
+		return 6;
+	if(cad == "SUMAAD")
+		return 7;
+	if(cad == "SUMAAX")
+		return 8;
+	if(cad == "RESTAAI")
+		return 9;
+	if(cad == "RESTAAD")
+		return 10;
+	if(cad == "RESTAAX")
+		return 11;
+	if(cad == "INCA")
+		return 12;
+	if(cad == "DECA")
+		return 13;
+	if(cad == "COMPAI")
+		return 14;
+	if(cad == "COMPAD")
+		return 15;
+	if(cad == "COMPAX")
+		return 16;
+	if(cad == "NOTA")
+		return 17;
+	if(cad == "ANDAI")
+		return 18;
+	if(cad == "ANDAD")
+		return 19;
+	if(cad == "ANDAX")
+		return 20;
+	if(cad == "ORAI")
+		return 21;
+	if(cad == "ORAD")
+		return 22;
+	if(cad == "ORAX")
+		return 23;
+	if(cad == "SALTA")
+		return 24;
+	if(cad == "SALTA+")
+		return 25;
+	if(cad == "SALTA-")
+		return 26;
+	if(cad == "SALTA0")
+		return 27;
+	if(cad == "SALTAN0")
+		return 28;
+	if(cad == "SALTA=")
+		return 29;
+	if(cad == "SATALN=")
+		return 30;
+	if(cad == "SALTA>")
+		return 31;
+	if(cad == "SALTA<")
+		return 32;
+	if(cad == "SALTA>=")
+		return 33;
+	if(cad == "SALTA<=")
+		return 34;
+	if(cad == "CARDAXI")
+		return 35;
+	if(cad == "CARDAXD")
+		return 36;
+	if(cad == "GUARDAXD")
+		return 37;
+	if(cad == "INCX")
+		return 38;
+	if(cad == "DECX")
+		return 39;
+	if(cad == "COMPXI")
+		return 40;
+	if(cad == "COMPXD")
+		return 41;
+	else
+		return -1;
+}
+
 void menu()
 {
     //se busca que luego se pueda llamar el programa desde la terminal
@@ -184,6 +282,7 @@ void menu()
 	cout<<"8.-Todo a mayusculas"<<endl;
 	cout<<"9.-Mostrar tabla"<<endl;
 	cout<<"10.-Procesa tabla"<<endl;
+	cout<<"11.-Prepara archivo(hace 1,4,5,6,8,10,9)"<<endl;
 	cout<<"99.-Salir"<<endl;
         cout<<"opcion?: ";
         cin>>opcion;
@@ -203,6 +302,13 @@ void menu()
 	case 8: todo_mayus(); break;
 	case 9: muestra_tabla(); break;
 	case 10: procesa_tabla(); break;
+	case 11: carga_archivo();
+		remueve_comentarios();
+		quitar_lineas();
+       		quitar_espacios();
+		todo_mayus();
+		procesa_tabla();
+		muestra_tabla(); break;		
         default: break;
         }
 
