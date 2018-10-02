@@ -167,6 +167,14 @@ void procesa_tabla()
 	}
 }
 
+bool es_numero(string cad)
+{
+	if(cad[0]<0 or cad[0]>0)
+	       return false;
+	else
+	       return true;	
+}
+
 int a_numero(string cad)
 {
 	return stoi(cad,nullptr,10);
