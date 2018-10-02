@@ -14,7 +14,7 @@ extern int m[];
 int m[256];
 const int tam_datos=12;
 string datos[tam_datos];
-string pre_salida="";
+string tabla[12][2];
 void inicializa_memoria()
 {
     for(int x=0;x<256;x++)
@@ -121,18 +121,50 @@ void quitar_espacios()
 	}
 }
 
-void muestra_presalida()
+void todo_mayus()
 {
-	if(pre_salida.length()==0)
-		cout<<"Vacio"<<endl;
-	else
-	for(int x=0;x<pre_salida.length();x++)
-		cout<<pre_salida[x];
+	for(int y=0;y<tam_datos;y++)
+	for(int x=0;x<datos[y].length();x++)
+	{
+		if((int)datos[y][x] >= 97 and (int)datos[y][x] <= 122) //si es una letra minuscula
+			datos[y][x] = datos[y][x]-32;  //conviertela en mayus
+	}
 }
 
-void recibir_datos()
+void muestra_tabla()
 {
-	//Hacer metodo que sume el numero que esta en ese string
+	int margen=10;
+	int resto=0;
+	for(int z=0;z<12;z++)
+	{
+		for(int y=0;y<2;y++)
+		{
+			if(tabla[z][y].length()>0)
+			{
+			cout<<'|';
+			margen=10;
+			resto=margen-tabla[z][y].length();
+			for(int x=0;x<tabla[z][y].length();x++)
+			{
+			cout<<tabla[z][y][x];
+			}
+			for(int k=0;k<resto;k++)
+				cout<<' ';
+			}	
+		}
+	cout<<endl;		
+	}
+}
+
+void procesa_tabla()
+{
+	//separa las lineas de entrada en 2, palabra y variable
+	for(int x=0;x<tam_datos;x++) //recorre cada linea de datos
+	{
+	int pos= datos[x].find_first_of(' ',0);//posicion del espacio, pos es -1 si el string es vacio
+	tabla[x][0].insert(0,datos[x].substr(0,pos));
+	tabla[x][1].insert(0,datos[x].substr(pos+1,80));
+	}
 }
 
 void menu()
@@ -149,8 +181,9 @@ void menu()
 	cout<<"5.-Quitar lineas vacias"<<endl;
 	cout<<"6.-Quitar espacios"<<endl;
 	cout<<"7.-Procesar entrada(hace 1,4,5,6,2)"<<endl;
-	cout<<"8.-Mostrar pre-salida"<<endl;
-	cout<<"9.-Recibir datos"<<endl;
+	cout<<"8.-Todo a mayusculas"<<endl;
+	cout<<"9.-Mostrar tabla"<<endl;
+	cout<<"10.-Procesa tabla"<<endl;
 	cout<<"99.-Salir"<<endl;
         cout<<"opcion?: ";
         cin>>opcion;
@@ -167,8 +200,9 @@ void menu()
 		quitar_lineas();
 		quitar_espacios();
 		muestra_archivo(); break;
-	case 8: muestra_presalida(); break;
-	case 9: recibir_datos(); break;
+	case 8: todo_mayus(); break;
+	case 9: muestra_tabla(); break;
+	case 10: procesa_tabla(); break;
         default: break;
         }
 
