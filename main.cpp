@@ -12,9 +12,9 @@
 using namespace std;
 extern int m[];
 int m[256];
-const int tam_datos=12;
+const int tam_datos=50;
 string datos[tam_datos];
-string tabla[12][3];
+string tabla[50][3];
 string nombre;
 
 void inicializa_memoria()
@@ -71,8 +71,9 @@ bool carga_archivo(string cad)
  { 
  for(unsigned long int y=0;y<tam_datos;y++)
  {
- cout<<setw(4)<<y<<",c:"<<datos[y].length()<<'\t'<<"|";	 
-
+	if(datos[y].length()>0)
+	{
+	 cout<<setw(4)<<y<<",c:"<<datos[y].length()<<'\t'<<"|";	 
 	 for(int x=0;x<datos[y].length();x++)
 	 {
 		 if(datos[y][x]==' ')
@@ -80,7 +81,8 @@ bool carga_archivo(string cad)
 		 else
 	 		cout<<datos[y][x];
 	 }
- cout<<"|"<<endl;
+ 	cout<<"|"<<endl;
+ 	}
  }
  }
 
@@ -123,15 +125,15 @@ void quitar_espacios()
 			       quitar_espacios();   //repite 
 			}
 			if(datos[x][0]==' ' or datos[x][0]=='\t')//si el primero es vacio
-			{
+			{ //BUG:  no funciona para arreglos 
 				int pos=datos[x].find_last_of(' '); //encuentra 1er vacio desde el ultimo
 				int pos2=datos[x].find_last_of(' ',pos-1); //encuentra 2do vacio desde el ultimo
 				datos[x]=datos[x].substr(pos2,datos[x].length()-pos2);
-
+			
 				int qos=datos[x].find_first_of('\t'); //encuentra el 1er tab desde ultimo
 				datos[x]=datos[x].substr(qos+1,datos[x].length()-qos);
 				quitar_espacios();
-
+			
 			}
 		}
 	}
@@ -151,13 +153,14 @@ void muestra_tabla()
 {
 	int margen=10;
 	int resto=0;
-	for(int x=0;x<tam_datos*3;x++)
+	for(int x=0;x<12*3;x++)
 		cout<<"-";
 	cout<<endl;
-	for(int z=0;z<12;z++)
+	for(int z=0;z<tam_datos;z++)
 	{
+		int k;
 		for(int y=0;y<3;y++)
-		{
+		{ k=y;
 			if(tabla[z][y].length()>0) //si existe la linea, imprimela con formato
 			{
 				cout<<'|';
@@ -174,6 +177,7 @@ void muestra_tabla()
 				if(tabla[z][0].length()>0)
 				cout<<"*|";
 		}
+		if(tabla[z][k].length()>0)
 		cout<<endl;
 	}
 	cout<<endl;
