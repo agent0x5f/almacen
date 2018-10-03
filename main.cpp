@@ -14,7 +14,7 @@ extern int m[];
 int m[256];
 const int tam_datos=12;
 string datos[tam_datos];
-string tabla[12][2];
+string tabla[12][3];
 void inicializa_memoria()
 {
     for(int x=0;x<256;x++)
@@ -135,25 +135,32 @@ void muestra_tabla()
 {
 	int margen=10;
 	int resto=0;
+	for(int x=0;x<tam_datos*3;x++)
+		cout<<"-";
+	cout<<endl;
 	for(int z=0;z<12;z++)
 	{
-		for(int y=0;y<2;y++)
+		for(int y=0;y<3;y++)
 		{
-			if(tabla[z][y].length()>0)
+			if(tabla[z][y].length()>0) //si existe la linea, imprimela con formato
 			{
-			cout<<'|';
-			margen=10;
-			resto=margen-tabla[z][y].length();
-			for(int x=0;x<tabla[z][y].length();x++)
-			{
-			cout<<tabla[z][y][x];
+				cout<<'|';
+				resto=margen-tabla[z][y].length();
+				for(int x=0;x<tabla[z][y].length();x++)
+				{	
+						cout<<tabla[z][y][x];
+				}
+				for(int x=0;x<resto;x++)
+					cout<<" ";
+				cout<<'|';
 			}
-			for(int k=0;k<resto;k++)
-				cout<<' ';
-			}	
+			else
+				if(tabla[z][0].length()>0)
+				cout<<"*|";
 		}
-	cout<<endl;		
+		cout<<endl;
 	}
+	cout<<endl;
 }
 
 void procesa_tabla()
@@ -185,7 +192,7 @@ bool es_reservada(string cad)
 	return  (cad=="DATOS"||cad=="CODIGO");
 }
 
-int valor_intruccion(string cad)
+int valor_instruccion(string cad)
 {
 	if(cad == "CARGAAI")
 		return 1;
@@ -273,6 +280,36 @@ int valor_intruccion(string cad)
 		return -1;
 }
 
+void obten_tipo()
+{
+	for(int x=0;x<tam_datos;x++)
+	{
+		if(tabla[x][0].length()>0) //si existe la palabra
+		{
+			if(tabla[x][1].length()>0 and valor_instruccion(tabla[x][0])!=-1) //si tiene un valor y es una funcion
+				tabla[x][2]="F";
+			else if(es_reservada(tabla[x][0])) //si es una palabra reservada
+			       tabla[x][2]="R";	
+			else if(tabla[x][1].length()>0) //si tiene un valor y no es una funcion, es una variable
+				tabla[x][2]="V";
+			else//si no, es una eiqueta, #######comprobar como se comportan las etiquetas segun el diseño
+				tabla[x][2]="E";
+		}
+	}
+}
+
+void primera_pasada()
+{
+	carga_archivo();
+	remueve_comentarios();
+	quitar_lineas();
+	quitar_espacios();
+	todo_mayus();
+	procesa_tabla();
+	obten_tipo();
+	muestra_tabla();
+}
+
 void menu()
 {
     //se busca que luego se pueda llamar el programa desde la terminal
@@ -291,6 +328,8 @@ void menu()
 	cout<<"9.-Mostrar tabla"<<endl;
 	cout<<"10.-Procesa tabla"<<endl;
 	cout<<"11.-Prepara archivo(hace 1,4,5,6,8,10,9)"<<endl;
+	cout<<"12.-Calcula el tipo de dato"<<endl;
+	cout<<"13.-1ra pasada"<<endl;
 	cout<<"99.-Salir"<<endl;
         cout<<"opcion?: ";
         cin>>opcion;
@@ -316,7 +355,9 @@ void menu()
        		quitar_espacios();
 		todo_mayus();
 		procesa_tabla();
-		muestra_tabla(); break;		
+		muestra_tabla(); break;
+	case 12:obten_tipo(); break;
+	case 13:primera_pasada(); break;		
         default: break;
         }
 
