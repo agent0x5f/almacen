@@ -15,6 +15,8 @@ int m[256];
 const int tam_datos=12;
 string datos[tam_datos];
 string tabla[12][3];
+string nombre;
+
 void inicializa_memoria()
 {
     for(int x=0;x<256;x++)
@@ -45,10 +47,9 @@ void limpia_datos()
     datos[x]="";
 }
 
-void carga_archivo()
+bool carga_archivo(string cad)
 {
-
-    ifstream file("suma.asm8");
+    ifstream file(cad);
     if(file)
     {
         int x=0;
@@ -102,8 +103,8 @@ void quitar_lineas()
 			datos[x+1]="";
 		}
 	}
-	for(int x=0;x<tam_datos;x++)
-		cout<<x<<": "<<datos[x].length()<<endl;
+//	for(int x=0;x<tam_datos;x++)
+//		cout<<x<<": "<<datos[x].length()<<endl;
 }
 
 void quitar_espacios()
@@ -309,9 +310,9 @@ void obten_tipo()
 	}
 }
 
-void primera_pasada()
+bool primera_pasada(string cad)
 {
-	carga_archivo();
+	carga_archivo(cad);
 	remueve_comentarios();
 	quitar_lineas();
 	quitar_espacios();
@@ -346,13 +347,18 @@ void menu()
         cin>>opcion;
 
         switch (opcion) {
-        case 1: carga_archivo(); break;
+		case 1: 
+			cout<<"Nombre del archivo: ";
+			cin>>nombre;
+		carga_archivo(nombre); break;
         case 2: muestra_archivo(); break;
         case 3: muestra_memoria(); break;
 	case 4: remueve_comentarios(); break;
 	case 5: quitar_lineas(); break;
 	case 6: quitar_espacios();break;
-	case 7: carga_archivo();
+	case 7: cout<<"Nombre del archivo: ";
+		cin>>nombre;
+		carga_archivo(nombre);
 		remueve_comentarios();
 		quitar_lineas();
 		quitar_espacios();
@@ -360,7 +366,9 @@ void menu()
 	case 8: todo_mayus(); break;
 	case 9: muestra_tabla(); break;
 	case 10: procesa_tabla(); break;
-	case 11: carga_archivo();
+	case 11: cout<<"Nombre del archivo: ";
+		 cin>>nombre;
+		 carga_archivo(nombre);
 		remueve_comentarios();
 		quitar_lineas();
        		quitar_espacios();
@@ -368,7 +376,9 @@ void menu()
 		procesa_tabla();
 		muestra_tabla(); break;
 	case 12:obten_tipo(); break;
-	case 13:primera_pasada(); break;		
+	case 13:cout<<"Nombre del archivo: ";
+		cin>>nombre;
+		primera_pasada(nombre); break;		
         default: break;
         }
 
@@ -376,9 +386,12 @@ void menu()
 
 }
 
-int main()
+int main(int argc, char *argv[])	
 {
+    if(argc==1)	//si se llama sin argumentos, se ejecuta el menu
     menu();
+    if(argc==2) //si le paso el nombre del archivo a leer, se procesa y el resultado se guarda en pantalla y en su <nombre_archivo>.abc8
+    primera_pasada(argv[1]);
     return 0;
 }
 
