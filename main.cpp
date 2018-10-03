@@ -119,12 +119,14 @@ void quitar_espacios()
 			}
 			if(datos[x][0]==' ' or datos[x][0]=='\t')//si el primero es vacio
 			{
-				char aux=datos[x][0];   //cambio el primero con el ultimo
-				int pos=datos[x].length();
-				datos[x][pos-1]=aux;
-				datos[x][0]=datos[x][pos-1];
-				datos[x].pop_back(); //quitalo
-				quitar_espacios(); //repito
+				int pos=datos[x].find_last_of(' '); //encuentra 1er vacio desde el ultimo
+				int pos2=datos[x].find_last_of(' ',pos-1); //encuentra 2do vacio desde el ultimo
+				datos[x]=datos[x].substr(pos2,datos[x].length()-pos2);
+
+				int qos=datos[x].find_first_of('\t'); //encuentra el 1er tab desde ultimo
+				datos[x]=datos[x].substr(qos+1,datos[x].length()-qos);
+				quitar_espacios();
+
 			}
 		}
 	}
