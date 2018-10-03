@@ -58,9 +58,13 @@ bool carga_archivo(string cad)
             getline(file,datos[x]);
             x++;
         }
+	return true;
     }
     else
+    {
     cout<<"Error-No se encontro el archivo"<<endl;
+    return false;
+    }
 }
 
  void muestra_archivo()
@@ -312,7 +316,7 @@ void obten_tipo()
 
 bool primera_pasada(string cad)
 {
-	carga_archivo(cad);
+	bool ret=carga_archivo(cad);
 	remueve_comentarios();
 	quitar_lineas();
 	quitar_espacios();
@@ -320,6 +324,7 @@ bool primera_pasada(string cad)
 	procesa_tabla();
 	obten_tipo();
 	muestra_tabla();
+	return ret;
 }
 
 void menu()
