@@ -117,6 +117,15 @@ void quitar_espacios()
 			       datos[x].pop_back();	//quitalo
 			       quitar_espacios();   //repite 
 			}
+			if(datos[x][0]==' ' or datos[x][0]=='\t')//si el primero es vacio
+			{
+				char aux=datos[x][0];   //cambio el primero con el ultimo
+				int pos=datos[x].length();
+				datos[x][pos-1]=aux;
+				datos[x][0]=datos[x][pos-1];
+				datos[x].pop_back(); //quitalo
+				quitar_espacios(); //repito
+			}
 		}
 	}
 }
