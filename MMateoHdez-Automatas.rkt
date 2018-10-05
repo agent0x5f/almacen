@@ -3,18 +3,6 @@
          racket/system
          racket/file
          2htdp/image)
-;Ejercicio de alfabetos
-;1.-Un alfabeto de 5 caracteres
-(define S1 '(a b c d e))
-;2.-Un alfabeto de 4 caracteres
-(define S2 '(w x y z))
-;3.-Un alfabeto de 3 caracteres
-(define S3 '(amarillo rojo azul))
-;4.-Un alfabeto de 2 caracteres
-(define S4 '(0 1))
-;5.-Un alfabeto de 1 caracteres
-(define S5 '(x))
-
 ;======================================================================
 ;Fundamentos de M.D.
 ;======================================================================
@@ -53,7 +41,6 @@
     (cond((empty? lista) res)
         ((en? (car lista)(cdr lista))(to-conjunto(cdr lista)res)) ; si se repite, no lo agrego
         (else(to-conjunto(cdr lista)(cons(car lista)res))))))
-
 
 ;agregar un elemento a un conjunto
 ;(agregar e C)--conjunto
@@ -195,7 +182,6 @@
     (para-Todo (λ (im) (= (card im)1))
               (map (λ (x) (Imagen x R)) (Dominio R)))))
 
-
 ;======================================================================
 ;Simbolos, alfabetos, palabras y lenguajes
 ;======================================================================
@@ -216,7 +202,6 @@
     (cond((enA? k S)(pal k))
          ((equal? S '())(pal k))
          (else #f))))
-
 ;======================================================================
 ;Tarea 1.01 Palabra w construida con el alfabeto S
 ;w : palabra
@@ -559,38 +544,17 @@
   (λ(L1 L2)
     (and (sub-l L1 L2)(sub-l L2 L1))))
 
-
 ;union de lenguajes
 ;(union-l L1 L2)-->lenguaje
 ;L1 : lenguaje
 ;L2 : lenguaje
 (define union-l union*)
 
-
 ;interseccion de lenguajes
 ;(inter-l L1 L2)-->lenguaje
 ;L1 : lenguaje
 ;L2 : lenguaje
 (define inter-l inter*)
-
-(define pez%
-  (class object%
-    (init largo)
-    (define largo-actual largo)
-    (super-new)
-    (define/public (get-largo)
-      largo-actual)
-    (define/public(crece cantidad)
-      (set! largo-actual(+ largo-actual cantidad)))
-    (define/public(come otro-pez)
-      (crece(send otro-pez get-largo)))))
-
-(define(suma-1 a b)
-  (+ a b))
-
-(define suma-2
-         (λ(a b)
-           (+ a b)))
 ;================================================================================================================================
 ;verifica que sea una palabra de un alfabeto dado
 ;(palabra? w S) --> boleano?
@@ -639,19 +603,9 @@
     (define/public(get-T) T)
     ;transicion
     ;obtener el siguiente estado al que accede el AFD
-    ;(tran e l) --> e
+    ;(tran e s) --> e
     ;e : estado
-    ;l : letra
-    ;(send atest tran 2 'A)--> 3
-    ;(define/public (tran q s)
-    ;  (last(car
-     ;         (filter (λ (t) (equal? (list q s) (take t 2))) T)))
-    ;    )
-    ;(define/public (tran q s T)
-     ; ((cond(empty? T)#f)
-     ; (equal? (list q s)(list(caar T)(cadar T))(last T))
-     ; (else(tran q s(cdr T)))))
-    
+    ;s : letra
    (define/public(tran e s)
   ;   (printf "~s: ~s: ~n" e s)
       (last(car(filter(λ(t);filtrame las que no cumplen con
@@ -698,20 +652,6 @@
 ;===================================================================================================================================
 
 ));clase afd
-(define estados '(1 2 3 4 5))
-(define letras '(A B C))
-(define estado-0 '1)
-(define aceptores '(1))
-(define transis '((1 A 2)(2 C 1)(1 B 3)(3 C 1)(2 A 4)(3 B 5)(4 A 4)(4 B 4)(5 A 5)(5 B 5)(1 C 1)(2 B 5)(3 A 4)))
-;(define a1(new afd% [-E estados][-S letras][-e0 estado-0][-A aceptores][-T transis]))
-;no usar a1, esta incompleto
-(define ete '(1 2))
-(define etl '(A B))
-(define etei '1)
-(define eta '(1))
-(define ett '((1 A 1)(1 B 2)(2 B 1)(2 A 2)))
-;(define eatest(new afd%[-E ete][-S etl][-e0 etei][-A eta][-T ett]))
-(define eatest(new afd%[AF-conf(list ete etl etei eta ett)]))
 
 (define creaT
   (λ (e la [t '()])
@@ -765,11 +705,6 @@
     )
        (map(λ(t)(cons eini t))trs)
        )))
-  
-
-
-;define como a2 al afd leido del archivo .dat
-;(define a2 (file->afd "a.dat"))
 
 ;muestra los datos del automata en forma de lista
 ;(info-afd)-->lista
@@ -777,56 +712,6 @@
 (define info-afd
   (λ(afd)
     (list (send afd get-E)(send afd get-S)(send afd get-e0)(send afd get-A)(send afd get-T))))
-
-;(define a4 (file->afd "04.dat"))
-
-;lengujade de todas las palabras
-;toda palabra que tenga a esta entre 2 b's
-;expresion regular
-;definicion del automata
-;grafo de transiciones
-;lenguaje de todas las palabras hasta longitud 6
-;a242a
-
-;(define a242a (file->afd "a242a.dat"))
-;(define a242b (file->afd "a242b.dat"))
-
-;AF->gv
-
-;importa un archivo de texto ala memoria que contenga los datos correspondientes a un AFD
-;(file->afd)-->%afd
-;nomarch : nombre del archivo
-(define file->afd
-  (λ (nomarch)
-    (let*((adf0 (file->lines nomarch))
-          (adfe0 (map (λ (str) (map (λ (s) (let ((sy (string->number s))) (if sy sy (string->symbol s))))
-                           (string-split str " ")))
-                    adf0))
-          (adf1 (map (λ (adf) (cdr adf))
-                     (map (λ (str) (map (λ (s) (let ((sy (string->number s))) (if sy sy (string->symbol s))))
-                           (string-split str " ")))
-                    adf0)))
-      (Estados (map (λ (a)
-                      (car a))
-                    adf1))
-      (Leng (car (map (λ (l)
-                        (filter-not (λ (s) (en? s Estados)) (cdr l)))
-                      adf1))) 
-      (E0 (car (map (λ (e)
-                      (cond ((o (equal? (car e) '>>) (equal? (car e) '*>)) (cadr e))))
-                    adfe0))) 
-      (Aceptores (filter-not (λ (s)
-                               (equal? s "neg"))
-                             (map (λ (e)
-                                    (cond ((o (equal? (car e) '**)
-                                              (equal? (car e) '*>))(cadr e))
-                                          (else "neg"))) adfe0)))
-      (T (append* (map (λ(e la)
-                          (creaT e (cdr la)))
-                       Estados adf1)))
-      )
-      ((λ (x) x) (new afd% [AF-conf (list Estados Leng E0 Aceptores T)])))
-      )) 
 
 (define af->gv
   (λ (AF [nomarch "nomarch"]
@@ -869,13 +754,6 @@
 )))
 
 ;================================================================================================
-(define te '(1 2 3))
-(define tl '(A B))
-(define tei '1)
-(define ta '(2))
-(define tt '((1 A 2)(2 B 1)(1 B 3)(2 A 3)(3 A 3)(3 B 3)))
-(define atest(new afd%[AF-conf(list te tl tei ta tt)])) 
-
 ;EXAMEN 1ER PARCIAL
 ;1)
 ;definicion del automata del 1er inciso
@@ -968,10 +846,70 @@
         (list cje)
         (append* (map (λ (e) (tran* e (cdr s))) (tran cje (car s))))))
 
+    ;me regresa una lista que contiene las estados por columna
     (define/public (tran** cje s)
       (if (pVacia? s)
           cje
-      (append* (map (λ (e) (tran e (cdr s))) (tran cje (car s))))))
+      (list*(map(λ(l) (map (λ (e)
+                      (if (en? e E)
+                          (tran e l)
+                          ('()))
+                      )
+                    cje))s))
+      ))
+;transiciones,deben ser convertidad aforma  standart con hacia 0 nodos
+       (define/public (tranx** cje s)
+      (if (pVacia? s)
+          cje
+     (append*(map(λ(l) (map (λ (e)                       
+                       (append (list e)(list l)
+                          (tran e l))                   
+                      )
+                    cje))s))
+      ))
+
+;transiciones, hacia 2 nodos;HELP
+       (define/public (trany** cje s)
+      (if (pVacia? s)
+          cje
+    (map(λ(e)(list(list (car e)(car(cdr e))(car(cdr (cdr e))))
+                  (list (car e)(car(cdr e))(car(cdr (cdr (cdr e))))
+                  )))
+          (remove* '(1) (append*(map(λ(l) (map (λ (e)
+                      (cond((=(card (tran e l))0)1)
+                           ((=(card (tran e l))2)(append (list e)(list l)
+                          (tran e l)))
+                           (else
+                       1))                         
+                      )
+                    cje))s))
+      )
+          )
+          ))
+
+(define/public (lst->one lst [res '()])
+  (if(empty? lst)
+     res
+     (lst->one (cdr lst)(append res (car lst))
+     )))
+    ;detecta los nuevos estados
+    ;'(a b c)->'((a)(b)(c))
+(define/public (lst->lst* lst [res '()])
+  (if(empty? lst)
+     res
+     (lst->lst* (cdr lst)(append res (list(list (car lst) ))))))
+
+    (define/public (lst->lst** lst [res '()])
+  (if(empty? lst)
+     res
+     (lst->lst* (cdr lst)(append res (list (car lst) )))))
+
+;(send ntestd detector(send ntestd lst->one
+    ;(send ntestd tran** '(a b c d)'(0 1))))
+    ;'(() (b d) (b c) (c d))
+    ;me dice las nuevas estados
+(define/public (detector lst)
+  (remove-duplicates(remove* (lst->lst** E) lst)))
 
        ;aceptor
     ;determina si el termino es un estado aceptor
@@ -1027,7 +965,7 @@
 (define ttn '((1 A 3)(1 A 2)(2 B 1)(1 B 3)(2 A 3)(3 A 3)(3 B 3)))
 (define atestn(new afn%[AF-conf(list ten tln tein tan ttn)])) 
 (define n02 (file->af "n02.dat"))
-
+(define ntestd (file->af "ntestd.dat"))
 (define afn->afd
   (λ(N) ;<--nodo
     (let* ((conf (info-afd N))
@@ -1047,33 +985,52 @@
                          SN))
                    EN)))
            )
-      (list ED SD e0D TD)
+      (list ED SD e0D TD);estados,simbolos,eo,aceptores,transiciones
       )))
+;calcula todos los nuevos estados
+(define detector*
+  (λ(afn)
+  (if(empty?
+      (send afn detector
+            (send afn lst->one
+                  (send afn tran**
+                        (send afn get-E)
+                        (send afn get-S))))) 
+     afn;si no hay nuevos estados,termina,si no calcula denuveo
+     ;creo un nuevo afn con los estados agregados
+(detector*
+ (new afn%
+      [AF-conf
+       (list (append(send afn detector
+            (send afn lst->one
+                  (send afn tran**
+                        (send afn get-E)
+                        (send afn get-S))))
+                    (send afn lst->lst*(send afn get-E)))
+             (send afn get-S)
+             (send afn get-e0)
+             (send afn get-A)
+             (remove-duplicates
+              (append (send afn get-T)
+                      (crea-tran
+      (new afn%[AF-conf
+                (list
+        (append(send afn detector
+                      (send afn lst->one
+                            (send afn tran**
+                                  (send afn get-E)
+                                  (send afn get-S))))
+                (send afn lst->lst*(send afn get-E)))
+                                              (send afn get-S)
+                                              (send afn get-e0)
+                                              (send afn get-A)
+                                              (send afn get-T))])
+                                 ))))])
+    ))))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+(define crea-tran
+ (λ(afn)
+   (send afn lst->one(send afn trany** (send afn get-E)(send afn get-S)))))
 
 
 
