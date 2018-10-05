@@ -1,0 +1,12 @@
+;Llena 20 posiciones de memoria
+Datos 20  ;seccion de datos
+Codigo 0 ;seccion de codigo
+CargaAI 13
+CargaAX 20
+Ciclo:  ;etiqueta ciclo
+CompAX40
+Salta> Fin   ;etiqueta
+GuardaAX
+IncX
+Salta Ciclo
+Fin:  ;Fin de programa 

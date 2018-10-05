@@ -124,16 +124,11 @@ void quitar_espacios()
 			       datos[x].pop_back();	//quitalo
 			       quitar_espacios();   //repite 
 			}
-			if(datos[x][0]==' ' or datos[x][0]=='\t')//si el primero es vacio
-			{ //BUG:  no funciona para arreglos 
-				int pos=datos[x].find_last_of(' '); //encuentra 1er vacio desde el ultimo
-				int pos2=datos[x].find_last_of(' ',pos-1); //encuentra 2do vacio desde el ultimo
-				datos[x]=datos[x].substr(pos2,datos[x].length()-pos2);
-			
-				int qos=datos[x].find_first_of('\t'); //encuentra el 1er tab desde ultimo
-				datos[x]=datos[x].substr(qos+1,datos[x].length()-qos);
+			if(datos[x].front()==' ' or datos[x].front()=='\t' or datos[x].front()=='\n')//si el primero es vacio
+			{  
+				char aux;
+				datos[x].erase(0,1);
 				quitar_espacios();
-			
 			}
 		}
 	}
@@ -175,7 +170,7 @@ void muestra_tabla()
 			}
 			else
 				if(tabla[z][0].length()>0)
-				cout<<"*|";
+				cout<<"|*         |";
 		}
 		if(tabla[z][k].length()>0)
 		cout<<endl;
@@ -188,9 +183,12 @@ void procesa_tabla()
 	//separa las lineas de entrada en 2, palabra y variable
 	for(int x=0;x<tam_datos;x++) //recorre cada linea de datos
 	{
-	int pos= datos[x].find_first_of(' ',0);//posicion del espacio, pos es -1 si el string es vacio
-	tabla[x][0].insert(0,datos[x].substr(0,pos));
-	tabla[x][1].insert(0,datos[x].substr(pos+1,80));
+		int pos= datos[x].find_first_of(' ',0);//posicion del espacio, pos es -1 si el string es vacio o si no hay ' '
+		tabla[x][0].insert(0,datos[x].substr(0,pos));
+	
+		if(pos!=-1)	
+		tabla[x][1].insert(0,datos[x].substr(pos+1,80));
+	
 	}
 }
 
