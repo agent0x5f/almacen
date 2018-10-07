@@ -8,14 +8,17 @@
 #include <iomanip>
 #include <fstream>
 #include <string>
-
+#include <cmath>
 using namespace std;
 extern int m[];
 int m[256];
-const int tam_datos=50;
+const int tam_datos=100;
 string datos[tam_datos];
-string tabla[50][3];
+string tabla[tam_datos][3];
 string nombre;
+int contador=0;
+int cdatos;
+int ccodigo;
 
 void inicializa_memoria()
 {
@@ -146,11 +149,11 @@ void todo_mayus()
 
 void muestra_tabla()
 {
-	int margen=10;
+	int margen=20;
 	int resto=0;
-	for(int x=0;x<12*3;x++)
-		cout<<"-";
-	cout<<endl;
+
+	cout<<"|-------NOMBRE-------||--------VALOR-------||--------TIPO--------|"<<endl;
+	
 	for(int z=0;z<tam_datos;z++)
 	{
 		int k;
@@ -170,17 +173,20 @@ void muestra_tabla()
 			}
 			else
 				if(tabla[z][0].length()>0)
-				cout<<"|*         |";
+				cout<<"|*                   |";
 		}
 		if(tabla[z][k].length()>0)
 		cout<<endl;
 	}
+	for(int x=0;x<66;x++)
+			cout<<"-";
 	cout<<endl;
 }
 
 void procesa_tabla()
 {
 	//separa las lineas de entrada en 2, palabra y variable
+	//necesito modificar para arreglos
 	for(int x=0;x<tam_datos;x++) //recorre cada linea de datos
 	{
 		int pos= datos[x].find_first_of(' ',0);//posicion del espacio, pos es -1 si el string es vacio o si no hay ' '
@@ -316,6 +322,174 @@ void obten_tipo()
 	}
 }
 
+void procesa_reservadas()
+{
+	int pos_datos;
+	int pos_codigo;
+	//obten el valor de datos y codigo
+	for(int x=0;x<tam_datos;x++)
+	{
+		if(tabla[x][0]=="DATOS")
+		{
+			cdatos=stoi(tabla[x][1],nullptr,10);
+			pos_datos=x;
+		}
+		if(tabla[x][0]=="CODIGO")
+		{
+			ccodigo=stoi(tabla[x][1],nullptr,10);
+			pos_codigo=x;
+		}
+	}
+	//quitar las lineas que contienen a datos y a codigo
+	for(int y=0;y<3;y++)
+	{
+		while(!tabla[pos_datos][y].empty())
+		tabla[pos_datos][y].pop_back();
+
+		while(!tabla[pos_codigo][y].empty())
+		tabla[pos_codigo][y].pop_back();
+	}
+	//recorre las lineas vacias	
+	quitar_lineas();
+}
+
+int largo_instruccion(string cad)
+{
+	//regresa la cantidad de bytes que requiere la instruccion para funcionar: 0, 1, 2
+	if(cad == "CARGAAI")
+		return 1;
+	if(cad == "CARGAAD")
+		return 2;
+	if(cad == "CARGAAX")
+		return 3;
+	if(cad == "GUARDAAD")
+		return 4;
+	if(cad == "GUARDAAX")
+		return 5;
+	if(cad == "SUMAAI")
+		return 6;
+	if(cad == "SUMAAD")
+		return 7;
+	if(cad == "SUMAAX")
+		return 8;
+	if(cad == "RESTAAI")
+		return 9;
+	if(cad == "RESTAAD")
+		return 10;
+	if(cad == "RESTAAX")
+		return 11;
+	if(cad == "INCA")
+		return 12;
+	if(cad == "DECA")
+		return 13;
+	if(cad == "COMPAI")
+		return 14;
+	if(cad == "COMPAD")
+		return 15;
+	if(cad == "COMPAX")
+		return 16;
+	if(cad == "NOTA")
+		return 17;
+	if(cad == "ANDAI")
+		return 18;
+	if(cad == "ANDAD")
+		return 19;
+	if(cad == "ANDAX")
+		return 20;
+	if(cad == "ORAI")
+		return 21;
+	if(cad == "ORAD")
+		return 22;
+	if(cad == "ORAX")
+		return 23;
+	if(cad == "SALTA")
+		return 24;
+	if(cad == "SALTA+")
+		return 25;
+	if(cad == "SALTA-")
+		return 26;
+	if(cad == "SALTA0")
+		return 27;
+	if(cad == "SALTAN0")
+		return 28;
+	if(cad == "SALTA=")
+		return 29;
+	if(cad == "SATALN=")
+		return 30;
+	if(cad == "SALTA>")
+		return 31;
+	if(cad == "SALTA<")
+		return 32;
+	if(cad == "SALTA>=")
+		return 33;
+	if(cad == "SALTA<=")
+		return 34;
+	if(cad == "CARDAXI")
+		return 35;
+	if(cad == "CARDAXD")
+		return 36;
+	if(cad == "GUARDAXD")
+		return 37;
+	if(cad == "INCX")
+		return 38;
+	if(cad == "DECX")
+		return 39;
+	if(cad == "COMPXI")
+		return 40;
+	if(cad == "COMPXD")
+		return 41;
+	else
+		return -1;
+}
+
+void calcula_funciones(int pos)
+{
+	//debo preguntar su tamaño y luego agregarlo con largo_instruccion
+	tabla[pos][1]=to_string(ccodigo);
+	ccodigo++;
+}
+
+void calcula_etiquetas(int pos)
+{	//debo revisar por casos raros
+	tabla[pos][1]=to_string(ccodigo);
+}
+
+void calcula_variables(int pos)
+{
+	//si es un arreglo
+	//se le quita el ultimo y primer espacio al arreglo
+	//se considera que solo hay un espacio entre cada valor despues.
+	//quita los espacios laterales
+	while(tabla[pos][1].front()==' ')
+		tabla[pos][1].erase(0,1);		
+	while(tabla[pos][1].back()==' ')
+		tabla[pos][1].pop_back();
+	
+	if(tabla[pos][1].find_first_of(' ',0)==-1)//si eres una variable
+	{
+		tabla[pos][1]=to_string(cdatos);
+		cdatos++;
+	}else//es un arreglo
+		//BUG: solo fuciona si los  valores en el son de un solo digito
+	{	int aux=ceil(tabla[pos][1].length()/2); //obtengo la cantidad de valores del arreglo
+		tabla[pos][1]=to_string(cdatos);	//coloco su pos inicial en memoria
+		cdatos+= aux;	//incremento el contador
+	}
+}
+
+void calcula_direcciones()
+{
+	for(int x=0;x<tam_datos;x++)
+	{
+		if(tabla[x][2]=="F")
+			calcula_funciones(x);
+		if(tabla[x][2]=="E")
+			calcula_etiquetas(x);
+		if(tabla[x][2]=="V")
+			calcula_variables(x);
+	}
+}
+
 bool primera_pasada(string cad)
 {
 	bool ret=carga_archivo(cad);
@@ -325,6 +499,8 @@ bool primera_pasada(string cad)
 	todo_mayus();
 	procesa_tabla();
 	obten_tipo();
+	procesa_reservadas();
+	calcula_direcciones();
 	muestra_tabla();
 	return ret;
 }
