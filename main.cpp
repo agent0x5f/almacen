@@ -15,10 +15,19 @@ int m[256];
 const int tam_datos=100;
 string datos[tam_datos];
 string tabla[tam_datos][3];
+string tabla_s[tam_datos][3];
 string nombre;
 int contador=0;
-int cdatos;
-int ccodigo;
+//se usan como apuntadores
+int cdatos;  //contiene el valor de datos, ej: DATOS 10 --> 10
+int ccodigo; //contiene el valor de codigo, ej:CODIGO 25 --> 25
+
+//cdatos y ccodigo constantes
+int cdatosf;
+int ccodigof;
+
+int pos_datos;
+int pos_codigo;
 
 void inicializa_memoria()
 {
@@ -183,6 +192,42 @@ void muestra_tabla()
 	cout<<endl;
 }
 
+void muestra_tabla_s()
+{
+	int margen=20;
+	int resto=0;
+
+	cout<<"|-------NOMBRE-------||-------SIMBOLO------||--------TIPO--------|"<<endl;
+	
+	for(int z=0;z<tam_datos;z++)
+	{
+		int k;
+		for(int y=0;y<3;y++)
+		{ k=y;
+			if(tabla_s[z][y].length()>0) //si existe la linea, imprimela con formato
+			{
+				cout<<'|';
+				resto=margen-tabla_s[z][y].length();
+				for(int x=0;x<tabla_s[z][y].length();x++)
+				{	
+						cout<<tabla_s[z][y][x];
+				}
+				for(int x=0;x<resto;x++)
+					cout<<" ";
+				cout<<'|';
+			}
+			else
+				if(tabla_s[z][0].length()>0)
+				cout<<"|*                   |";
+		}
+		if(tabla_s[z][k].length()>0)
+		cout<<endl;
+	}
+	for(int x=0;x<66;x++)
+			cout<<"-";
+	cout<<endl;
+}
+
 void procesa_tabla()
 {
 	//separa las lineas de entrada en 2, palabra y variable
@@ -324,23 +369,24 @@ void obten_tipo()
 
 void procesa_reservadas()
 {
-	int pos_datos;
-	int pos_codigo;
 	//obten el valor de datos y codigo
 	for(int x=0;x<tam_datos;x++)
 	{
 		if(tabla[x][0]=="DATOS")
 		{
 			cdatos=stoi(tabla[x][1],nullptr,10);
+			cdatosf=cdatos;
 			pos_datos=x;
 		}
 		if(tabla[x][0]=="CODIGO")
 		{
 			ccodigo=stoi(tabla[x][1],nullptr,10);
+			ccodigof=ccodigo;
 			pos_codigo=x;
 		}
 	}
 	//quitar las lineas que contienen a datos y a codigo
+	//ya guarde sus valores en las variables globales
 	for(int y=0;y<3;y++)
 	{
 		while(!tabla[pos_datos][y].empty())
@@ -445,13 +491,17 @@ int largo_instruccion(string cad)
 void calcula_funciones(int pos)
 {
 	//debo preguntar su tamaño y luego agregarlo con largo_instruccion
-	tabla[pos][1]=to_string(ccodigo);
+	tabla_s[pos][1]=to_string(ccodigo);
+	tabla_s[pos][0]=tabla[pos][0];
+	tabla_s[pos][2]=tabla[pos][2];
 	ccodigo++;
 }
 
 void calcula_etiquetas(int pos)
 {	//debo revisar por casos raros
-	tabla[pos][1]=to_string(ccodigo);
+	tabla_s[pos][1]=to_string(ccodigo);
+	tabla_s[pos][0]=tabla[pos][0];
+	tabla_s[pos][2]=tabla[pos][2];
 }
 
 void calcula_variables(int pos)
@@ -467,12 +517,16 @@ void calcula_variables(int pos)
 	
 	if(tabla[pos][1].find_first_of(' ',0)==-1)//si eres una variable
 	{
-		tabla[pos][1]=to_string(cdatos);
+		tabla_s[pos][1]=to_string(cdatos);
+		tabla_s[pos][0]=tabla[pos][0];
+		tabla_s[pos][2]=tabla[pos][2];
 		cdatos++;
 	}else//es un arreglo
 		//BUG: solo fuciona si los  valores en el son de un solo digito
 	{	int aux=ceil(tabla[pos][1].length()/2); //obtengo la cantidad de valores del arreglo
-		tabla[pos][1]=to_string(cdatos);	//coloco su pos inicial en memoria
+		tabla_s[pos][1]=to_string(cdatos);	//coloco su pos inicial en memoria
+		tabla_s[pos][0]=tabla[pos][0];		
+		tabla_s[pos][2]=tabla[pos][2];
 		cdatos+= aux;	//incremento el contador
 	}
 }
@@ -501,8 +555,79 @@ bool primera_pasada(string cad)
 	obten_tipo();
 	procesa_reservadas();
 	calcula_direcciones();
+	cout<<"Tabla con valores"<<endl;
 	muestra_tabla();
+	cout<<"Tabla de simbolos"<<endl;
+	muestra_tabla_s();
 	return ret;
+}
+
+int numdatos()
+{
+	int contador=0;
+	for(int x=0;x<tam_datos;x++)
+	{
+		if(tabla[x][2]=="V")
+			contador++;
+	}
+	return contador;
+}
+
+int obten_direccion(string cad)
+{
+	int valor=-1;
+	//cad es una variable,debo encontrarla y obtener su  direccion
+	for(int x=0;x<tam_datos;x++)
+	{
+		if(tabla_s[x][0]==cad)
+			valor=stoi(tabla_s[x][1],nullptr,10);
+	}
+	return valor;
+}
+
+void segunda_pasada(string cad)
+{
+	//genera el archivo .abc8 para la maquina virtual
+	ofstream salida(cad);
+
+	salida<<cdatosf<<endl;  //donde inicia en memoria los datos
+	salida<<numdatos()<<endl; //cuantos datos son
+	cout<<cdatosf<<endl;  //donde inicia en memoria los datos
+	cout<<numdatos()<<endl; //cuantos datos son
+
+    //cuales son cada uno de los datos
+    for(int x=0;x<tam_datos;x++)
+	{
+		if(tabla[x][2]=="V")
+		{
+			cout<<tabla[x][1]<<endl;
+			salida<<tabla[x][1]<<endl;	
+		}
+	}
+
+	salida<<ccodigof<<endl; //donde inicia en memoria los codigos
+	cout<<ccodigof<<endl; //donde inicia en memoria los codigos
+
+	//cuales son cada uno de los codigos
+	int dir=ccodigof;
+    for(int x=0;x<tam_datos;x++)
+	{		
+		if(tabla[x][2]=="F")//BUG: debo revisar cuantos operadores usa la funcion,x ahora solo funciona de 1
+		{
+			cout<<dir<<endl;
+			cout<<obten_direccion(tabla[x][1])<<endl;
+			salida<<dir<<endl;
+			salida<<obten_direccion(tabla[x][1])<<endl;
+			dir++;	
+		}
+		if(tabla[x][2]=="E")//si es una etiqueta ,solo apunta al que sigue
+		{
+			cout<<dir<<endl;
+			salida<<dir<<endl;
+		}
+	}
+
+	salida.close();
 }
 
 void menu()
@@ -525,6 +650,7 @@ void menu()
 	cout<<"11.-Prepara archivo(hace 1,4,5,6,8,10,9)"<<endl;
 	cout<<"12.-Calcula el tipo de dato"<<endl;
 	cout<<"13.-1ra pasada"<<endl;
+	cout<<"14.-2da pasada"<<endl;
 	cout<<"99.-Salir"<<endl;
         cout<<"opcion?: ";
         cin>>opcion;
@@ -559,9 +685,14 @@ void menu()
 		procesa_tabla();
 		muestra_tabla(); break;
 	case 12:obten_tipo(); break;
-	case 13:cout<<"Nombre del archivo: ";
+	case 13:
+		cout<<"Nombre del archivo: ";
 		cin>>nombre;
-		primera_pasada(nombre); break;		
+		primera_pasada(nombre); break;
+	case 14:
+		cout<<"Nombre del archivo: ";
+		cin>>nombre;
+		segunda_pasada(nombre); break;
         default: break;
         }
 
@@ -573,8 +704,13 @@ int main(int argc, char *argv[])
 {
     if(argc==1)	//si se llama sin argumentos, se ejecuta el menu
     menu();
-    if(argc==2) //si le paso el nombre del archivo a leer, se procesa y el resultado se guarda en pantalla y en su <nombre_archivo>.abc8
+    if(argc==3) //si le paso el nombre del archivo a leer, se procesa y el resultado se guarda en pantalla y en su <nombre_archivo>.abc8
+    {
     primera_pasada(argv[1]);
+    segunda_pasada(argv[2]);
+	}
+	else
+		cout<<"Error.-Parametros incorrectos"<<endl;
     return 0;
 }
 
