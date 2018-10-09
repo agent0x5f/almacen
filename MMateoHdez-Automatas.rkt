@@ -607,11 +607,13 @@
     ;e : estado
     ;s : letra
    (define/public(tran e s)
-  ;   (printf "~s: ~s: ~n" e s)
-      (last(car(filter(λ(t);filtrame las que no cumplen con
+            (let ((p (filter(λ(t);filtrame las que no cumplen con
                         (equal? (list e s)(drop-right t 1))) ;esta condicion
                      T;tomadas de este conjunto
-                      ))))
+                      )))
+            (if(empty? p)'() ;fue a una transicion noexistente
+               (last(car p)
+            ))))
 
     ;generalizacion de la transicion
     ;determina el estado final al que AFD accede despues de leer todas las letras de la palabra
@@ -650,7 +652,21 @@
       (let ((S* (nKleene S k)))
         (filter (λ (w) (aceptada? w)) S*)))
 ;===================================================================================================================================
+    ;me da todos los estados a los que esta apuntando q
+    ;q :estado
+    (define/public(dq q)
+      (remove* '(())
+       (remove-duplicates (append*
+         (map(λ(e)(if(en? q e)
+                        (map(λ(s)(tran q s))S)
+                        '()
+                        ))
+             T)))))
 
+
+
+
+    
 ));clase afd
 
 (define creaT
@@ -662,27 +678,6 @@
   (λ (A B)
     (filter-not (λ (a) (en? a B)) A)))   
 
-;calcula T con juego de string
-(define 2file->afd
-  (λ(nomarch)
-    (let* ((P1 (file->lines nomarch #:mode 'text))
-           (P2 (map(λ(str)(string-split str " ")) P1))
-           (P3 (map(λ(lst)
-                     (map(λ(str)
-                           (let((n (string->number str)))
-                             (if n n(string->symbol str))))lst))P2))
-           (E(map(λ(lst)(cadr lst))P3))
-           (S(diferencia(cdar P3)E))
-           (e0(cadar(filter(λ(lst)(en?(car lst)'(>> *> >*)))P3)))
-           (A (map(λ(lst)(cadr lst))
-                  (filter (λ(lst)(en?(car lst)'(** *> >*)))P3)))
-          ; (T (append (map(λ(e) (drop e 3))P3) (map(λ(e) (drop-right(drop e 1)2))P3)))
-           (T (append (map(λ(e) (append(drop (drop-right e 2)1)))P3) (map(λ(e)
-                                                     (append(drop-right(drop e 1)
-                                                                4)(drop e 4))
-                                                            )P3)))
-           )
-      (list E S e0 A T))))
 
 ;'(0 q0 q3 1 q1 2 q6 q7 q1)-->'((0 q0)(0 q3)(1 q1) (2 q2)(2 q7)(2 q1))
 (define split-at-symb
@@ -965,7 +960,10 @@
 (define ttn '((1 A 3)(1 A 2)(2 B 1)(1 B 3)(2 A 3)(3 A 3)(3 B 3)))
 (define atestn(new afn%[AF-conf(list ten tln tein tan ttn)])) 
 (define n02 (file->af "n02.dat"))
-(define ntestd (file->af "ntestd.dat"))
+(define d01 (file->af "d01.dat"))
+;(define ntestd (file->af "ntestd.dat"))
+
+
 (define afn->afd
   (λ(N) ;<--nodo
     (let* ((conf (info-afd N))
@@ -1032,5 +1030,18 @@
  (λ(afn)
    (send afn lst->one(send afn trany** (send afn get-E)(send afn get-S)))))
 
+(define accesibles
+  (λ(afd Q [acc '()])
+    (if(empty? Q)
+       acc
+       (accesibles afd
+                   (append(cdr Q)
+                          (diferencia (send afd dq(car Q))
+                                      (list(union (cdr Q)(list(car Q))))))
+                   (cons (car Q) acc)
+                  )
+       )))
 
-
+(define inaccesibles
+  (λ(afd)
+    (diferencia (send afd get-E)(accesibles afd))))
