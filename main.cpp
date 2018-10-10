@@ -594,6 +594,8 @@ void segunda_pasada(string cad)
 	salida<<numdatos()<<endl; //cuantos datos son
 	cout<<cdatosf<<endl;  //donde inicia en memoria los datos
 	cout<<numdatos()<<endl; //cuantos datos son
+	salida<<ccodigof<<endl; //donde inicia en memoria los codigos
+	cout<<ccodigof<<endl; //donde inicia en memoria los codigos
 
     //cuales son cada uno de los datos
     for(int x=0;x<tam_datos;x++)
@@ -604,21 +606,27 @@ void segunda_pasada(string cad)
 			salida<<tabla[x][1]<<endl;	
 		}
 	}
-
-	salida<<ccodigof<<endl; //donde inicia en memoria los codigos
-	cout<<ccodigof<<endl; //donde inicia en memoria los codigos
-
+	
 	//cuales son cada uno de los codigos
 	int dir=ccodigof;
     for(int x=0;x<tam_datos;x++)
 	{		
 		if(tabla[x][2]=="F")//BUG: debo revisar cuantos operadores usa la funcion,x ahora solo funciona de 1
 		{
+			/*
+			Esto envia ala salida la pocision en la memoria en donde esta la funcion
 			cout<<dir<<endl;
 			cout<<obten_direccion(tabla[x][1])<<endl;
 			salida<<dir<<endl;
 			salida<<obten_direccion(tabla[x][1])<<endl;
 			dir++;	
+			*/
+			//envia el id de la funcion
+			cout<<valor_instruccion(tabla[x][0])<<endl;
+			cout<<obten_direccion(tabla[x][1])<<endl;
+			salida<<valor_instruccion(tabla[x][0])<<endl;
+			salida<<obten_direccion(tabla[x][1])<<endl;
+			dir++;
 		}
 		if(tabla[x][2]=="E")//si es una etiqueta ,solo apunta al que sigue
 		{
