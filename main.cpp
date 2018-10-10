@@ -59,6 +59,25 @@ void limpia_datos()
     datos[x]="";
 }
 
+//solo para reiniciar todo, cuando se quiere procesar un nuevo archivo
+void reinicia()
+{
+	ccodigo=0;
+	cdatos=0;
+	cdatosf=0;
+	ccodigof=0;
+
+	limpia_datos();
+	
+	for(int y=0;y<3;y++)
+	for(int x=0;x<tam_datos;x++)
+	{
+		tabla[x][y]="";
+		tabla_s[x][y]="";
+	}
+
+}
+
 bool carga_archivo(string cad)
 {
     ifstream file(cad);
@@ -160,29 +179,31 @@ void muestra_tabla()
 {
 	int margen=20;
 	int resto=0;
-
 	cout<<"|-------NOMBRE-------||--------VALOR-------||--------TIPO--------|"<<endl;
 	
 	for(int z=0;z<tam_datos;z++)
 	{
-		int k;
+		int k,j;
 		for(int y=0;y<3;y++)
 		{ k=y;
-			if(tabla[z][y].length()>0) //si existe la linea, imprimela con formato
+
+			if(tabla[z][y].length()>0) //si existe el campo, imprimelo con formato
 			{
 				cout<<'|';
-				resto=margen-tabla[z][y].length();
-				for(int x=0;x<tabla[z][y].length();x++)
-				{	
-						cout<<tabla[z][y][x];
-				}
+				resto=margen-tabla[z][y].length();		
+				cout<<tabla[z][y];
+				
 				for(int x=0;x<resto;x++)
 					cout<<" ";
 				cout<<'|';
 			}
-			else
-				if(tabla[z][0].length()>0)
+			else{  //si no existe el campo, pero si la linea, imprime vacio con formato
+				if(tabla[z][0].length()>0 && y==1)
 				cout<<"|*                   |";
+				if(tabla[z][0].length()>0 && y==2)
+				cout<<"|*                   |"<<endl;							
+				}
+
 		}
 		if(tabla[z][k].length()>0)
 		cout<<endl;
@@ -217,8 +238,9 @@ void muestra_tabla_s()
 				cout<<'|';
 			}
 			else
-				if(tabla_s[z][0].length()>0)
+				if(tabla_s[z][0].length()>0 && z==1)
 				cout<<"|*                   |";
+
 		}
 		if(tabla_s[z][k].length()>0)
 		cout<<endl;
@@ -355,12 +377,15 @@ void obten_tipo()
 	{
 		if(tabla[x][0].length()>0) //si existe la palabra
 		{
-			if(tabla[x][1].length()>0 and valor_instruccion(tabla[x][0])!=-1) //si tiene un valor y es una funcion
+			if(tabla[x][1].length()>0)//si tiene un valor
+			{
+			if(valor_instruccion(tabla[x][0])!=-1) //si es una funcion
 				tabla[x][2]="F";
 			else if(es_reservada(tabla[x][0])) //si es una palabra reservada
 			       tabla[x][2]="R";	
 			else if(tabla[x][1].length()>0) //si tiene un valor y no es una funcion, es una variable
 				tabla[x][2]="V";
+			}
 			else//si no, es una eiqueta, #######comprobar como se comportan las etiquetas segun el diseño
 				tabla[x][2]="E";
 		}
@@ -665,6 +690,7 @@ void menu()
 
         switch (opcion) {
 		case 1: 
+		   reinicia();
 			cout<<"Nombre del archivo: ";
 			cin>>nombre;
 		carga_archivo(nombre); break;
@@ -694,6 +720,7 @@ void menu()
 		muestra_tabla(); break;
 	case 12:obten_tipo(); break;
 	case 13:
+		reinicia();
 		cout<<"Nombre del archivo: ";
 		cin>>nombre;
 		primera_pasada(nombre); break;
