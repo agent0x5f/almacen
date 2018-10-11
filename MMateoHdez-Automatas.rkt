@@ -1030,18 +1030,58 @@
  (λ(afn)
    (send afn lst->one(send afn trany** (send afn get-E)(send afn get-S)))))
 
+(define d02 (file->af "d02.dat"))
+
 (define accesibles
   (λ(afd Q [acc '()])
     (if(empty? Q)
-       acc
+       (remove-duplicates acc)
        (accesibles afd
                    (append(cdr Q)
-                          (diferencia (send afd dq(car Q))
-                                      (list(union (cdr Q)(list(car Q))))))
-                   (cons (car Q) acc)
+                         (diferencia(diferencia (send afd dq(car Q))
+                                      Q)acc))
+                   (append Q acc)
                   )
        )))
 
 (define inaccesibles
   (λ(afd)
-    (diferencia (send afd get-E)(accesibles afd))))
+    (diferencia (send afd get-E)(accesibles afd (list(send afd get-e0)) ))))
+
+;tarea 2.04
+;crear un automata sin estados inalcanzables apartir de uno que si los tiene
+;(reduce afd)-->afd%
+;afd : automata finito determinista
+(define reduce-ina
+  (λ(afd)
+     (let* (
+            (EN (accesibles afd (list(send afd get-e0))))
+           (SN (send afd get-S))
+           (e0N (send afd get-e0))
+           (AN (interseccion EN (send afd get-A)))
+           (TN (append*(map(λ(e)
+                             (map(λ(s)(append (cons e(list s)) (list(send afd tran e s))))
+                                 SN))
+                           EN)))
+  
+           
+                  )
+      (new afd%[AF-conf(list EN SN e0N AN (reduce-aux TN))])     
+       )))
+
+(define reduce-aux
+  (λ(T [res '()])
+    (if(empty? T)
+       (remove* '((*)) res)
+    (reduce-aux (cdr T)(append(list(if(empty? (last (car T)))                          
+                           '(*)
+                           (car T)
+                           ))
+                           res)))))
+                           
+
+
+
+
+
+
