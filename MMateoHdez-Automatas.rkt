@@ -1032,6 +1032,10 @@
 
 (define d02 (file->af "d02.dat"))
 
+;tarea 2.04
+;obtener los estados accesibles de un automata dado
+;(accesibles afd)-->lst
+;afd : automata finito determinista
 (define accesibles
   (λ(afd Q [acc '()])
     (if(empty? Q)
@@ -1048,7 +1052,7 @@
   (λ(afd)
     (diferencia (send afd get-E)(accesibles afd (list(send afd get-e0)) ))))
 
-;tarea 2.04
+;tarea 2.05
 ;crear un automata sin estados inalcanzables apartir de uno que si los tiene
 ;(reduce afd)-->afd%
 ;afd : automata finito determinista
@@ -1078,7 +1082,18 @@
                            (car T)
                            ))
                            res)))))
-                           
+
+;tarea 2.06
+;diseña un af que acepte las palabras que inician con 2 unos y terminan con 0 ó 1
+;ej:110,111,1101,1111.
+;pero no 100,101...
+;a)archivo de texto
+;b)afn%
+;c)convertir a afd
+;d)renombra los estados a s1,s2,...,sN
+;e)quita los estados innacesibles
+;f)reduce los estados equivalentes
+
 
 
 
