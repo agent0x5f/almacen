@@ -1083,16 +1083,39 @@
                            ))
                            res)))))
 
+
+;renombrador de estados
+;(rename-E afd le lne)-->afd%
+;afd : automata finito determinista
+;ne : nuevo simbolo para los estados
+(define rename-E
+  (λ (afd ne)
+    (let* ((le (send afd get-E)))
+      (if(list? (car le))
+         (map(λ(e)(cons ne (list e))) le);proceso para 2 o mas
+         (crea-lista (length le));proceso para solos '(1 2 3) '(a b c)
+         )          
+    )))
+
+(define crea-lista
+  (λ(n [lst '()])
+   (if(zero? n)
+       (reverse lst)       
+        (crea-lista (- n 1)(append lst (list n))))       
+    ))
+
 ;tarea 2.06
 ;diseña un af que acepte las palabras que inician con 2 unos y terminan con 0 ó 1
 ;ej:110,111,1101,1111.
 ;pero no 100,101...
-;a)archivo de texto
-;b)afn%
-;c)convertir a afd
-;d)renombra los estados a s1,s2,...,sN
-;e)quita los estados innacesibles
+;a)archivo de texto  ;OK
+;b)afn%   ;OK
+;c)convertir a afd  ;TERMINAR
+;d)renombra los estados a s1,s2,...,sN ;OK?
+;e)quita los estados innacesibles  ;OK
 ;f)reduce los estados equivalentes
+(define d0X (file->af "d0X.dat"))
+
 
 
 
