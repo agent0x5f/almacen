@@ -1104,6 +1104,43 @@
         (crea-lista (- n 1)(append lst (list n))))       
     ))
 
+;recibe una lista con los nuevos nombres de los estados
+;(renombra-E afd% '(1 2 3))-->afd%
+(define renombra-E
+  (λ(afd lst)
+    (new afd%[AF-conf(list lst
+                           (send afd get-S)
+                           (car lst)
+                           (flatten(cambia-S(map(λ(e)(if(en? e (send afd get-A))
+                                       'S
+                                      '()))
+                                 (send afd get-E)) 'S lst)) 
+                         (crea-T (send afd get-T))
+                       )]) 
+      ))
+
+;(cambia-S (send (renombra-E d0X '(S1 S2 S3 S4)) get-A)
+;'S '(S1 S2 S3 S4) 1 '())
+(define cambia-S
+  (λ(lst s S [n 0][res '()])
+    (cond ((empty? lst)res)
+          ((equal? (car lst)s)(cambia-S (cdr lst)s S(+ n 1)
+                                         (append res(list(list-ref S n)))))
+           (else
+      (cambia-S (cdr lst)s S(+ n 1)(append res (list(car lst))))
+     ))))
+
+(define crea-T
+ (λ(lst E1 E2[res '()])
+   (cond((empty? lst)res)
+        ((en? (last (car lst))E1)
+            (crea-T (cdr lst) E1 E2 (append* res
+                                             (list(car(car lst)))
+                                             (list(car(cdr(car lst))))
+                                             '(Z)
+                                             ))) 
+    )))
+
 ;tarea 2.06
 ;diseña un af que acepte las palabras que inician con 2 unos y terminan con 0 ó 1
 ;ej:110,111,1101,1111.
@@ -1114,11 +1151,22 @@
 ;d)renombra los estados a s1,s2,...,sN ;OK?
 ;e)quita los estados innacesibles  ;OK
 ;f)reduce los estados equivalentes
-(define d0X (file->af "d0X.dat"))
+(define d0X (file->af "d0X.dat")) ;a,b,c,d
+(define d0XT (reductor(reduce-ina d0X)) ;e,f
+;reductor de automata por clases de equivalencia
+(define reductor
+  (λ(afd [res '()])
+    (append* res (diferencia (send afd get-E)(send afd get-A)) (send afd get-A)) ;k0 y k1
 
-
-
-
+    (map(λ(w)
+        (if(y
+            (en? (tran* p w) res)
+            (en? (tran* q w) res))
+        ))
+    res)
+    
+  
+))
 
 
 
