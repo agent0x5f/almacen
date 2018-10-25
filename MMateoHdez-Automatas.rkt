@@ -2,6 +2,7 @@
 (require racket/trace
          racket/system
          racket/file
+         racket/format
          2htdp/image)
 ;======================================================================
 ;Fundamentos de M.D.
@@ -626,6 +627,10 @@
           (tran* (tran edo (car palabra)) (cdr palabra))
           ))
     
+    (define/public (tranz L1 S)          
+    (remove-duplicates(append*(map(λ(l)(tran l S))L1)
+          )))
+    
     ;aceptor
     ;determina si el termino es un estado aceptor
     ;e : estado
@@ -663,7 +668,24 @@
                         ))
              T)))))
 
-
+;transiciones, hacia 2 nodos
+       (define/public (trany** cje s)
+      (if (pVacia? s)
+          cje
+    (map(λ(e)(list(list (car e)(car(cdr e))(car(cdr (cdr e))))
+                  (list (car e)(car(cdr e))(car(cdr (cdr (cdr e))))
+                  )))
+          (remove* '(1) (append*(map(λ(l) (map (λ (e)
+                      (cond((=(card (tran e l))0)1)
+                           ((=(card (tran e l))2)(append (list e)(list l)
+                          (tran e l)))
+                           (else
+                       1))                         
+                      )
+                    cje))s))
+      )
+          )
+          ))
 
 
     
@@ -717,8 +739,7 @@
            (E (send AF get-E));estados del AF
            (e0 (send AF get-e0));estado inicial del AF
            (A (send AF get-A));aceptores
-           (T (send AF get-T
-                      ));transiciones
+           (T (send AF get-T));transiciones
            )
       (fprintf out "digraph {~n")
       (fprintf out "rankdir = LR~n")
@@ -730,7 +751,7 @@
                                                                                (else e))
                                                                                 "black")) E);estados del AF
    
-      (for-each (λ (a) (fprintf out "~s [shape = circle, color = ~a] ~n"(cond ((list? a) (string-append*
+      (for-each (λ (a) (fprintf out "~s [shape = doublecircle, color = ~a] ~n"(cond ((list? a) (string-append*
                                                                                            (map (λ (es) (symbol->string es)) a)))
                                                                                (else a))
                                 "green")) A);aceptores del AF
@@ -741,7 +762,9 @@
                                                                                            (map (λ (es) (symbol->string es)) (last t))))
                                                                                (else (last t)))                                                               
                                                                  (second t))) T);transicion del AF
-      (fprintf out "AF -> ~s [label = Inicio, color = blue] ~n" e0) ;apunta al estado inicial
+      (fprintf out "AF -> ~s [label = Inicio, color = blue] ~n" (cond ((list? e0) (string-append*
+                                                                                           (map (λ (es) (symbol->string es)) e0)))
+                                                                               (else e0))) ;apunta al estado inicial
       (fprintf out "}~n")
       (close-output-port out)
       (system (string-append motor " " nomin " -Tpng -o " nomout2))
@@ -806,6 +829,10 @@
 ;======================================================================================
 ;AUTOMATAS FINITOS NO-DETERMINISTAS
 ;======================================================================================
+ (define info-afn
+  (λ(afn)
+    (list (send afn get-E)(send afn get-S)(send afn get-e0)(send afn get-A)(send afn get-T))))
+
 (define afn%
   (class object%  
   (init AF-conf)                ; initializacion de argumentos
@@ -820,6 +847,8 @@
     (define/public(get-e0) e0)
     (define/public(get-A) A)
     (define/public(get-T) T)
+
+   
     ;afd
     ;(send atestn tran 2 'A)-->3
     ;afn
@@ -830,6 +859,11 @@
                         (equal? (list e s)(drop-right t 1))) ;esta condicion
                      T;tomadas de este conjunto
                       )))
+
+    
+(define/public (tranz L1 S)          
+    (remove-duplicates(append*(map(λ(l)(tran l S))L1)
+          )))
 
     ;generalizacion de la transicion
     ;determina el estado final al que AFD accede despues de leer todas las letras de la palabra
@@ -863,7 +897,7 @@
                     cje))s))
       ))
 
-;transiciones, hacia 2 nodos;HELP
+;transiciones, hacia 2 nodos
        (define/public (trany** cje s)
       (if (pVacia? s)
           cje
@@ -959,78 +993,16 @@
 (define tan '(2))
 (define ttn '((1 A 3)(1 A 2)(2 B 1)(1 B 3)(2 A 3)(3 A 3)(3 B 3)))
 (define atestn(new afn%[AF-conf(list ten tln tein tan ttn)])) 
-(define n02 (file->af "n02.dat"))
-(define d01 (file->af "d01.dat"))
+;(define n02 (file->af "n02.dat"))
+;(define d01 (file->af "d01.dat"))
 ;(define ntestd (file->af "ntestd.dat"))
 
-
-(define afn->afd
-  (λ(N) ;<--nodo
-    (let* ((conf (info-afd N))
-           (EN (list-ref conf 0))
-           (SN (list-ref conf 1))
-           (e0N (list-ref conf 2))
-           (AN (list-ref conf 3))
-           (TN (list-ref conf 4))
-           (ED (map(λ(e)(list e)) EN))
-           (SD SN)
-           (e0D (car(filter(λ(e)(en? e0N e)) ED)))
-           (TD (append*(map(λ(e)
-                     (map(λ(s)
-                           (list(list e)
-                                s
-                                (send N tran e s)))
-                         SN))
-                   EN)))
-           )
-      (list ED SD e0D TD);estados,simbolos,eo,aceptores,transiciones
-      )))
-;calcula todos los nuevos estados
-(define detector*
-  (λ(afn)
-  (if(empty?
-      (send afn detector
-            (send afn lst->one
-                  (send afn tran**
-                        (send afn get-E)
-                        (send afn get-S))))) 
-     afn;si no hay nuevos estados,termina,si no calcula denuveo
-     ;creo un nuevo afn con los estados agregados
-(detector*
- (new afn%
-      [AF-conf
-       (list (append(send afn detector
-            (send afn lst->one
-                  (send afn tran**
-                        (send afn get-E)
-                        (send afn get-S))))
-                    (send afn lst->lst*(send afn get-E)))
-             (send afn get-S)
-             (send afn get-e0)
-             (send afn get-A)
-             (remove-duplicates
-              (append (send afn get-T)
-                      (crea-tran
-      (new afn%[AF-conf
-                (list
-        (append(send afn detector
-                      (send afn lst->one
-                            (send afn tran**
-                                  (send afn get-E)
-                                  (send afn get-S))))
-                (send afn lst->lst*(send afn get-E)))
-                                              (send afn get-S)
-                                              (send afn get-e0)
-                                              (send afn get-A)
-                                              (send afn get-T))])
-                                 ))))])
-    ))))
 
 (define crea-tran
  (λ(afn)
    (send afn lst->one(send afn trany** (send afn get-E)(send afn get-S)))))
 
-(define d02 (file->af "d02.dat"))
+;(define d02 (file->af "d02.dat"))
 
 ;tarea 2.04
 ;obtener los estados accesibles de un automata dado
@@ -1084,62 +1056,6 @@
                            res)))))
 
 
-;renombrador de estados
-;(rename-E afd le lne)-->afd%
-;afd : automata finito determinista
-;ne : nuevo simbolo para los estados
-(define rename-E
-  (λ (afd ne)
-    (let* ((le (send afd get-E)))
-      (if(list? (car le))
-         (map(λ(e)(cons ne (list e))) le);proceso para 2 o mas
-         (crea-lista (length le));proceso para solos '(1 2 3) '(a b c)
-         )          
-    )))
-
-(define crea-lista
-  (λ(n [lst '()])
-   (if(zero? n)
-       (reverse lst)       
-        (crea-lista (- n 1)(append lst (list n))))       
-    ))
-
-;recibe una lista con los nuevos nombres de los estados
-;(renombra-E afd% '(1 2 3))-->afd%
-(define renombra-E
-  (λ(afd lst)
-    (new afd%[AF-conf(list lst
-                           (send afd get-S)
-                           (car lst)
-                           (flatten(cambia-S(map(λ(e)(if(en? e (send afd get-A))
-                                       'S
-                                      '()))
-                                 (send afd get-E)) 'S lst)) 
-                         (crea-T (send afd get-T))
-                       )]) 
-      ))
-
-;(cambia-S (send (renombra-E d0X '(S1 S2 S3 S4)) get-A)
-;'S '(S1 S2 S3 S4) 1 '())
-(define cambia-S
-  (λ(lst s S [n 0][res '()])
-    (cond ((empty? lst)res)
-          ((equal? (car lst)s)(cambia-S (cdr lst)s S(+ n 1)
-                                         (append res(list(list-ref S n)))))
-           (else
-      (cambia-S (cdr lst)s S(+ n 1)(append res (list(car lst))))
-     ))))
-
-(define crea-T
- (λ(lst E1 E2[res '()])
-   (cond((empty? lst)res)
-        ((en? (last (car lst))E1)
-            (crea-T (cdr lst) E1 E2 (append* res
-                                             (list(car(car lst)))
-                                             (list(car(cdr(car lst))))
-                                             '(Z)
-                                             ))) 
-    )))
 
 ;tarea 2.06
 ;diseña un af que acepte las palabras que inician con 2 unos y terminan con 0 ó 1
@@ -1151,23 +1067,131 @@
 ;d)renombra los estados a s1,s2,...,sN ;OK?
 ;e)quita los estados innacesibles  ;OK
 ;f)reduce los estados equivalentes
-(define d0X (file->af "d0X.dat")) ;a,b,c,d
-(define d0XT (reductor(reduce-ina d0X)) ;e,f
+;(define d0X (file->af "d0X.dat")) ;a,b,c,d
+;(define d0XT (reductor(reduce-ina d0X))) ;e,f
 ;reductor de automata por clases de equivalencia
-(define reductor
-  (λ(afd [res '()])
-    (append* res (diferencia (send afd get-E)(send afd get-A)) (send afd get-A)) ;k0 y k1
-
-    (map(λ(w)
-        (if(y
-            (en? (tran* p w) res)
-            (en? (tran* q w) res))
-        ))
-    res)
-    
-  
-))
 
 
+;convertidor 2.0
+(define Afn->afd
+  (λ(N [n 0]) ;<--afn
+    (printf "n")
+    (let* ((conf (info-afd N))
+           (E (list-ref conf 0))
+           (S (list-ref conf 1))
+           (e0 (list-ref conf 2))
+           (A (list-ref conf 3))
+           (T '())
+           (Es (map(λ(e)   ;'(1 2 3)-->'((1)(2)(3))
+                     (if(neg(list? e))(list e)e))E))
+
+           (Ex (append*(map(λ(e)  ;genera nuevos e, puede tener viejos
+                     (map(λ(s)
+                           (send N tranz (if(neg(list? e))
+                                            (list e)
+                                            e)
+                                 s)
+                                )S))E)))
+           (Tx                    ;genera nuevos t, puede tener viejos
+            (filter (λ(w)(> (length w) 2))
+            (append*
+                  (map(λ(e)             
+                     (map(λ(s)
+                           (append* (list e) (list s)
+                               (list(list(send N tranz(if(neg(list? e))
+                                                         (list e)e) s)))
+                                    
+                                    ))S))E)
+                        )
+                      )
+                        )
+           
+           (Exu(remove-duplicates(diferencia Ex Es)))
+
+           (As (map(λ(e)
+                     (if(neg(list? e))(list e)e))A))
+           
+           (Axu(append* (map(λ(l)
+                      (filter(λ(e)                             
+                               (en? l (if(neg(list? e))
+                                         (list e)
+                                         e)
+                                    ))Exu))A)))
+           (afx (new afd%[AF-conf(list(union E Exu)S e0 (union A Axu)(union T Tx))])) 
+
+      )
+    (if (empty? Exu)
+    afx
+   (Afn->afd afx (+ n 1)))
+    )))
+
+(define n05 (file->af "n05.dat.txt"))
+
+;====================================================================================================
+;crea una funcion homomorfa
+(define crea-He
+  (λ (E #:prf [prf ' q])
+    (let* ((k (card E))
+           (indices (build-list k values))
+           (nE (map (λ (i) (string->symbol(format "~s~s" prf i)))
+                    indices))
+           )
+      (λ (q)
+      (let ((v(assoc q (map (λ (e ne)(list e ne))E nE)))
+            )
+        (if v (last v) v)))
+      )
+    ))
+
+;; af-He(af #:prf [prf ' q]) --> afd || afn
+;; funcion que hace el renombramiento de los estados del automata finito
+;; af --> automata finito
+(define af-He
+  (λ (af #:prf [prf ' q])
+    (let* ((conf (info-afn af))
+           (E(car conf))
+           (fH (crea-He E #:prf prf)) ;<-- los estados
+           (nE (map (λ (e) (fH e))E))
+           (S (list-ref conf 1)); <-- mismos simbolos
+           (e0 (fH(list-ref conf 2))) ;<-- el estado inicial
+           (A (map (λ (e) (fH e))(list-ref conf 3))) ; <-- los aceptores
+           (T (map (λ (t) (list (fH (car t))
+                                (cadr t)
+                                (fH (last t))))
+                   (list-ref conf 4)
+                   ))
+           )
+      (new (tipoAF T)[AF-conf(list nE S e0 A T)])
+      )))
+
+;( define s (af-He f1 #:prf 'T)) ;;aplicando la funcion homomorfa
+; donde 'T es el prefijo junto con un consecutivo que será el nombre que se pondrá a los nuevos estado  
+; (AF->gv s) ;;--> imprime la imagen del automata
 
 
+(define hs
+  (λ (af Ns)
+    (let* ((conf (send af get-Conf))
+           (E (list-ref conf 0))
+           (Simb (list-ref conf 1))
+           (e0 (list-ref conf 2))
+           (A (list-ref conf 3))
+           (T (filter-not (λ (l) (empty? l))
+                   (append*(map (λ (x y)
+                                  (map (λ (t)
+                                         (if (equal? (second t) x)
+                                             (list (first t) y (third t))
+                                             '()
+                                             )) (list-ref conf 4)) ;;transiciones del af
+                                  ) Simb Ns)))) ;;--> asignamos diectamente los nuevos simbolos 
+          )
+      
+      (new (tipoAF T)[Ldef(list E Simb e0 A T)])
+      )
+    ))
+
+;reductor de estados equivalentes
+
+;====================================================================================================
+(define n06 (file->af "n06.dat.txt"))
+ ;(af->gv (reduce-ina(af-He(Afn->afd n06)#:prf 'q)))
