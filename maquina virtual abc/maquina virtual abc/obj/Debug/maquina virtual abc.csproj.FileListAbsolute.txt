@@ -1,0 +1,10 @@
+c:\users\m\source\repos\maquina virtual abc\maquina virtual abc\bin\Debug\maquina virtual abc.exe.config
+c:\users\m\source\repos\maquina virtual abc\maquina virtual abc\bin\Debug\maquina virtual abc.exe
+c:\users\m\source\repos\maquina virtual abc\maquina virtual abc\bin\Debug\maquina virtual abc.pdb
+c:\users\m\source\repos\maquina virtual abc\maquina virtual abc\obj\Debug\maquina virtual abc.csprojAssemblyReference.cache
+c:\users\m\source\repos\maquina virtual abc\maquina virtual abc\obj\Debug\maquina_virtual_abc.Form1.resources
+c:\users\m\source\repos\maquina virtual abc\maquina virtual abc\obj\Debug\maquina_virtual_abc.Properties.Resources.resources
+c:\users\m\source\repos\maquina virtual abc\maquina virtual abc\obj\Debug\maquina virtual abc.csproj.GenerateResource.cache
+c:\users\m\source\repos\maquina virtual abc\maquina virtual abc\obj\Debug\maquina virtual abc.csproj.CoreCompileInputs.cache
+c:\users\m\source\repos\maquina virtual abc\maquina virtual abc\obj\Debug\maquina virtual abc.exe
+c:\users\m\source\repos\maquina virtual abc\maquina virtual abc\obj\Debug\maquina virtual abc.pdb
