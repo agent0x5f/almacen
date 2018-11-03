@@ -9,12 +9,13 @@
 	font-family: cambria;
 	font-size: 60px;
 	text-shadow: 3px 2px 2px black;
+	float: center;
 }
 
 header img{     /*imagen con el logo de la compañia*/
 	width: 400px;
-	height: 150px;
-	padding: left;
+	height: 100px;
+	float: top;
 }
 
 @media screen and (max-width: 600px){
@@ -72,6 +73,9 @@ hr{
 	display: none;
 	width: 400px;
 	height: 150px;
+	border-color: black;
+	border-style: double;
+	border-width: 5px;
 }
 
 footer{
@@ -94,7 +98,13 @@ fieldset input{
 	margin: 15px;
 }
 
-
+textarea{
+	padding: 10px;
+	margin: 15px;
+	width: 400px;
+	height: 300px;
+	background-color: white;
+}
 
 
 

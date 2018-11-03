@@ -26,19 +26,36 @@
   			<li><a href="./contratar.php"> Contratar </a></li>
      		<li><a href="./chat.php"> Chat online </a></li> 
   			<li class="derecha"><a href="./registrarse.php"> Registrarse </a></li> 	
-  			<li class="derecha"><a href="./chat.php"> Login </a></li>		
+  			<li class="derecha"><a href="./login.php"> Login </a></li>		
 		</ul>
 	</nav>
 
 	<section>
 		<br>
 		<p id="parrafo1">
-			CHAT 
-
-			TEXTO ENVIAR
+			CHAT ONLINE
+			TIENES DUDAS?
+			HABLA CON NUESTRO PERSONAL! :)			
 		</p>
 		<br>
 
+	</section>	
+
+	<section>
+		<form>
+			<fieldset>
+				<legend>Chat</legend>
+				<br>
+				<textarea maxlength="2000" readonly="true" style="font-family: cambria"></textarea>
+				<br>
+				<br>
+				<input type="text" name="mensaje" maxlength="200" style="font-size: 14px" size="30">
+				<input type="submit" value="Enviar">
+			</fieldset>			
+		</form>
+	</section>
+
+	<section>
 		<hr>
    		<img class="galeria" src="imagenes/computadora.jpg">
       	<img class="galeria" src="imagenes/labtop.jpg">

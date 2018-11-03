@@ -3,19 +3,16 @@
 <head>
 	<meta charset="utf-8">
 	<title>Bienvenido a la página web de El equipo Herrera</title>
+	<?php require 'php/php.php'; ?>
 	<link rel="stylesheet" type="text/css" href="css/css.css">
-	<?php require 'php/php.php';?>
 	<script type="text/javascript" src="js/js.js"></script>
 </head>
 
 <body>
 
-	<script>
-	Login();
-	</script>
-
 	<header>
-		<img id="img1" src="imagenes/titulo_web.png">
+		<p id="titulo">El equipo Herrera</p> 
+		<img id="img1" src="imagenes/h.png">
 	</header>
 
 	<nav>
@@ -32,28 +29,23 @@
 	</nav>
 
 	<section>
-		<br>
-		<p id="parrafo1">
-		Empresa que realiza servicios de instalacion, reparacion y mantenimiento de:
-		<br>
-		<br>
-		*Computadoras
-		<br>
-		*Climas
-		<br>
-		*Electrodomesticos
-		</p>
-		<br>
+		<form action="./conectar.php" method="post">
+			<fieldset>
+				<legend>Login</legend>
+				<br>
+				<label>Nombre:</label>
+				<input type="text" name="nombre" maxlength="50">
+				<br>
+				<label>Contraseña:</label>
+				<input type="password" name="contra" maxlength="25">
+				<br>
+				<input type="submit" value="Enviar">
+				<br>
+				<br>
+			</fieldset>
 
-		<hr>
-   		<img class="galeria" src="imagenes/computadora.jpg">
-      	<img class="galeria" src="imagenes/labtop.jpg">
-		<img class="galeria" src="imagenes/celular.jpg">
-		<img class="galeria" src="imagenes/aire_acondicionado.jpg">
-		<img class="galeria" src="imagenes/licuadora.jpg">
-		<img class="galeria" src="imagenes/bomba_agua.gif">
-		<img class="galeria" src="imagenes/lavadora.png">		
-		<hr>
+		</form>
+
 	</section>
 
 	<footer>

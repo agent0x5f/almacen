@@ -1,12 +1,10 @@
 function Login(){
-var opcion = prompt("Desea logearse S/N?");
+var opcion = confirm("Desea logearse?");
 
-    if (opcion == 'S') {
-        var persona = prompt("Nombre");
-        var salario = prompt("Password");
-        alert("Bienvenido");
+    if (opcion == true) {
+        window.open ('./login.php','_self',false)
     } 
-    if (opcion == 'N') {
+    if (opcion == false) {
         alert("No esta conectado a su cuenta, para realizar compras o usar el chat, por favor, registrese o ingrese a su cuenta");
     } 
 }
