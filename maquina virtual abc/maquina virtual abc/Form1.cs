@@ -45,7 +45,7 @@ namespace maquina_virtual_abc
             int posy = dir_datos;
             int posx = 0;
             //guarda en memoria los datos      
-            while (posy > 16)
+            while (posy > 15)
             {
                 posy = posy - 16;
                 posx++;
@@ -90,7 +90,7 @@ namespace maquina_virtual_abc
             //guarda en memoria las funciones   
             int guardados = dir_codigo;
             int guardados_aux = 0;
-            while (guardados > 16)
+            while (guardados > 15)
             {
                 guardados = guardados - 16;
                 guardados_aux++;
