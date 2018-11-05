@@ -32,14 +32,26 @@ namespace maquina_virtual_abc
 
         private void cargar_memoria_Click(object sender, EventArgs e)
         {
+            dataGridView1.AllowUserToAddRows = true;
+            dataGridView1.AllowUserToDeleteRows = true;
+          
+            for(int x=0;x<16;x++)
+            dataGridView1.Rows.Add(x, 111);
+            
             //llenar la memoria con 111
-            for(int x = 0; x < 256; x++)
+            for(int y = 0; y < 16; y++)
+            for(int x = 0; x < 16; x++)
             {
-                dataGridView1.Rows.Add(x,1111);
+                    dataGridView1.Rows[y].Cells[x].Value = 111;
             }
-            //necesito que lea numeros de varios digitos.
+
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+
+            //lee los valores del archivo    
             string aux = richTextBox1.Text;
-            int pos = 0;
+            int posy = 0;
+            int posx = 0;
             for (int x = 0; x < aux.Length; x++)
             {
                 int cont = 0;
@@ -49,9 +61,20 @@ namespace maquina_virtual_abc
                     cont++;
                     x++;
                 }
-                dataGridView1.Rows[pos].Cells[1].Value = (aux.Substring(ini, cont));
-                pos++;
+                dataGridView1.Rows[posx].Cells[posy].Value = (aux.Substring(ini, cont));
+                posy++;
+                if(posy==16)
+                {
+                    posx++;
+                    posy = 0;
+                }
             }
+            
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
