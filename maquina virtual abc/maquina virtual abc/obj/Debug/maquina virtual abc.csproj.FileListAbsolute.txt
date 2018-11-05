@@ -11,10 +11,10 @@ c:\users\m\source\repos\maquina virtual abc\maquina virtual abc\obj\Debug\maquin
 C:\Users\M\Source\Repos\agent0x5f\almacenmm\maquina virtual abc\maquina virtual abc\bin\Debug\maquina virtual abc.exe.config
 C:\Users\M\Source\Repos\agent0x5f\almacenmm\maquina virtual abc\maquina virtual abc\bin\Debug\maquina virtual abc.exe
 C:\Users\M\Source\Repos\agent0x5f\almacenmm\maquina virtual abc\maquina virtual abc\bin\Debug\maquina virtual abc.pdb
-C:\Users\M\Source\Repos\agent0x5f\almacenmm\maquina virtual abc\maquina virtual abc\obj\Debug\maquina virtual abc.csprojAssemblyReference.cache
 C:\Users\M\Source\Repos\agent0x5f\almacenmm\maquina virtual abc\maquina virtual abc\obj\Debug\maquina_virtual_abc.Form1.resources
 C:\Users\M\Source\Repos\agent0x5f\almacenmm\maquina virtual abc\maquina virtual abc\obj\Debug\maquina_virtual_abc.Properties.Resources.resources
 C:\Users\M\Source\Repos\agent0x5f\almacenmm\maquina virtual abc\maquina virtual abc\obj\Debug\maquina virtual abc.csproj.GenerateResource.cache
 C:\Users\M\Source\Repos\agent0x5f\almacenmm\maquina virtual abc\maquina virtual abc\obj\Debug\maquina virtual abc.csproj.CoreCompileInputs.cache
 C:\Users\M\Source\Repos\agent0x5f\almacenmm\maquina virtual abc\maquina virtual abc\obj\Debug\maquina virtual abc.exe
 C:\Users\M\Source\Repos\agent0x5f\almacenmm\maquina virtual abc\maquina virtual abc\obj\Debug\maquina virtual abc.pdb
+C:\Users\M\Source\Repos\agent0x5f\almacenmm\maquina virtual abc\maquina virtual abc\obj\Debug\maquina virtual abc.csprojAssemblyReference.cache
