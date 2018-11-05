@@ -1193,5 +1193,166 @@
 ;reductor de estados equivalentes
 
 ;====================================================================================================
-(define n06 (file->af "n06.dat.txt"))
+;(define n06 (file->af "n06.dat.txt"))
  ;(af->gv (reduce-ina(af-He(Afn->afd n06)#:prf 'q)))
+
+
+;=========================================================================================
+;TERCER PARCIAL AUTOMATAS
+;=========================================================================================
+;======================================================================================
+;AUTOMATAS FINITOS NO-DETERMINISTAS CON TRANSICIONES EPSILON
+;======================================================================================
+ (define info-afe
+  (λ(afe)
+    (list (send afe get-E)(send afe get-S)(send afe get-e0)(send afe get-A)(send afe get-T))))
+
+(define afe%
+  (class object%  
+  (init AF-conf)                ; initializacion de argumentos
+  (define E (list-ref AF-conf 0));estado
+  (define S (list-ref AF-conf 1));alfabeto
+  (define e0 (list-ref AF-conf 2));estado inicial
+  (define A (list-ref AF-conf 3));aceptores
+  (define T (list-ref AF-conf 4));tranciciones
+    (super-new)
+    (define/public(get-E) E)
+    (define/public(get-S) S)
+    (define/public(get-e0) e0)
+    (define/public(get-A) A)
+    (define/public(get-T) T)
+
+   
+    ;afd
+    ;(send atestn tran 2 'A)-->3
+    ;afn
+    ;(send atestn tran 2 'A)--'(3)
+    ;afe
+    ;(send atestn tran 2 'A)--'(3)
+    (define/public(tran e s)
+      (map(λ(e)(last e));obtengo los estados de las transiciones que me da
+          (filter(λ(t);filtrame las que no cumplen con
+                        (equal? (list e s)(drop-right t 1))) ;esta condicion
+                     T;tomadas de este conjunto
+                      )))
+
+    
+    (define/public (tranz L1 S)          
+      (remove-duplicates(append*(map(λ(l)(tran l S))L1)
+          )))
+
+    ;generalizacion de la transicion
+    ;determina el estado final al que AFD accede despues de leer todas las letras de la palabra
+    ;desde un estado inicial dado
+    ;(tran* a1 1 '(C C C A C C) --> 1
+    ;tran*
+    (define/public (tran* cje s)
+    (if (pVacia? s)
+        (list cje)
+        (append* (map (λ (e) (tran* e (cdr s))) (tran cje (car s))))))
+
+    ;me regresa una lista que contiene las estados por columna
+    (define/public (tran** cje s)
+      (if (pVacia? s)
+          cje
+      (list*(map(λ(l) (map (λ (e)
+                      (if (en? e E)
+                          (tran e l)
+                          ('()))
+                      )
+                    cje))s))
+      ))
+
+;transiciones,deben ser convertidad aforma  standart con hacia 0 nodos
+       (define/public (tranx** cje s)
+      (if (pVacia? s)
+          cje
+     (append*(map(λ(l) (map (λ (e)                       
+                       (append (list e)(list l)
+                          (tran e l))                   
+                      )
+                    cje))s))
+      ))
+
+;transiciones, hacia 2 nodos
+       (define/public (trany** cje s)
+      (if (pVacia? s)
+          cje
+    (map(λ(e)(list(list (car e)(car(cdr e))(car(cdr (cdr e))))
+                  (list (car e)(car(cdr e))(car(cdr (cdr (cdr e))))
+                  )))
+          (remove* '(1) (append*(map(λ(l) (map (λ (e)
+                      (cond((=(card (tran e l))0)1)
+                           ((=(card (tran e l))2)(append (list e)(list l)
+                          (tran e l)))
+                           (else
+                       1))                         
+                      )
+                    cje))s))
+      )
+          )
+          ))
+
+(define/public (lst->one lst [res '()])
+  (if(empty? lst)
+     res
+     (lst->one (cdr lst)(append res (car lst))
+     )))
+    ;detecta los nuevos estados
+    ;'(a b c)->'((a)(b)(c))
+(define/public (lst->lst* lst [res '()])
+  (if(empty? lst)
+     res
+     (lst->lst* (cdr lst)(append res (list(list (car lst) ))))))
+
+    (define/public (lst->lst** lst [res '()])
+  (if(empty? lst)
+     res
+     (lst->lst* (cdr lst)(append res (list (car lst) )))))
+
+;(send ntestd detector(send ntestd lst->one
+    ;(send ntestd tran** '(a b c d)'(0 1))))
+    ;'(() (b d) (b c) (c d))
+    ;me dice las nuevas estados
+(define/public (detector lst)
+  (remove-duplicates(remove* (lst->lst** E) lst)))
+
+       ;aceptor
+    ;determina si el termino es un estado aceptor
+    ;e : estado
+    ;A : lista de estados aceptores
+    ;(aceptor e)-->boleano
+    ;(send a1 aceptor 'e1) --#t    ;(send a1 aceptor 'e5)-->#f
+    (define/public (analiza w)
+      (tran* e0 w))
+    
+    ;aceptada
+    ;pregunta si la palabra es aceptada por lenguaje del automata
+    ;--si al terminar la palabra esta en un estado aceptor o no--
+    ;w : palabra
+    ;(aceptada? w)-->boleano
+    (define/public (acepta? w)
+      (existe-Un
+       (λ(ef)(en? ef A))(analiza w)))
+
+));clase afe
+
+;Importador de archivo de texto al racket de un AF
+(define file->afe
+  (λ(nomarch)
+    (let* ((P1 (file->lines nomarch #:mode 'text))
+           (P2 (map(λ(str)(string-split str " ")) P1))
+           (P3 (map(λ(lst)
+                     (map(λ(str)
+                           (let((n (string->number str)))
+                             (if n n(string->symbol str))))lst))P2))
+           (E(map(λ(lst)(cadr lst))P3))
+           (S(diferencia(cdar P3)E))
+           (e0(cadar(filter(λ(lst)(en?(car lst)'(>> *> >*)))P3)))
+           (A (map(λ(lst)(cadr lst))
+                  (filter (λ(lst)(en?(car lst)'(** *> >*)))P3)))
+           (T (append*(map(λ(lst)(lst->tr lst S))P3)))
+           )      
+      (new afe% [AF-conf (list E S e0 A T)])
+      )
+    ))
