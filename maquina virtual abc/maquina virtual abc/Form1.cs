@@ -192,11 +192,6 @@ namespace maquina_virtual_abc
                         dataGridView1.Rows[x].Cells[y].Style.BackColor = Color.White;
         }
 
-        private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         void Actualiza()
         {
             //actualiza la ventana con el estado actual de los registros
