@@ -53,21 +53,21 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.instruccion_op = new System.Windows.Forms.TextBox();
+            this.instruccion_actual = new System.Windows.Forms.TextBox();
+            this.bandera_negativo = new System.Windows.Forms.CheckBox();
+            this.bandera_cero = new System.Windows.Forms.CheckBox();
+            this.bandera_igual = new System.Windows.Forms.CheckBox();
+            this.bandera_menor = new System.Windows.Forms.CheckBox();
+            this.bandera_mayor = new System.Windows.Forms.CheckBox();
+            this.run_all = new System.Windows.Forms.Button();
+            this.run_1 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.registro_x = new System.Windows.Forms.TextBox();
+            this.registro_cp = new System.Windows.Forms.TextBox();
+            this.registro_acomulador = new System.Windows.Forms.TextBox();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -95,7 +95,7 @@
             this.cargar_archivo.TabIndex = 1;
             this.cargar_archivo.Text = "ARCHIVO";
             this.cargar_archivo.UseVisualStyleBackColor = true;
-            this.cargar_archivo.Click += new System.EventHandler(this.cargar_archivo_Click);
+            this.cargar_archivo.Click += new System.EventHandler(this.Cargar_archivo_Click);
             // 
             // richTextBox1
             // 
@@ -257,27 +257,27 @@
             this.cargar_memoria.TabIndex = 2;
             this.cargar_memoria.Text = "CARGA";
             this.cargar_memoria.UseVisualStyleBackColor = true;
-            this.cargar_memoria.Click += new System.EventHandler(this.cargar_memoria_Click);
+            this.cargar_memoria.Click += new System.EventHandler(this.Cargar_memoria_Click);
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Controls.Add(this.textBox4);
-            this.groupBox3.Controls.Add(this.textBox5);
-            this.groupBox3.Controls.Add(this.checkBox5);
-            this.groupBox3.Controls.Add(this.checkBox4);
-            this.groupBox3.Controls.Add(this.checkBox3);
-            this.groupBox3.Controls.Add(this.checkBox2);
-            this.groupBox3.Controls.Add(this.checkBox1);
-            this.groupBox3.Controls.Add(this.button2);
-            this.groupBox3.Controls.Add(this.button1);
+            this.groupBox3.Controls.Add(this.instruccion_op);
+            this.groupBox3.Controls.Add(this.instruccion_actual);
+            this.groupBox3.Controls.Add(this.bandera_negativo);
+            this.groupBox3.Controls.Add(this.bandera_cero);
+            this.groupBox3.Controls.Add(this.bandera_igual);
+            this.groupBox3.Controls.Add(this.bandera_menor);
+            this.groupBox3.Controls.Add(this.bandera_mayor);
+            this.groupBox3.Controls.Add(this.run_all);
+            this.groupBox3.Controls.Add(this.run_1);
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Controls.Add(this.textBox3);
-            this.groupBox3.Controls.Add(this.textBox2);
-            this.groupBox3.Controls.Add(this.textBox1);
+            this.groupBox3.Controls.Add(this.registro_x);
+            this.groupBox3.Controls.Add(this.registro_cp);
+            this.groupBox3.Controls.Add(this.registro_acomulador);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBox3.Location = new System.Drawing.Point(706, 0);
             this.groupBox3.Name = "groupBox3";
@@ -304,99 +304,107 @@
             this.label5.TabIndex = 15;
             this.label5.Text = " Instruccion Actual";
             // 
-            // textBox4
+            // instruccion_op
             // 
-            this.textBox4.Location = new System.Drawing.Point(9, 240);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(185, 20);
-            this.textBox4.TabIndex = 14;
+            this.instruccion_op.Location = new System.Drawing.Point(9, 240);
+            this.instruccion_op.Name = "instruccion_op";
+            this.instruccion_op.ReadOnly = true;
+            this.instruccion_op.Size = new System.Drawing.Size(185, 20);
+            this.instruccion_op.TabIndex = 14;
             // 
-            // textBox5
+            // instruccion_actual
             // 
-            this.textBox5.Location = new System.Drawing.Point(9, 180);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(185, 20);
-            this.textBox5.TabIndex = 13;
+            this.instruccion_actual.Location = new System.Drawing.Point(9, 180);
+            this.instruccion_actual.Name = "instruccion_actual";
+            this.instruccion_actual.ReadOnly = true;
+            this.instruccion_actual.Size = new System.Drawing.Size(185, 20);
+            this.instruccion_actual.TabIndex = 13;
             // 
-            // checkBox5
+            // bandera_negativo
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(47, 122);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBox5.Size = new System.Drawing.Size(29, 17);
-            this.checkBox5.TabIndex = 12;
-            this.checkBox5.Text = "-";
-            this.checkBox5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox5.UseVisualStyleBackColor = true;
+            this.bandera_negativo.AutoSize = true;
+            this.bandera_negativo.Enabled = false;
+            this.bandera_negativo.Location = new System.Drawing.Point(47, 122);
+            this.bandera_negativo.Name = "bandera_negativo";
+            this.bandera_negativo.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.bandera_negativo.Size = new System.Drawing.Size(29, 17);
+            this.bandera_negativo.TabIndex = 12;
+            this.bandera_negativo.Text = "-";
+            this.bandera_negativo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.bandera_negativo.UseVisualStyleBackColor = true;
             // 
-            // checkBox4
+            // bandera_cero
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(9, 122);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBox4.Size = new System.Drawing.Size(32, 17);
-            this.checkBox4.TabIndex = 11;
-            this.checkBox4.Text = "0";
-            this.checkBox4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.bandera_cero.AutoSize = true;
+            this.bandera_cero.Enabled = false;
+            this.bandera_cero.Location = new System.Drawing.Point(9, 122);
+            this.bandera_cero.Name = "bandera_cero";
+            this.bandera_cero.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.bandera_cero.Size = new System.Drawing.Size(32, 17);
+            this.bandera_cero.TabIndex = 11;
+            this.bandera_cero.Text = "0";
+            this.bandera_cero.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.bandera_cero.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // bandera_igual
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(151, 122);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBox3.Size = new System.Drawing.Size(32, 17);
-            this.checkBox3.TabIndex = 10;
-            this.checkBox3.Text = "=";
-            this.checkBox3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.bandera_igual.AutoSize = true;
+            this.bandera_igual.Enabled = false;
+            this.bandera_igual.Location = new System.Drawing.Point(151, 122);
+            this.bandera_igual.Name = "bandera_igual";
+            this.bandera_igual.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.bandera_igual.Size = new System.Drawing.Size(32, 17);
+            this.bandera_igual.TabIndex = 10;
+            this.bandera_igual.Text = "=";
+            this.bandera_igual.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.bandera_igual.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // bandera_menor
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(113, 122);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBox2.Size = new System.Drawing.Size(32, 17);
-            this.checkBox2.TabIndex = 9;
-            this.checkBox2.Text = "<";
-            this.checkBox2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.bandera_menor.AutoSize = true;
+            this.bandera_menor.Enabled = false;
+            this.bandera_menor.Location = new System.Drawing.Point(113, 122);
+            this.bandera_menor.Name = "bandera_menor";
+            this.bandera_menor.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.bandera_menor.Size = new System.Drawing.Size(32, 17);
+            this.bandera_menor.TabIndex = 9;
+            this.bandera_menor.Text = "<";
+            this.bandera_menor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.bandera_menor.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // bandera_mayor
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(82, 122);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBox1.Size = new System.Drawing.Size(32, 17);
-            this.checkBox1.TabIndex = 8;
-            this.checkBox1.Text = ">";
-            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.bandera_mayor.AutoSize = true;
+            this.bandera_mayor.Enabled = false;
+            this.bandera_mayor.Location = new System.Drawing.Point(82, 122);
+            this.bandera_mayor.Name = "bandera_mayor";
+            this.bandera_mayor.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.bandera_mayor.Size = new System.Drawing.Size(32, 17);
+            this.bandera_mayor.TabIndex = 8;
+            this.bandera_mayor.Text = ">";
+            this.bandera_mayor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.bandera_mayor.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // run_all
             // 
-            this.button2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.button2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button2.Location = new System.Drawing.Point(119, 396);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 7;
-            this.button2.Text = "RUN ALL";
-            this.button2.UseVisualStyleBackColor = false;
+            this.run_all.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.run_all.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.run_all.Location = new System.Drawing.Point(119, 396);
+            this.run_all.Name = "run_all";
+            this.run_all.Size = new System.Drawing.Size(75, 23);
+            this.run_all.TabIndex = 7;
+            this.run_all.Text = "RUN ALL";
+            this.run_all.UseVisualStyleBackColor = false;
             // 
-            // button1
+            // run_1
             // 
-            this.button1.Location = new System.Drawing.Point(9, 396);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "RUN 1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.run_1.Location = new System.Drawing.Point(9, 396);
+            this.run_1.Name = "run_1";
+            this.run_1.Size = new System.Drawing.Size(75, 23);
+            this.run_1.TabIndex = 6;
+            this.run_1.Text = "RUN 1";
+            this.run_1.UseVisualStyleBackColor = true;
+            this.run_1.Click += new System.EventHandler(this.Run1_Click);
             // 
             // label3
             // 
@@ -425,26 +433,29 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "A";
             // 
-            // textBox3
+            // registro_x
             // 
-            this.textBox3.Location = new System.Drawing.Point(41, 60);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(153, 20);
-            this.textBox3.TabIndex = 2;
+            this.registro_x.Location = new System.Drawing.Point(41, 60);
+            this.registro_x.Name = "registro_x";
+            this.registro_x.ReadOnly = true;
+            this.registro_x.Size = new System.Drawing.Size(153, 20);
+            this.registro_x.TabIndex = 2;
             // 
-            // textBox2
+            // registro_cp
             // 
-            this.textBox2.Location = new System.Drawing.Point(41, 86);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(153, 20);
-            this.textBox2.TabIndex = 1;
+            this.registro_cp.Location = new System.Drawing.Point(41, 86);
+            this.registro_cp.Name = "registro_cp";
+            this.registro_cp.ReadOnly = true;
+            this.registro_cp.Size = new System.Drawing.Size(153, 20);
+            this.registro_cp.TabIndex = 1;
             // 
-            // textBox1
+            // registro_acomulador
             // 
-            this.textBox1.Location = new System.Drawing.Point(41, 34);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(153, 20);
-            this.textBox1.TabIndex = 0;
+            this.registro_acomulador.Location = new System.Drawing.Point(41, 34);
+            this.registro_acomulador.Name = "registro_acomulador";
+            this.registro_acomulador.ReadOnly = true;
+            this.registro_acomulador.Size = new System.Drawing.Size(153, 20);
+            this.registro_acomulador.TabIndex = 0;
             // 
             // richTextBox2
             // 
@@ -485,23 +496,23 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button cargar_memoria;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox registro_x;
+        private System.Windows.Forms.TextBox registro_cp;
+        private System.Windows.Forms.TextBox registro_acomulador;
+        private System.Windows.Forms.Button run_all;
+        private System.Windows.Forms.Button run_1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox bandera_mayor;
+        private System.Windows.Forms.CheckBox bandera_negativo;
+        private System.Windows.Forms.CheckBox bandera_cero;
+        private System.Windows.Forms.CheckBox bandera_igual;
+        private System.Windows.Forms.CheckBox bandera_menor;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox instruccion_op;
+        private System.Windows.Forms.TextBox instruccion_actual;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;

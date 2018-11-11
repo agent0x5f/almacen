@@ -14,16 +14,30 @@ namespace maquina_virtual_abc
     public partial class Form1 : Form
     {
         int[,] memoria = new int[16, 16];
+        int dir_datos = 0;
+        int num_datos = 0;
+        int dir_codigo = 0;
+        int valor_leido = 0;
+        bool mayor = true;
+        bool menor = true;
+        bool igual = true;
+        bool cero = true;
+        bool neg = true;
+        int cp = 0;
+        int acu = 0;
+        int x = 0;
+        int i_actual = 0;
+        int i_actual_p = 0;
 
-        void procesa()
+        void Procesa()
         {
             //lee los valores del archivo    
             string aux = richTextBox1.Text;
+            dir_datos = 0;
+            num_datos = 0;
+            dir_codigo = 0;
+            valor_leido = 0;
 
-            int dir_datos = 0;
-            int num_datos = 0;
-            int dir_codigo = 0;
-            int valor_leido = 0;
             for (int x = 0; x < aux.Length || valor_leido == 3; x++) //recorre el textbox
             {
                 int cont = 0;
@@ -141,7 +155,7 @@ namespace maquina_virtual_abc
             dataGridView1.Rows.Add(15);
         }   
 
-        private void cargar_archivo_Click(object sender, EventArgs e)
+        private void Cargar_archivo_Click(object sender, EventArgs e)
         {
             OpenFileDialog lector = new OpenFileDialog();
 
@@ -154,7 +168,7 @@ namespace maquina_virtual_abc
             }
         }
 
-        private void cargar_memoria_Click(object sender, EventArgs e)
+        private void Cargar_memoria_Click(object sender, EventArgs e)
         {
             //inicializa la variable matriz
             for (int x = 0; x < memoria.GetLength(0); x++)
@@ -162,7 +176,7 @@ namespace maquina_virtual_abc
                     memoria[x, y] = 999;
 
             //magia
-            procesa();
+            Procesa();
 
             //escribe a la tabla
             for (int x = 0; x < memoria.GetLength(0); x++)
@@ -178,9 +192,29 @@ namespace maquina_virtual_abc
                         dataGridView1.Rows[x].Cells[y].Style.BackColor = Color.White;
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        void Actualiza()
+        {
+            //actualiza la ventana con el estado actual de los registros
+            bandera_cero.Checked = cero;
+            bandera_negativo.Checked = neg;
+            bandera_mayor.Checked = mayor;
+            bandera_menor.Checked = menor;
+            bandera_igual.Checked = igual;
+            registro_cp.Text = cp.ToString();
+            registro_acomulador.Text = acu.ToString();
+            registro_x.Text = x.ToString();
+            instruccion_actual.Text = i_actual.ToString();
+            instruccion_op.Text = i_actual_p.ToString();
+        }
+        //ejecuta una linea de codigo
+        private void Run1_Click(object sender, EventArgs e)
+        {
+            Actualiza();
         }
     }
 }
