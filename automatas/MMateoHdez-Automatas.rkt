@@ -628,7 +628,9 @@
           ))
     
     (define/public (tranz L1 S)          
-    (remove-duplicates(append*(map(λ(l)(tran l S))L1)
+    (filtrado(append*(map(λ(l)(if (symbol?(tran l S))
+                                  (list (tran l S))
+                                  (tran l S)))L1)
           )))
     
     ;aceptor
@@ -860,10 +862,10 @@
                      T;tomadas de este conjunto
                       )))
 
-    
+    ;(tranz '(b z) '1))-->'(b c d)
 (define/public (tranz L1 S)          
-    (remove-duplicates(append*(map(λ(l)(tran l S))L1)
-          )))
+    (append*(map(λ(l)(tran l S))L1)
+          ))
 
     ;generalizacion de la transicion
     ;determina el estado final al que AFD accede despues de leer todas las letras de la palabra
@@ -1056,59 +1058,41 @@
                            ))
                            res)))))
 
-
-
-;tarea 2.06
-;diseña un af que acepte las palabras que inician con 2 unos y terminan con 0 ó 1
-;ej:110,111,1101,1111.
-;pero no 100,101...
-;a)archivo de texto  ;OK
-;b)afn%   ;OK
-;c)convertir a afd  ;TERMINAR
-;d)renombra los estados a s1,s2,...,sN ;OK?
-;e)quita los estados innacesibles  ;OK
-;f)reduce los estados equivalentes
-;(define d0X (file->af "d0X.dat")) ;a,b,c,d
-;(define d0XT (reductor(reduce-ina d0X))) ;e,f
-;reductor de automata por clases de equivalencia
-
-
 ;convertidor 2.0
 ;debo corregir, revisar el vacio y el hacia nada
-(define Afn->afd
+(define afn->afd
   (λ(N [n 0]) ;<--afn
-    (printf "n")
     (let* ((conf (info-afd N))
            (E (list-ref conf 0))
            (S (list-ref conf 1))
            (e0 (list-ref conf 2))
            (A (list-ref conf 3))
            (T '())
-           (Es (map(λ(e)   ;'(1 2 3)-->'((1)(2)(3))
-                     (if(neg(list? e))(list e)e))E))
+           (Es (filtrado(map(λ(e)   ;'(1 2 3)-->'((1)(2)(3))
+                     (if(neg(list? e))(list e)e))E)))
 
-           (Ex (append*(map(λ(e)  ;genera nuevos e, puede tener viejos
+           (Ex (filtrado(append*(map(λ(e)  ;genera nuevos e, puede tener viejos
                      (map(λ(s)
                            (send N tranz (if(neg(list? e))
                                             (list e)
                                             e)
                                  s)
-                                )S))E)))
+                                )S))E))))
            (Tx                    ;genera nuevos t, puede tener viejos
             (filter (λ(w)(> (length w) 2))
             (append*
                   (map(λ(e)             
                      (map(λ(s)
                            (append* (list e) (list s)
-                               (list(list(send N tranz(if(neg(list? e))
-                                                         (list e)e) s)))
+                               (list(filtrado(list(send N tranz(if(neg(list? e))
+                                                         (list e)e) s))))
                                     
-                                    ))S))E)
+                                    ))S))(filtrado E))
                         )
                       )
                         )
            
-           (Exu(remove-duplicates(diferencia Ex Es)))
+           (Exu(filtrado(diferencia Ex Es)))
 
            (As (map(λ(e)
                      (if(neg(list? e))(list e)e))A))
@@ -1124,10 +1108,8 @@
       )
     (if (empty? Exu)
     afx
-   (Afn->afd afx (+ n 1)))
+   (afn->afd afx (+ n 1)))
     )))
-
-;(define n05 (file->af "n05.dat.txt"))
 
 ;====================================================================================================
 ;crea una funcion homomorfa
@@ -1257,7 +1239,7 @@
       )))
 
     (define/public (tranz L1 S)          
-    (remove-duplicates(append*(map(λ(l)(tran l S))L1)
+    (filtrado(append*(map(λ(l)(tran l S))L1)
           )))
 
     ;generalizacion de la transicion
@@ -1371,4 +1353,82 @@
             )
           (new afn%[AF-conf(list E S e0 A T)])
           )))
-(define e01 (file->af "e01.dat.txt"))
+
+;(=== '(a b c) '(b c a))-> #t
+(define ===
+  (λ(L1 L2)
+    (if (conj=? L1 L2)
+    '()
+     (list L2)
+    )))
+
+(define ===*
+  (λ(L1 L2)
+     (union (list L1) (remove-duplicates(append*
+                (map(λ(e)(=== L1 e))L2))))))
+
+;prueba si A es un subconjunto de B
+;(subconjunto? A B) --> booleano
+;A : conjunto
+;B : conjunto
+(define subconjunto?
+  (λ(A B)
+    (cond ((vacio? A)#t)
+          ((en? (car A) B)(subconjunto? (cdr A)B))
+           (else #f))))
+           
+;conjuntos iguales
+;(conj=? A B) --> booleano
+;A : conjunto
+;B : conjunto
+(define conj=?
+  (λ(A B)
+    (y(subconjunto? A B)(subconjunto? B A))))
+
+;((append*(map(λ(i)(=== i (car L1)))L1))))) 
+
+;'((1 2 4)(2 4 1)(1 2 3))-->'((1 2 4)(1 2 3))
+(define filtrado
+  (λ(L)
+    (if (list? L)
+    (map(λ(k)(if(=(card k)1)(car k)k))
+ (if (list? (map(λ(e)(ordena e))(sym->lst L)))
+     (remove-duplicates(map(λ(e)(ordena e))(sym->lst L)))
+     (map(λ(e)(ordena e))(sym->lst L))
+    ))L)
+    )
+  )
+
+(define ordena
+  (λ(L)
+    (cond((empty? L)L)
+      ((number?(car L))(sort L <))        
+       (else(map(λ(e)(string->symbol e))
+       (sort (map(λ(e)(symbol->string e))L) string<?))))))
+
+(define sym->lst
+ (λ(L)
+   (map(λ(k)(if (symbol? k)(list k)k))L)))
+
+(define AFN->AFD
+  (λ(af)
+    (let* ((nE (filtrado(send(afn->afd n03)get-E)))
+           (nS (send n03 get-S))
+            (ne0 (send n03 get-e0))
+             (nA (filtrado(send (afn->afd n03)get-A)))
+              (nT (append*(map(λ(e)             
+                     (map(λ(s)
+                           (append* (list e) (list s)
+                               (list(list(send af tranz(if(neg(list? e))
+                                                         (list e)e) s)))
+                                    
+                                    ))nS))nE))))
+      (new afd%[AF-conf(list nE nS ne0 nA nT)])
+      )
+    ))
+
+;(define e01 (file->af "e01.dat.txt"))
+(define n01 (file->af "n01.dat.txt"))
+(define n02 (file->af "n02.dat.txt"))
+(define n03 (file->af "n03.dat.txt"))
+(define web(file->af "web1.dat.txt"))
