@@ -69,6 +69,8 @@
             this.registro_cp = new System.Windows.Forms.TextBox();
             this.registro_acomulador = new System.Windows.Forms.TextBox();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.instruccion_op_val = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -261,6 +263,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.instruccion_op_val);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.instruccion_op);
@@ -289,11 +293,11 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(44, 224);
+            this.label4.Location = new System.Drawing.Point(32, 224);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(85, 13);
+            this.label4.Size = new System.Drawing.Size(44, 13);
             this.label4.TabIndex = 16;
-            this.label4.Text = "Instruccion y OP";
+            this.label4.Text = "OP DIR";
             // 
             // label5
             // 
@@ -309,7 +313,7 @@
             this.instruccion_op.Location = new System.Drawing.Point(9, 240);
             this.instruccion_op.Name = "instruccion_op";
             this.instruccion_op.ReadOnly = true;
-            this.instruccion_op.Size = new System.Drawing.Size(185, 20);
+            this.instruccion_op.Size = new System.Drawing.Size(75, 20);
             this.instruccion_op.TabIndex = 14;
             // 
             // instruccion_actual
@@ -395,6 +399,7 @@
             this.run_all.TabIndex = 7;
             this.run_all.Text = "RUN ALL";
             this.run_all.UseVisualStyleBackColor = false;
+            this.run_all.Click += new System.EventHandler(this.run_all_Click);
             // 
             // run_1
             // 
@@ -468,6 +473,23 @@
             this.richTextBox2.TabIndex = 3;
             this.richTextBox2.Text = "000\n016\n032\n048\n064\n080\n096\n112\n128\n144\n160\n176\n192\n208\n224\n240";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(116, 224);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(61, 13);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "OP VALOR";
+            // 
+            // instruccion_op_val
+            // 
+            this.instruccion_op_val.Location = new System.Drawing.Point(108, 240);
+            this.instruccion_op_val.Name = "instruccion_op_val";
+            this.instruccion_op_val.ReadOnly = true;
+            this.instruccion_op_val.Size = new System.Drawing.Size(75, 20);
+            this.instruccion_op_val.TabIndex = 17;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -531,6 +553,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column15;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column16;
         private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox instruccion_op_val;
     }
 }
 
