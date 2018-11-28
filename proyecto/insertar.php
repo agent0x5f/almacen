@@ -9,6 +9,7 @@ if($link === false){
 // Escape user inputs for security
 $nombre = mysqli_real_escape_string($link, $_REQUEST['nombre']);
 $contra = mysqli_real_escape_string($link, $_REQUEST['contra']);
+$tipo = mysqli_real_escape_string($link, $_REQUEST['tipo']);
 
 //comprueba que el usuario no este registrado
 $sql 	= "SELECT nombre FROM usuarios where nombre='$nombre'";
@@ -22,9 +23,12 @@ if ($row[0]==$nombre)
 //EL ELSE NO FUNCIONA !!!
 if ($row[0]!=$nombre)
 	{
-		$sql2 = "INSERT INTO usuarios (nombre,pass) VALUES ('$nombre', '$contra')";
-		$query2 = mysqli_query($link, $sql2);
-		print("Usuario creado.");
+	$sql2 = "INSERT INTO usuarios (nombre,pass,tipo) 
+	VALUES ('$nombre', '$contra', '$tipo')";
+	$query2 = mysqli_query($link, $sql2);
+	print("Usuario creado.");		
+	header("Location: panel.php");
+	exit();
 	}
 	 
 mysqli_close($link);

@@ -42,12 +42,23 @@ if (!$con) {
 }
 else
 {
-	$sql 	= "SELECT nombre,pass FROM usuarios where nombre='$nombre' and pass='$contra'";
+	$sql 	= "SELECT nombre,pass,tipo FROM usuarios where nombre='$nombre' and pass='$contra'";
 	$query 	= mysqli_query($con, $sql);	
 	$row = mysqli_fetch_array($query);
 
 	if ($row[0]==$nombre and $row[1]==$contra)
-		print("Bienvenido");
+		{
+		if($row[2]==2) //si es admin
+		{
+			header("Location: panel.php");
+			exit();
+		}	
+		else
+			{
+			header("Location: index.php");
+			exit();
+			}
+		}
 	else
 		print("Error-No esta registrado/Contraseña invalida");
 }

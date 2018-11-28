@@ -11,8 +11,7 @@
 <body>
 
 	<header>
-		<p id="titulo">El equipo Herrera</p> 
-		<img id="img1" src="imagenes/h.png">
+	<a href="index.php"><img id="img1" src="imagenes/titulo_web.png"></a>
 	</header>
 
 	<nav>
@@ -21,10 +20,10 @@
   			<li><a href="./quienes_somos.html"> Quienes somos </a></li>
   			<li><a href="./contacto.html"> Contacto </a></li>
   			<li><a href="./servicios.html"> Servicios </a></li>
-  			<li><a href="./contratar.php"> Contratar </a></li>
+<!-- 		<li><a href="./contratar.php"> Contratar </a></li>  -->
      		<li><a href="./chat.php"> Chat online </a></li> 
   			<li class="derecha"><a href="./registrarse.php"> Registrarse </a></li> 	
-  			<li class="derecha"><a href="./registrarse.php"> Login </a></li>		
+  			<li class="derecha"><a href="./login.php"> Login </a></li>		
 		</ul>
 	</nav>
 
@@ -34,10 +33,10 @@
 				<legend>Registrarse</legend>
 				<br>
 				<label>Nombre:</label>
-				<input type="text" name="nombre" maxlength="50">
+				<input type="text" name="nombre" maxlength="50" required>
 				<br>
 				<label>Contraseña:</label>
-				<input type="password" name="contra" maxlength="25">
+				<input type="password" name="contra" maxlength="25" required>
 				<br>
 				<input type="submit" value="Enviar">
 				<br>
