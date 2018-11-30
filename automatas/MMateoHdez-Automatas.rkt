@@ -179,9 +179,9 @@
 
 ;determina si la relacion es una funcion
 (define esFun?
-  (λ (R)
+  (λ (R #:D [D (Dominio R)])
     (para-Todo (λ (im) (= (card im)1))
-              (map (λ (x) (Imagen x R)) (Dominio R)))))
+              (map (λ (x) (Imagen x R)) D))))
 
 ;======================================================================
 ;Simbolos, alfabetos, palabras y lenguajes
@@ -602,6 +602,7 @@
     (define/public(get-e0) e0)
     (define/public(get-A) A)
     (define/public(get-T) T)
+    (define/public (get-Conf) (list E S e0 A T))
     ;transicion
     ;obtener el siguiente estado al que accede el AFD
     ;(tran e s) --> e
@@ -621,17 +622,17 @@
     ;desde un estado inicial dado
     ;(tran* a1 1 '(C C C A C C) --> 1
     ;tran*
+    ;NOTA: funciona solo con los simbolos separados por espacios '(0 1 0)
     (define/public (tran* edo palabra)
       (if (pVacia? palabra)
           edo
           (tran* (tran edo (car palabra)) (cdr palabra))
           ))
-    
+  
     (define/public (tranz L1 S)          
     (filtrado(append*(map(λ(l)(if (symbol?(tran l S))
                                   (list (tran l S))
-                                  (tran l S)))L1)
-          )))
+                                  (tran l S)))L1))))
     
     ;aceptor
     ;determina si el termino es un estado aceptor
@@ -647,7 +648,7 @@
     ;--si al terminar la palabra esta en un estado aceptor o no--
     ;w : palabra
     ;(aceptada? w)-->boleano
-    (define/public (aceptada? w)
+   (define/public (aceptada? w)
       (en?(tran* e0 w)A))
 
 ;===============================================================================================================================   
@@ -685,12 +686,7 @@
                        1))                         
                       )
                     cje))s))
-      )
-          )
-          ))
-
-
-    
+      )))) 
 ));clase afd
 
 (define creaT
@@ -701,7 +697,6 @@
 (define diferencia
   (λ (A B)
     (filter-not (λ (a) (en? a B)) A)))   
-
 
 ;'(0 q0 q3 1 q1 2 q6 q7 q1)-->'((0 q0)(0 q3)(1 q1) (2 q2)(2 q7)(2 q1))
 (define split-at-symb
@@ -850,7 +845,6 @@
     (define/public(get-A) A)
     (define/public(get-T) T)
 
-   
     ;afd
     ;(send atestn tran 2 'A)-->3
     ;afn
@@ -959,8 +953,6 @@
     (define/public (acepta? w)
       (existe-Un
        (λ(ef)(en? ef A))(analiza w)))
-
-
 ));clase afn
 
 ;Importador de archivo de texto al racket de un AF
@@ -979,33 +971,20 @@
                   (filter (λ(lst)(en?(car lst)'(** *> >*)))P3)))
            (T (append*(map(λ(lst)(lst->tr lst S))P3)))
            )      
-      (new (tipoAF T) [AF-conf (list E S e0 A T)])
+      (new (tipoAF E T) [AF-conf (list E S e0 A T)])
       )
     ))
 ;devuelve el tipo del automata dato de acuerdo a su transicion
 ; (tipoAF a) --> afd% | afn%  afe%
 (define tipoAF
-  (λ (T)
-    (cond ((esFun? T) afd%)
-          ((en? 'Z (cadr T)) afe%)
+  (λ (E T)
+    (cond ((esFun? T #:D E) afd%)
+          ((existe-Un(λ(t)(en? 'Z t))T) afe%)  ;bug con el caso de 1 sola transicion          
             (else afn%))))
-
-(define ten '(1 2 3))
-(define tln '(A B))
-(define tein '1)
-(define tan '(2))
-(define ttn '((1 A 3)(1 A 2)(2 B 1)(1 B 3)(2 A 3)(3 A 3)(3 B 3)))
-(define atestn(new afn%[AF-conf(list ten tln tein tan ttn)])) 
-;(define n02 (file->af "n02.dat"))
-;(define d01 (file->af "d01.dat"))
-;(define ntestd (file->af "ntestd.dat"))
-
 
 (define crea-tran
  (λ(afn)
    (send afn lst->one(send afn trany** (send afn get-E)(send afn get-S)))))
-
-;(define d02 (file->af "d02.dat"))
 
 ;tarea 2.04
 ;obtener los estados accesibles de un automata dado
@@ -1041,9 +1020,7 @@
            (TN (append*(map(λ(e)
                              (map(λ(s)(append (cons e(list s)) (list(send afd tran e s))))
                                  SN))
-                           EN)))
-  
-           
+                           EN)))            
                   )
       (new afd%[AF-conf(list EN SN e0N AN (reduce-aux TN))])     
        )))
@@ -1070,7 +1047,6 @@
            (T '())
            (Es (filtrado(map(λ(e)   ;'(1 2 3)-->'((1)(2)(3))
                      (if(neg(list? e))(list e)e))E)))
-
            (Ex (filtrado(append*(map(λ(e)  ;genera nuevos e, puede tener viejos
                      (map(λ(s)
                            (send N tranz (if(neg(list? e))
@@ -1085,18 +1061,12 @@
                      (map(λ(s)
                            (append* (list e) (list s)
                                (list(filtrado(list(send N tranz(if(neg(list? e))
-                                                         (list e)e) s))))
-                                    
+                                                         (list e)e) s))))                                    
                                     ))S))(filtrado E))
-                        )
-                      )
-                        )
-           
+                        )))           
            (Exu(filtrado(diferencia Ex Es)))
-
            (As (map(λ(e)
                      (if(neg(list? e))(list e)e))A))
-           
            (Axu(append* (map(λ(l)
                       (filter(λ(e)                             
                                (en? l (if(neg(list? e))
@@ -1104,13 +1074,11 @@
                                          e)
                                     ))Exu))A)))
            (afx (new afd%[AF-conf(list(union E Exu)S e0 (union A Axu)(union T Tx))])) 
-
       )
     (if (empty? Exu)
     afx
    (afn->afd afx (+ n 1)))
     )))
-
 ;====================================================================================================
 ;crea una funcion homomorfa
 (define crea-He
@@ -1127,10 +1095,10 @@
       )
     ))
 
-;; af-He(af #:prf [prf ' q]) --> afd || afn
+;; (renombra-e af #:prf [prf ' q]) --> afd || afn
 ;; funcion que hace el renombramiento de los estados del automata finito
 ;; af --> automata finito
-(define af-He
+(define renombra-e
   (λ (af #:prf [prf ' q])
     (let* ((conf (info-afn af))
            (E(car conf))
@@ -1145,41 +1113,8 @@
                    (list-ref conf 4)
                    ))
            )
-      (new (tipoAF T)[AF-conf(list nE S e0 A T)])
+      (new (tipoAF E T)[AF-conf(list nE S e0 A T)])
       )))
-
-;( define s (af-He f1 #:prf 'T)) ;;aplicando la funcion homomorfa
-; donde 'T es el prefijo junto con un consecutivo que será el nombre que se pondrá a los nuevos estado  
-; (AF->gv s) ;;--> imprime la imagen del automata
-
-
-(define hs
-  (λ (af Ns)
-    (let* ((conf (send af get-Conf))
-           (E (list-ref conf 0))
-           (Simb (list-ref conf 1))
-           (e0 (list-ref conf 2))
-           (A (list-ref conf 3))
-           (T (filter-not (λ (l) (empty? l))
-                   (append*(map (λ (x y)
-                                  (map (λ (t)
-                                         (if (equal? (second t) x)
-                                             (list (first t) y (third t))
-                                             '()
-                                             )) (list-ref conf 4)) ;;transiciones del af
-                                  ) Simb Ns)))) ;;--> asignamos diectamente los nuevos simbolos 
-          )
-      
-      (new (tipoAF T)[Ldef(list E Simb e0 A T)])
-      )
-    ))
-
-;reductor de estados equivalentes
-
-;====================================================================================================
-;(define n06 (file->af "n06.dat.txt"))
- ;(af->gv (reduce-ina(af-He(Afn->afd n06)#:prf 'q)))
-
 
 ;=========================================================================================
 ;TERCER PARCIAL AUTOMATAS
@@ -1238,6 +1173,17 @@
           (append*(map(λ(e)(eCerr e))R))
       )))
 
+    ;solo para afe
+    ;me da solo a transicion real con el simbolo
+    ;elimina las Z
+    ;supondre que el ultimo estado es el real
+    (define/public (ftr e s)
+      (if(and
+          (list?(trane e s))
+          (neg(empty?(trane e s))))
+          (last (trane e s))
+          (trane e s)))
+
     (define/public (tranz L1 S)          
     (filtrado(append*(map(λ(l)(tran l S))L1)
           )))
@@ -1273,7 +1219,6 @@
                       )
                     cje))s))
       ))
-
 ;transiciones, hacia 2 nodos
        (define/public (trany** cje s)
       (if (pVacia? s)
@@ -1289,9 +1234,7 @@
                        1))                         
                       )
                     cje))s))
-      )
-          )
-          ))
+      ))))
 
 (define/public (lst->one lst [res '()])
   (if(empty? lst)
@@ -1334,10 +1277,10 @@
     (define/public (acepta? w)
       (existe-Un
        (λ(ef)(en? ef A))(analiza w)))
-
     
 ));clase afe
 
+;convertidor de un automata finito epsilon a uno no determinista
 (define afe->afn
   (λ(afe)
     (let* ((E(send afe get-E))
@@ -1347,45 +1290,12 @@
           (T(append*(map(λ(e)
             (append*(map(λ(s)
             (map(λ(q)
-            (list e s q))(send afe trane e s)))
+            (list e s q))(send afe ftr e s)))
                           S)))
                           E)))
             )
           (new afn%[AF-conf(list E S e0 A T)])
           )))
-
-;(=== '(a b c) '(b c a))-> #t
-(define ===
-  (λ(L1 L2)
-    (if (conj=? L1 L2)
-    '()
-     (list L2)
-    )))
-
-(define ===*
-  (λ(L1 L2)
-     (union (list L1) (remove-duplicates(append*
-                (map(λ(e)(=== L1 e))L2))))))
-
-;prueba si A es un subconjunto de B
-;(subconjunto? A B) --> booleano
-;A : conjunto
-;B : conjunto
-(define subconjunto?
-  (λ(A B)
-    (cond ((vacio? A)#t)
-          ((en? (car A) B)(subconjunto? (cdr A)B))
-           (else #f))))
-           
-;conjuntos iguales
-;(conj=? A B) --> booleano
-;A : conjunto
-;B : conjunto
-(define conj=?
-  (λ(A B)
-    (y(subconjunto? A B)(subconjunto? B A))))
-
-;((append*(map(λ(i)(=== i (car L1)))L1))))) 
 
 ;'((1 2 4)(2 4 1)(1 2 3))-->'((1 2 4)(1 2 3))
 (define filtrado
@@ -1399,6 +1309,9 @@
     )
   )
 
+;ordena listas con simbolos o numeros pero no con ambos
+;(ordena '(D J A))-->'(A D J)
+;(ordena '(8 3 2))-->'(2 3 8)
 (define ordena
   (λ(L)
     (cond((empty? L)L)
@@ -1410,25 +1323,330 @@
  (λ(L)
    (map(λ(k)(if (symbol? k)(list k)k))L)))
 
-(define AFN->AFD
-  (λ(af)
-    (let* ((nE (filtrado(send(afn->afd n03)get-E)))
-           (nS (send n03 get-S))
-            (ne0 (send n03 get-e0))
-             (nA (filtrado(send (afn->afd n03)get-A)))
-              (nT (append*(map(λ(e)             
-                     (map(λ(s)
-                           (append* (list e) (list s)
-                               (list(list(send af tranz(if(neg(list? e))
-                                                         (list e)e) s)))
-                                    
-                                    ))nS))nE))))
-      (new afd%[AF-conf(list nE nS ne0 nA nT)])
-      )
+;reductor de estados por clases de equivalencia
+(define subconjunto?
+  (λ (A B)
+    (cond ((vacio? A) #t)    
+    ( (en? (car A) B ) (subconjunto? ( cdr A) B ))
+     ( else #f))))
+
+; C=? ---> Booleano
+; A : Conjunto
+; B : Conjunto
+(define C=?
+  (λ (A B)
+  ( y ( subconjunto? A B) (subconjunto? B A) )))
+
+(define Eeqv?
+  (λ (e1 e2 KK af)
+    (andmap (λ (s)
+           (ormap(λ (ki)
+                   (and (en? (send af tran e1 s) ki)
+                        (en? (send af tran e2 s) ki)))
+                   KK))
+                 (cadr (send af get-Conf)))))
+
+(define splitK
+  (λ (k kk af [res '()])
+    (if (empty? k)
+           res
+           (let ((Eqv1 (filter (λ(q) (Eeqv? (car k) q kk af)) k)))                  
+                  (splitK (diferencia k Eqv1) kk af (cons Eqv1 res))))))
+
+(define splitKK
+  (λ (kk Kref af [res '()])
+    ;(printf "kk: ~a~n" kk)
+    (if (empty? kk)
+           res
+           (splitKK (cdr kk) Kref af (append (splitK (car kk) Kref af) res)))))       
+
+(define K0
+  (λ (afd)
+    (list (diferencia (send afd get-E)
+                      (send afd get-A))
+          (send afd get-A) )))
+
+ (define nEq
+   (λ (af [K (K0 af)] [Kant '()])
+    ; (printf "nEq---~n")
+     (if (C=? K Kant)
+          K
+         (nEq af (splitKK K K af) K))))
+
+(define RedEeqv
+  (λ (af)
+    (let* ((conf (send af get-Conf))
+           (SD (list-ref conf 1)) 
+           (e0D (list-ref conf 2))
+           (AD (list-ref conf 3))
+           (E (nEq af))
+           (S (list-ref conf 1))
+           (e0 (car  (filter (λ (q) (en? e0D q)) E))) 
+           (A  (filter-not (λ (q) (empty? (interseccion q AD))) E))
+           (T (append* (map (λ (e)
+                              (map (λ (s)
+                                 (list e s (car (filter (λ (q)
+                                                         (en? (send af tran (car e) s) q))
+                                               E))))
+                              S))
+                       E)))
+            )
+     (new afd% [AF-conf (list E S e0 A T)])
+      )))
+;tarea 3.04
+;(send(reduce-ina(renombra-e (RedEeqv (afn->afd(afe->afn (file->af "e01.dat.txt"))))))get-T)
+
+
+;tarea 3.05
+;union de af
+;(af-union X Y)-->afe%
+;X,Y : af
+;no renombra los automatas
+(define af-union
+  (λ(X Y)
+    (let*((J X)
+          (K Y)
+          (E (union*(send J get-E)(send K get-E)'(i)))
+          (S (union(send J get-S)(send K get-S)))
+          (e0 'i)
+          (A (union(send J get-A)(send K get-A)))
+          (T (union*(send J get-T)(send K get-T)
+                    (list(list 'i 'Z (send J get-e0)))
+                    (list(list 'i 'Z (send K get-e0))))))
+    (new afe%[AF-conf(list E S e0 A T)]))))
+
+;union de af
+;(af-u X Y)-->afe%
+;X,Y : af
+;si renombra los automatas
+(define af-u
+  (λ(X Y)
+    (let*((J (renombra-e #:prf 'A X))
+          (K (renombra-e #:prf 'B Y))
+          (E (union*(send J get-E)(send K get-E)'(i)))
+          (S (union(send J get-S)(send K get-S)))
+          (e0 'i)
+          (A (union(send J get-A)(send K get-A)))
+          (T (union*(send J get-T)(send K get-T)
+                    (list(list 'i 'Z (send J get-e0)))
+                    (list(list 'i 'Z (send K get-e0))))))
+    (new afe%[AF-conf(list E S e0 A T)]))))
+
+;union generalizada de af
+;(af-union* LC )-->afe%
+;LC: n af
+(define af-union*
+  (λ  LC    
+    (define af-union*aux
+      (λ (lc [res af-vacio])
+        (if(vacio? lc)
+           res
+           (af-union*aux(cdr lc)(af-union(car lc)res)))))
+(if(vacio? LC)
+   af-vacio
+   (af-union*aux LC))))
+
+;af vacio
+(define af-vacio
+  (new afd%[AF-conf(list '(q0) '() 'q0 '() '())]))
+
+;version 2 de la union generalizada de af
+;(af-u* LC )-->afe%
+;LC: n af
+(define af-u*
+  (λ LC
+    (define af-u*aux
+      (λ(lc lst[res af-vacio])
+        (if(vacio? lc)
+           res
+           (af-u*aux(cdr lc)
+                    (cdr lst)
+   (af-union(renombra-e #:prf(car lst)(car lc))res))                    
+           )));af-u*aux
+(if(vacio? LC)
+   af-vacio
+   (af-u*aux LC
+ (map(λ(i)(string->symbol
+           (format "~s~s" 'N i)))
+     (build-list (card LC) values))))))
+
+(define q1 (file->af "q1.dat.txt"))
+(define q2 (file->af "q2.dat.txt"))
+(define q3 (file->af "q3.dat.txt"))
+;(define e01 (file->af "e01.dat.txt"))
+;(af->gv (renombra-e(reduce-ina(afn->afd (afe->afn e01)))))
+(define ej1n (file->af "ej1.dat.txt"))
+(define ej1d (reduce-ina(afn->afd ej1n)))
+(define ej1dr (renombra-e ej1d))  ;convertido afn->afd :)
+(define ej2 (file->af "e2.dat.txt"))  ;para estados equivalentes
+
+(define af-concat
+  (λ(X Y)
+   (let*((Xdef(renombra-e #:prf 'X X))
+          (Ydef(renombra-e #:prf 'Y Y))
+          (E(append '(i)(send Xdef get-E)(send Ydef get-E)))
+          (S(union(send Xdef get-S)(send Ydef get-S)))
+          (e0(send Xdef get-e0))
+          (A(send Ydef get-A))
+          (T(append(send Xdef get-T)
+                   (send Ydef get-T)
+                   (map(λ(a)(list a 'Z 'i))
+                   (send Xdef get-A))
+            (list(list 'i 'Z (send Ydef get-e0))))))
+    (new afe% [AF-conf(list E S e0 A T)]))))                   
+
+;generalizacion de la concanetacion de autommatas finitos
+;(af-concat* LC)-->afe%
+;LC : lista de automatas
+(define af-concat*
+  (λ  LC    
+    (define af-concat*aux
+      (λ (lc [res af-vacio])
+        (if(vacio? lc)
+           res
+           (af-concat*aux(cdr lc)(af-concat(car lc)res)))))
+(if(vacio? LC)
+   af-vacio
+   (af-concat*aux (cdr LC)(car LC)))))
+
+;potencia de un automata finito
+;(af-pot AF n)-->afe%
+;AF: automata finito
+;n entero positivo
+(define af-pot
+  (λ(X n [res af-pot0])
+      (if(zero? n)
+         res
+         (af-pot X(- n 1)(af-concat res X)))
     ))
 
-;(define e01 (file->af "e01.dat.txt"))
-(define n01 (file->af "n01.dat.txt"))
-(define n02 (file->af "n02.dat.txt"))
-(define n03 (file->af "n03.dat.txt"))
-(define web(file->af "web1.dat.txt"))
+(define p1(file->af "p1.dat.txt"))
+
+(define af-pot0
+  (new afe%[AF-conf(list '(q0 q1)
+                         '()
+                         'q0
+                         '(q1)
+                         '((q0 Z q1)(q0 Z q0)))]))
+;segunda T para evitar bug de af->gv
+;(send(reduce-ina(renombra-e (RedEeqv (afn->afd(afe->afn (file->af "e01.dat.txt"))))))get-T)
+
+(define afe->afdm
+  (λ(AFE)
+    (reduce-ina(renombra-e(RedEeqv
+                           (afn->afd(afe->afn AFE)))))))
+(define afn->afdm
+  (λ(AFN)
+     (reduce-ina(renombra-e(RedEeqv
+                            (afn->afd AFN))))))
+
+;estrella de kleene para automatas finitos
+(define af-*
+  (λ(X)
+    (let*((Xd (renombra-e #:prf 'X X))
+           (E(append '(i f)(send Xd get-E)))
+           (T(append (send Xd get-T)
+    (map(λ(a)(list a 'Z 'f))(send Xd get-A))
+    (list (list 'i 'Z(send Xd get-e0))
+    '(f Z i)))))
+(new afe%[AF-conf
+    (list E (send Xd get-S)'i(cons 'f (send Xd get-A))T)]
+     ))))
+
+;genera un af que acepte la letra dada
+;(genera-af 's)-->afd%
+(define genera-af
+  (λ(s)
+    (new afd% [AF-conf(list '(q0 q1) '(s) 'q0 '(q1)
+        ;                    (list(list 'q0 s 'q1)(list 'q0 'Z 'q0)))])))  ;af->gv t-fix
+                            (list(list 'q0 s 'q1)))])))
+
+;generalizacion de genera un af con una lista de letras
+;(genera-af* Ls)-->afe%
+;(genera-af* '(a b c))-->afe%
+(define genera-af*
+  (λ(Ls)
+    (apply af-concat*(map(λ(s)(genera-af s))(reverse Ls)))))
+
+;(Genera-af '((m a t e)(f i s i)(c o m p)))-->afe%
+(define Genera-af
+  (λ(Lw)
+    (apply af-union*
+    (map(λ(w)(genera-af* w))Lw))))
+
+;(Genera-AF str)-->afe%
+;(Genera-AF "hola")-->afe%
+(define Genera-AF
+  (λ(str)
+    (genera-af*
+    (map(λ(s)(let((tmp(string->number s)))
+               (if tmp tmp(string->symbol s))))
+    (map(λ(i)(substring str i (+ i 1)))
+        (build-list(string-length str)values))))))
+                                    
+;(Genera-AF* "if" "else" "cond")-->afe%
+(define Genera-AF*
+  (λ LW
+    (apply af-union*(map(λ(f)(Genera-AF f))LW))))
+
+;(lector "index.txt")-->afe%
+(define lector
+  (λ(arch)
+    (let((af(apply af-u*(map(λ(w)(Genera-AF w))
+       (flatten(map(λ(w)(string-split w))(file->lines arch)))))))
+    (new afe%[AF-conf(list (send af get-E)
+                         (send af get-S)
+                         (send af get-e0)
+                         (send af get-A)
+                         (remove '(i Z i)(send af get-T)))])
+    )))
+
+(define dic (lector "index.txt"))
+(define arc (lector "archivo.txt"))
+(define arc2 (lector "archivo2.txt"))
+;proyecto  final
+;#t si los autmatas aceptan el mismo lenguaje
+;#f en otro caso
+;X : automata generado por el lector con entrada de un archivo Z
+;Y : automata generado por el lector con entrada del diccionrio
+;(final dic arc)-->#bool
+(define final
+  (λ(X Y)
+    (equal? (send (afn->afd(afe->afn X))lenguaje)
+           (send (afn->afd(afe->afn Y))lenguaje))))
+
+;me dice si la palabra tiene espacios o no
+(define by
+  (λ(w[pos 0])
+    (cond((equal?(string-ref w pos)#\space)#t)
+         ((equal? (+ pos 1) (string-length w))#f)
+       (else(by w (+ 1 pos))))))
+
+(define bx
+  (λ(w[pos 0])
+    (cond((equal?(string-ref w pos)#\space)(bl1 w))
+         ((equal? (+ pos 1) (string-length w))w)
+       (else(bx w (+ 1 pos))))))
+
+(define bl
+  (λ(w [pos 0])
+    (if(equal? (string-ref w pos)#\space)         
+       pos
+       (bl w (+ pos 1)))))
+
+(define bl1
+  (λ(w)
+    (list(substring w 0 (bl w))
+     (substring w(+ (bl w)1))
+         )))
+
+(define blr
+  (λ(w [res '()])
+    (if(empty? w)
+     res
+        (blr (cdr w)(list res (bx(car(cdr w)))) )
+       )))
+
+(define bl2
+  (λ(w)
+    (apply bl1 w)))
