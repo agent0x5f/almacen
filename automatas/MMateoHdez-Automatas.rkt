@@ -953,6 +953,14 @@
     (define/public (acepta? w)
       (existe-Un
        (λ(ef)(en? ef A))(analiza w)))
+
+    ;lenguaje del afn
+    ;produce el conjunto de palabras aceptadas por el automata
+    ;(leng [k])-->lenguaje
+    ;k : entero mayor o igual que cero
+    (define/public (lenguaje [k 6])
+      (let ((S* (nKleene S k)))
+        (filter (λ (w) (acepta? w)) S*)))
 ));clase afn
 
 ;Importador de archivo de texto al racket de un AF
@@ -971,14 +979,14 @@
                   (filter (λ(lst)(en?(car lst)'(** *> >*)))P3)))
            (T (append*(map(λ(lst)(lst->tr lst S))P3)))
            )      
-      (new (tipoAF E T) [AF-conf (list E S e0 A T)])
+      (new (tipoAF T) [AF-conf (list E S e0 A T)])
       )
     ))
 ;devuelve el tipo del automata dato de acuerdo a su transicion
 ; (tipoAF a) --> afd% | afn%  afe%
 (define tipoAF
-  (λ (E T)
-    (cond ((esFun? T #:D E) afd%)
+  (λ (T)
+    (cond ((esFun? T) afd%)
           ((existe-Un(λ(t)(en? 'Z t))T) afe%)  ;bug con el caso de 1 sola transicion          
             (else afn%))))
 
@@ -1113,7 +1121,7 @@
                    (list-ref conf 4)
                    ))
            )
-      (new (tipoAF E T)[AF-conf(list nE S e0 A T)])
+      (new (tipoAF T)[AF-conf(list nE S e0 A T)])
       )))
 
 ;=========================================================================================
@@ -1290,7 +1298,7 @@
           (T(append*(map(λ(e)
             (append*(map(λ(s)
             (map(λ(q)
-            (list e s q))(send afe ftr e s)))
+            (list e s q))(send afe trane e s)))
                           S)))
                           E)))
             )
@@ -1557,7 +1565,7 @@
 ;(genera-af 's)-->afd%
 (define genera-af
   (λ(s)
-    (new afd% [AF-conf(list '(q0 q1) '(s) 'q0 '(q1)
+    (new afe% [AF-conf(list '(q0 q1) (list s) 'q0 '(q1)
         ;                    (list(list 'q0 s 'q1)(list 'q0 'Z 'q0)))])))  ;af->gv t-fix
                             (list(list 'q0 s 'q1)))])))
 
@@ -1612,8 +1620,8 @@
 ;(final dic arc)-->#bool
 (define final
   (λ(X Y)
-    (equal? (send (afn->afd(afe->afn X))lenguaje)
-           (send (afn->afd(afe->afn Y))lenguaje))))
+    (equal? (send (afn->afd(afe->afn X))lenguaje 4)
+           (send (afn->afd(afe->afn Y))lenguaje 4))))
 
 ;me dice si la palabra tiene espacios o no
 (define by
@@ -1650,3 +1658,56 @@
 (define bl2
   (λ(w)
     (apply bl1 w)))
+
+;(af->gv (renombra-e(reduce-ina(afn->afd(afe->afn dic))) #:prf 'q))
+
+
+;=====EXAMEN 3ER PARCIAL==================================
+;inciso A
+(define null (Genera-AF "N"));simbolo nulo
+(define num(lector "examena-d.txt"));{0...9} 
+(define e (Genera-AF "e"));simbolo de exponente
+(define p (genera-af "."));punto decimal
+(define n (genera-af "-"));signo negativo
+(define num* (af-* num));operador kleene
+(define x1 num*)
+(define x20 (af-concat* num* num p));concat* la entrada alrevez
+(define x2 (af-union null x20))
+(define x3 (af-union null e))
+(define x4 (af-union null n))
+(define x5 (af-concat* num* num))
+(define xx1 (af-concat* x5 x4 x3 x2 x1))
+(define x6 (af-union xx1 e))
+(define x7 x4)
+(define x8 x5)
+;automata final sin reducir
+;(define xx (af-concat* x8 x7 x6))
+;============Respuesta final al punto A==================
+;(define respA (afe->afdm xx)) ;descomentar xx
+;========================================================
+;ejemplos de numeros aceptados
+(define n1 '(3))
+(define n2 '(3 4))
+(define n3 '(3 4 p 3 4))
+(define n5 '(3 4 p 3 4 e 3 4))
+(define n6 '(3 4 p 3 4 e j 3 4))
+(define n7 '(3 4 e 3 4))
+(define n8 '(3 4 e j 3 4))
+(define n9 '(p 3 4 e 3 4))
+;ejemplo de forma de uso
+;(send(afe->afn (af-concat x1 x2))acepta? '(3 p 3 4))
+;(send(afe->afn (af-concat x1 x2))acepta? n3)
+
+;=============Respuesta al punto B=======================
+;(define exa-b (lector "examenb.txt"))
+;llamada en consola:
+;(afe->afdm exa-b)
+;========================================================
+
+;=============Respuesta al punto C=======================
+(define exa-c1 (file->af "examenc.txt"))
+(define exa-c2(file->af "examenc-b.txt"))
+(define exa-c (af-concat exa-c1 exa-c2))
+;AFD minimo Respuesta final
+(define respC (afe->afdm exa-c))
+;========================================================

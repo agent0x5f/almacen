@@ -1,0 +1,5 @@
+>> q0 U q1 J A T
+-- q1 J q2 U A T
+-- q2 A q3 U J T
+-- q3 T q4 U J A
+** q4 U q4 J q4 A q4 T q4
