@@ -1478,15 +1478,15 @@
            (format "~s~s" 'N i)))
      (build-list (card LC) values))))))
 
-(define q1 (file->af "q1.dat.txt"))
-(define q2 (file->af "q2.dat.txt"))
-(define q3 (file->af "q3.dat.txt"))
+;(define q1 (file->af "q1.dat.txt"))
+;(define q2 (file->af "q2.dat.txt"))
+;(define q3 (file->af "q3.dat.txt"))
 ;(define e01 (file->af "e01.dat.txt"))
 ;(af->gv (renombra-e(reduce-ina(afn->afd (afe->afn e01)))))
-(define ej1n (file->af "ej1.dat.txt"))
-(define ej1d (reduce-ina(afn->afd ej1n)))
-(define ej1dr (renombra-e ej1d))  ;convertido afn->afd :)
-(define ej2 (file->af "e2.dat.txt"))  ;para estados equivalentes
+;(define ej1n (file->af "ej1.dat.txt"))
+;(define ej1d (reduce-ina(afn->afd ej1n)))
+;(define ej1dr (renombra-e ej1d))  ;convertido afn->afd :)
+;(define ej2 (file->af "e2.dat.txt"))  ;para estados equivalentes
 
 (define af-concat
   (λ(X Y)
@@ -1528,7 +1528,7 @@
          (af-pot X(- n 1)(af-concat res X)))
     ))
 
-(define p1(file->af "p1.dat.txt"))
+;(define p1(file->af "p1.dat.txt"))
 
 (define af-pot0
   (new afe%[AF-conf(list '(q0 q1)
@@ -1597,103 +1597,30 @@
   (λ LW
     (apply af-union*(map(λ(f)(Genera-AF f))LW))))
 
-;(lector "index.txt")-->afe%
-(define lector
-  (λ(arch)
-    (let((af(apply af-u*(map(λ(w)(Genera-AF w))
-       (flatten(map(λ(w)(string-split w))(file->lines arch)))))))
-    (new afe%[AF-conf(list (send af get-E)
-                         (send af get-S)
-                         (send af get-e0)
-                         (send af get-A)
-                         (remove '(i Z i)(send af get-T)))])
-    )))
-
-(define dic (lector "index.txt"))
-(define arc (lector "archivo.txt"))
-(define arc2 (lector "archivo2.txt"))
-;proyecto  final
-;#t si los autmatas aceptan el mismo lenguaje
-;#f en otro caso
-;X : automata generado por el lector con entrada de un archivo Z
-;Y : automata generado por el lector con entrada del diccionrio
-;(final dic arc)-->#bool
-(define final
-  (λ(X Y)
-    (equal? (send (afn->afd(afe->afn X))lenguaje 4)
-           (send (afn->afd(afe->afn Y))lenguaje 4))))
-
-;me dice si la palabra tiene espacios o no
-(define by
-  (λ(w[pos 0])
-    (cond((equal?(string-ref w pos)#\space)#t)
-         ((equal? (+ pos 1) (string-length w))#f)
-       (else(by w (+ 1 pos))))))
-
-(define bx
-  (λ(w[pos 0])
-    (cond((equal?(string-ref w pos)#\space)(bl1 w))
-         ((equal? (+ pos 1) (string-length w))w)
-       (else(bx w (+ 1 pos))))))
-
-(define bl
-  (λ(w [pos 0])
-    (if(equal? (string-ref w pos)#\space)         
-       pos
-       (bl w (+ pos 1)))))
-
-(define bl1
-  (λ(w)
-    (list(substring w 0 (bl w))
-     (substring w(+ (bl w)1))
-         )))
-
-(define blr
-  (λ(w [res '()])
-    (if(empty? w)
-     res
-        (blr (cdr w)(list res (bx(car(cdr w)))) )
-       )))
-
-(define bl2
-  (λ(w)
-    (apply bl1 w)))
-
-;(af->gv (renombra-e(reduce-ina(afn->afd(afe->afn dic))) #:prf 'q))
-
-
 ;=====EXAMEN 3ER PARCIAL==================================
 ;inciso A
-(define null (Genera-AF "N"));simbolo nulo
-(define num(lector "examena-d.txt"));{0...9} 
-(define e (Genera-AF "e"));simbolo de exponente
-(define p (genera-af "."));punto decimal
-(define n (genera-af "-"));signo negativo
-(define num* (af-* num));operador kleene
-(define x1 num*)
-(define x20 (af-concat* num* num p));concat* la entrada alrevez
-(define x2 (af-union null x20))
-(define x3 (af-union null e))
-(define x4 (af-union null n))
-(define x5 (af-concat* num* num))
-(define xx1 (af-concat* x5 x4 x3 x2 x1))
-(define x6 (af-union xx1 e))
-(define x7 x4)
-(define x8 x5)
+;(define null (Genera-AF "N"));simbolo nulo
+;(define num(lector "examena-d.txt"));{0...9} 
+;(define e (Genera-AF "e"));simbolo de exponente
+;(define p (genera-af "."));punto decimal
+;(define n (genera-af "-"));signo negativo
+;(define num* (af-* num));operador kleene
+;(define x1 num*)
+;(define x20 (af-concat* num* num p));concat* la entrada alrevez
+;(define x2 (af-union null x20))
+;(define x3 (af-union null e))
+;(define x4 (af-union null n))
+;(define x5 (af-concat* num* num))
+;(define xx1 (af-concat* x5 x4 x3 x2 x1))
+;(define x6 (af-union xx1 e))
+;(define x7 x4)
+;(define x8 x5)
 ;automata final sin reducir
 ;(define xx (af-concat* x8 x7 x6))
 ;============Respuesta final al punto A==================
 ;(define respA (afe->afdm xx)) ;descomentar xx
 ;========================================================
 ;ejemplos de numeros aceptados
-(define n1 '(3))
-(define n2 '(3 4))
-(define n3 '(3 4 p 3 4))
-(define n5 '(3 4 p 3 4 e 3 4))
-(define n6 '(3 4 p 3 4 e j 3 4))
-(define n7 '(3 4 e 3 4))
-(define n8 '(3 4 e j 3 4))
-(define n9 '(p 3 4 e 3 4))
 ;ejemplo de forma de uso
 ;(send(afe->afn (af-concat x1 x2))acepta? '(3 p 3 4))
 ;(send(afe->afn (af-concat x1 x2))acepta? n3)
@@ -1705,9 +1632,71 @@
 ;========================================================
 
 ;=============Respuesta al punto C=======================
-(define exa-c1 (file->af "examenc.txt"))
-(define exa-c2(file->af "examenc-b.txt"))
-(define exa-c (af-concat exa-c1 exa-c2))
+;(define exa-c1 (file->af "examenc.txt"))
+;(define exa-c2(file->af "examenc-b.txt"))
+;(define exa-c (af-concat exa-c1 exa-c2))
 ;AFD minimo Respuesta final
-(define respC (afe->afdm exa-c))
-;========================================================
+;(define respC (afe->afdm exa-c))
+
+;====================================================================
+;                          PROYECTO FINAL
+;====================================================================
+
+;hace una lista con todas las palabras que contiene el archivo
+;(lector "archivo.txt")-->lst/palabras ;ej: '("uno" "dos" "tres")
+;arch : string
+(define lector
+  (λ(arch)
+       (flatten(map(λ(w)(string-split w))(file->lines arch)))))
+
+;crea un afe que acepte las palabras que estan en el archivo
+;(lector "index.txt")-->afe%
+;arch : string
+(define lector->afe
+  (λ(arch)
+    (let((af(apply af-u*(map(λ(w)(Genera-AF w))
+       (lector arch)))))
+    (new afe%[AF-conf(list (send af get-E)
+                         (send af get-S)
+                         (send af get-e0)
+                         (send af get-A)
+                         (remove '(i Z i)(send af get-T)))]))))
+
+;crea una lista de simbolos o numeros a partir de un string
+;(str->lst "hola")-->'(h o l a)
+;str : string
+(define str->lst
+  (λ(str)
+    (map(λ(s)(let((tmp(string->number s)))
+               (if tmp tmp(string->symbol s))))
+    (map(λ(i)(substring str i (+ i 1)))
+        (build-list(string-length str)values)))))
+
+;funcion auxiliar
+;#t si todas las palabras en el archivo son aceptadas por el automata
+;#f en otro caso
+;Y : un archivo 
+;X : automata con entrada del diccionario
+;(final-aux dic arc)-->#boolean
+(define final-aux
+  (λ(X Y)
+    (andmap(λ(i)(send X aceptada? (str->lst i)))
+        (flatten(map(λ(w)(string-split w))(file->lines Y))))))
+
+;definicion del diccionario con las palabras aceptadas
+(define dic (afe->afdm(lector->afe "index.dat")))
+
+;interfaz de final-aux
+;#t si todas las palabras en el archivo son aceptadas por el diccionario
+;#f en otro caso
+;Z : un archivo
+;(final "archivo.txt")-->#boolean
+(define final
+  (λ(Z)
+    (final-aux dic Z)))
+
+;FORMA DE USO
+;Para cambiar el nombre del diccionario:
+;    Cambiar en la definicion de dic el string "index.dat" por el nombre del archivo que usará
+;Para probar si funciona el programa:
+;    Llamar a final, ej: (final "archivo.txt")
