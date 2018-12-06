@@ -157,7 +157,7 @@ namespace maquina_virtual_abc
             dataGridView1.AllowUserToAddRows = true;
             dataGridView1.AllowUserToDeleteRows = true;
             dataGridView1.Rows.Add(15);
-        }   
+         }   
 
         private void Cargar_archivo_Click(object sender, EventArgs e)
         {
@@ -210,13 +210,19 @@ namespace maquina_virtual_abc
             //cambia el color a negro de la memoria sin usar
             for (int x = 0; x < memoria.GetLength(0); x++)
                 for (int y = 0; y < memoria.GetLength(1); y++)
-                    if(memoria[x,y] == 999)
+                    if (memoria[x, y] == 999)
+                    {
                         dataGridView1.Rows[x].Cells[y].Style.BackColor = Color.Black;
-                   else
+                        dataGridView1.Rows[x].Cells[y].ToolTipText = (y + (x * 16)).ToString();
+                    }
+                    else
+                    {
                         dataGridView1.Rows[x].Cells[y].Style.BackColor = Color.White;
+                        dataGridView1.Rows[x].Cells[y].ToolTipText = (y + (x * 16)).ToString();
+                    }
             //cp = dir_codigo;
 
-           Actualiza();
+            Actualiza();
         }
 
         void Actualiza()
@@ -237,6 +243,20 @@ namespace maquina_virtual_abc
             for (int x = 0; x < 16; x++)
                 for (int y = 0; y < 16; y++)
                     dataGridView1.Rows[x].Cells[y].Value = memoria[x, y];
+
+            //cambia el color a negro de la memoria sin usar
+            for (int x = 0; x < memoria.GetLength(0); x++)
+                for (int y = 0; y < memoria.GetLength(1); y++)
+                    if (memoria[x, y] == 999)
+                    {
+                        dataGridView1.Rows[x].Cells[y].Style.BackColor = Color.Black;
+                        dataGridView1.Rows[x].Cells[y].ToolTipText = (y + (x * 16)).ToString();
+                    }
+                    else
+                    {
+                        dataGridView1.Rows[x].Cells[y].Style.BackColor = Color.White;
+                        dataGridView1.Rows[x].Cells[y].ToolTipText = (y + (x * 16)).ToString();
+                    }
         }
 
         void reset_flags()
@@ -380,19 +400,21 @@ namespace maquina_virtual_abc
 
         void procesa_funcion()
         {
+            //obtengo el nombre de la funcion 
             i_actual = Nombre_instruccion(tom(cp));
-
+            //celda en la que esta el operador si es que lo usa y
+            //me da el operador de la funcion si es que lo usa
             if (tiene_op(tom(cp)) == true)
-                i_actual_op = tom(cp + 1);
+            {
+                i_actual_op = cp;
+                i_actual_op_val = tom(cp + 1);
+            }
             else
-                i_actual_op = 0;
-
-            //tiene detalles dependiendo de alguna funcion que se me escapara de debugear..
-            if (cp + 1 != 999 && tom(cp + 1) != 999 && tiene_op(tom(cp)) == true)
-                i_actual_op_val = tom(tom(cp + 1));
-            else
+            {
+                i_actual_op = cp;
                 i_actual_op_val = 0;
-
+            }
+            
             switch (tom(cp))
             {               
                 //cargaAI
@@ -409,57 +431,73 @@ namespace maquina_virtual_abc
                     break;
                 //cargaAX
                 case 3:
-                    A = tom(tom(X));
+                    A = tom(X);
                     break;
                 //guardaAD
                 case 4:
                     op = tom(cp + 1);
-                    A = tom(op);
+                    mot(op, A);
                     cp++;
                     break;
                 //guardaAX
                 case 5:
-                    A=tom(X);
+                    mot(X, A);
                     break;
                 //sumaAI
                 case 6:
                     op = tom(cp + 1);
                     A = A + op;
+                    neg = (A >= 0)? false : true;
+                    cero = (A == 0) ? true : false;
                     cp++;
                     break;
                 //sumaAD
                 case 7:
                     op = tom(cp + 1);
                     A = A + tom(op);
+                    neg = (A >= 0) ? false : true;
+                    cero = (A == 0) ? true : false;
                     cp++;
                     break;
                 //sumaAX
                 case 8:
-                    A = A + tom(tom(X));
+                    A = A + tom(X);
+                    neg = (A >= 0) ? false : true;
+                    cero = (A == 0) ? true : false;
                     break;
                 //restaAI
                 case 9:
                     op = tom(cp + 1);
                     A = A - op;
+                    neg = (A >= 0) ? false : true;
+                    cero = (A == 0) ? true : false;
                     cp++;
                     break;
                 //restaAD
                 case 10:
                     op = tom(cp + 1);
                     A = A - tom(op);
+                    neg = (A >= 0) ? false : true;
+                    cero = (A == 0) ? true : false;
                     cp++;
                     break;
                 //restaAX
                 case 11:
-                    A = A - tom(tom(X));
+                    A = A - tom(X);
+                    neg = (A >= 0) ? false : true;
+                    cero = (A == 0) ? true : false;
                     break;
                 //incA
                 case 12:
                     A++;
+                    neg = (A >= 0) ? false : true;
+                    cero = (A == 0) ? true : false;
                     break;
                 //decA
                 case 13:
                     A--;
+                    neg = (A >= 0) ? false : true;
+                    cero = (A == 0) ? true : false;
                     break;
                 //compAI
                 case 14:
@@ -482,16 +520,18 @@ namespace maquina_virtual_abc
                 //compAX
                 case 16:
                     reset_flags();//igual=mayor=menor=0
-                    if (A == tom(tom(X))) igual = true;
-                    if (A > tom(tom(X))) mayor = true;
-                    if (A < tom(tom(X))) menor = true;
+                    if (A == tom(X)) igual = true;
+                    if (A > tom(X)) mayor = true;
+                    if (A < tom(X)) menor = true;
                     break;
                 //notA
                 case 17:
                     if (A == 1)
                         A = 0;
-                    if (A == 0)
+                    else
                         A = 1;
+
+                    cero = (A == 0) ? true : false;
                     break;
                 //andAI
                 case 18:
@@ -500,6 +540,8 @@ namespace maquina_virtual_abc
                         A = 1;
                     else
                         A = 0;
+
+                    cero = (A == 0) ? true : false;
                     cp++;
                     break;
                 //andAD
@@ -509,14 +551,18 @@ namespace maquina_virtual_abc
                         A = 1;
                     else
                         A = 0;
+
+                    cero = (A == 0) ? true : false;
                     cp++;
                     break;
                 //andAX
                 case 20:
-                    if (A == 1 && tom(tom(X)) == 1)
+                    if (A == 1 && tom(X) == 1)
                         A = 1;
                     else
                         A = 0;
+
+                    cero = (A == 0) ? true : false;
                     break;
                 //orAI
                 case 21:
@@ -525,6 +571,8 @@ namespace maquina_virtual_abc
                         A = 1;
                     else
                         A = 0;
+
+                    cero = (A == 0) ? true : false;
                     cp++;
                     break;
                 //orAD
@@ -534,80 +582,134 @@ namespace maquina_virtual_abc
                         A = 1;
                     else
                         A = 0;
+
+                    cero = (A == 0) ? true : false;
                     cp++;
                     break;
                 //orAX
                 case 23:
-                    if (A == 1 || tom(tom(X)) == 1)
+                    if (A == 1 || tom(X) == 1)
                         A = 1;
                     else
                         A = 0;
+
+                    cero = (A == 0) ? true : false;
                     break;
                 //salta
                 case 24:
                     op = tom(cp + 1);
                     cp = op;
-                    cp++;
+                    cp--;
                     break;
                 //salta+
                 case 25:
                     op = tom(cp + 1);
-                    if (neg == false) cp = op;
-                    cp++;
+                    if (neg == false)
+                    {
+                        cp = op;
+                        cp--;
+                    }
+                    else
+                         cp++;
                     break;
                 //salta-
                 case 26:
                     op = tom(cp + 1);
-                    if (neg == true) cp = op;
-                    cp++;
+                    if (neg == true)
+                    {
+                        cp = op;
+                        cp--;
+                    }
+                    else
+                        cp++;
                     break;
                 //salta0
                 case 27:
                     op = tom(cp + 1);
-                    if (cero == true) cp = op;
-                    cp++;
+                    if (cero == true)
+                    {
+                        cp = op;
+                        cp--;
+                    }
+                    else
+                        cp++;
                     break;
                 //saltaN0
                 case 28:
                     op = tom(cp + 1);
-                    if (cero == false) cp = op;
-                    cp++;
+                    if (cero == false)
+                    {
+                        cp = op;
+                        cp--;
+                    }
+                    else
+                        cp++;
                     break;
                 //salta=
                 case 29:
                     op = tom(cp + 1);
-                    if (igual == true) cp = op;
-                    cp++;
+                    if (igual == true)
+                    {
+                        cp = op;
+                        cp--;
+                    }
+                    else
+                        cp++;
                     break;
                 //saltaN=
                 case 30:
                     op = tom(cp + 1);
-                    if (igual == false) cp = op;
-                    cp++;
+                    if (igual == false)
+                    {
+                        cp = op;
+                        cp--;
+                    }
+                    else
+                        cp++;
                     break;
                 //salta>
                 case 31:
                     op = tom(cp + 1);
-                    if (mayor == true) cp = op;
-                    cp++;
+                    if (mayor == true)
+                    {
+                        cp = op;
+                        cp--;
+                    }
+                    else
+                        cp++;
                     break;
                 //salta<
                 case 32:
                     op = tom(cp + 1);
-                    if (menor == true) cp = op;
-                    cp++;
+                    if (menor == true)
+                    {
+                        cp = op;
+                        cp--;
+                    }
+                    else
+                        cp++;
                     break;
                 //salta>=
                 case 33:
                     op = tom(cp + 1);
-                    if (mayor == true || igual == true) cp = op;
-                    cp++;
+                    if (mayor == true || igual == true)
+                    {
+                        cp = op;
+                        cp--;
+                    }
+                    else
+                        cp++;
                     break;
                 //salta<=
                 case 34:
                     op = tom(cp + 1);
-                    if (menor == true || igual == true) cp = op;
-                    cp++;
+                    if (menor == true || igual == true)
+                    {
+                        cp = op;
+                        cp--;
+                    }
+                    else
+                        cp++;
                     break;
                 //cargaXI
                 case 35:
@@ -630,10 +732,14 @@ namespace maquina_virtual_abc
                 //incX
                 case 38:
                     X++;
+                    neg = (A >= 0) ? false : true;
+                    cero = (A == 0) ? true : false;
                     break;
                 //decX
                 case 39:
                     X--;
+                    neg = (A >= 0) ? false : true;
+                    cero = (A == 0) ? true : false;
                     break;
                 //compXI
                 case 40:
@@ -662,22 +768,25 @@ namespace maquina_virtual_abc
         //etom pondra en la matriz el valor en la pocision X equivalente
         int tom(int pos)
         {
-            int p = pos;
-            int px = 0;
-            int py = 0;
-            while(p>15)
-            {
-                p = p - 16;
-                py++;
-            }
-            px = p;
-            return memoria[py, px];
+          
+                int p = pos;
+                int px = 0;
+                int py = 0;
+                while (p > 15)
+                {
+                    p = p - 16;
+                    py++;
+                }
+                px = p;
+                return memoria[py, px];
+            
         }
 
         //problema mem[X]=A
         //ahora sera mot(X A)
         void mot(int j,int k)
         {
+            int q = k;
             int p = j;
             int px = 0;
             int py = 0;
@@ -687,7 +796,7 @@ namespace maquina_virtual_abc
                 py++;
             }
             px = p;
-            memoria[px, py] = k;
+            memoria[py, px] = q;
         }
 
         string Nombre_instruccion(int cad)
@@ -761,9 +870,9 @@ namespace maquina_virtual_abc
             if (cad == 34)
                 return "SALTA<=";
             if (cad == 35)
-                return "CARDAXI";
+                return "CARGAXI";
             if (cad == 36)
-                return "CARDAXD";
+                return "CARGAXD";
             if (cad == 37)
                 return "GUARDAXD";
             if (cad == 38)
@@ -814,6 +923,11 @@ namespace maquina_virtual_abc
                     ejecuta1();
                 Actualiza();
             }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+          
         }
     }
 }

@@ -51,6 +51,8 @@
             this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cargar_memoria = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.instruccion_op_val = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.instruccion_op = new System.Windows.Forms.TextBox();
@@ -69,8 +71,6 @@
             this.registro_cp = new System.Windows.Forms.TextBox();
             this.registro_acomulador = new System.Windows.Forms.TextBox();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.instruccion_op_val = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -146,14 +146,15 @@
             this.Column14,
             this.Column15,
             this.Column16});
-            this.dataGridView1.Enabled = false;
             this.dataGridView1.Location = new System.Drawing.Point(7, 20);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 10;
             this.dataGridView1.Size = new System.Drawing.Size(554, 324);
             this.dataGridView1.TabIndex = 99;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
             // Column1
             // 
@@ -290,14 +291,31 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "CPU";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(116, 224);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(61, 13);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "OP VALOR";
+            // 
+            // instruccion_op_val
+            // 
+            this.instruccion_op_val.Location = new System.Drawing.Point(108, 240);
+            this.instruccion_op_val.Name = "instruccion_op_val";
+            this.instruccion_op_val.ReadOnly = true;
+            this.instruccion_op_val.Size = new System.Drawing.Size(75, 20);
+            this.instruccion_op_val.TabIndex = 17;
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(32, 224);
+            this.label4.Location = new System.Drawing.Point(18, 224);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(44, 13);
+            this.label4.Size = new System.Drawing.Size(58, 13);
             this.label4.TabIndex = 16;
-            this.label4.Text = "OP DIR";
+            this.label4.Text = "FUNC DIR";
             // 
             // label5
             // 
@@ -328,7 +346,7 @@
             // 
             this.bandera_negativo.AutoSize = true;
             this.bandera_negativo.Enabled = false;
-            this.bandera_negativo.Location = new System.Drawing.Point(47, 122);
+            this.bandera_negativo.Location = new System.Drawing.Point(9, 122);
             this.bandera_negativo.Name = "bandera_negativo";
             this.bandera_negativo.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.bandera_negativo.Size = new System.Drawing.Size(29, 17);
@@ -341,7 +359,7 @@
             // 
             this.bandera_cero.AutoSize = true;
             this.bandera_cero.Enabled = false;
-            this.bandera_cero.Location = new System.Drawing.Point(9, 122);
+            this.bandera_cero.Location = new System.Drawing.Point(41, 122);
             this.bandera_cero.Name = "bandera_cero";
             this.bandera_cero.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.bandera_cero.Size = new System.Drawing.Size(32, 17);
@@ -354,7 +372,7 @@
             // 
             this.bandera_igual.AutoSize = true;
             this.bandera_igual.Enabled = false;
-            this.bandera_igual.Location = new System.Drawing.Point(151, 122);
+            this.bandera_igual.Location = new System.Drawing.Point(120, 122);
             this.bandera_igual.Name = "bandera_igual";
             this.bandera_igual.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.bandera_igual.Size = new System.Drawing.Size(32, 17);
@@ -367,7 +385,7 @@
             // 
             this.bandera_menor.AutoSize = true;
             this.bandera_menor.Enabled = false;
-            this.bandera_menor.Location = new System.Drawing.Point(113, 122);
+            this.bandera_menor.Location = new System.Drawing.Point(82, 122);
             this.bandera_menor.Name = "bandera_menor";
             this.bandera_menor.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.bandera_menor.Size = new System.Drawing.Size(32, 17);
@@ -380,7 +398,7 @@
             // 
             this.bandera_mayor.AutoSize = true;
             this.bandera_mayor.Enabled = false;
-            this.bandera_mayor.Location = new System.Drawing.Point(82, 122);
+            this.bandera_mayor.Location = new System.Drawing.Point(151, 122);
             this.bandera_mayor.Name = "bandera_mayor";
             this.bandera_mayor.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.bandera_mayor.Size = new System.Drawing.Size(32, 17);
@@ -472,23 +490,6 @@
             this.richTextBox2.Size = new System.Drawing.Size(37, 323);
             this.richTextBox2.TabIndex = 3;
             this.richTextBox2.Text = "000\n016\n032\n048\n064\n080\n096\n112\n128\n144\n160\n176\n192\n208\n224\n240";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(116, 224);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(61, 13);
-            this.label6.TabIndex = 18;
-            this.label6.Text = "OP VALOR";
-            // 
-            // instruccion_op_val
-            // 
-            this.instruccion_op_val.Location = new System.Drawing.Point(108, 240);
-            this.instruccion_op_val.Name = "instruccion_op_val";
-            this.instruccion_op_val.ReadOnly = true;
-            this.instruccion_op_val.Size = new System.Drawing.Size(75, 20);
-            this.instruccion_op_val.TabIndex = 17;
             // 
             // Form1
             // 
