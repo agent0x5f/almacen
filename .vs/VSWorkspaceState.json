@@ -1,11 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\automatas",
-    "\\ensamblador abc",
-    "\\maquina virtual abc",
-    "\\maquina virtual abc\\maquina virtual abc"
+    "\\maquina virtual abc\\maquina virtual abc",
+    "\\proyectodba"
   ],
-  "SelectedNode": "\\maquina virtual abc\\maquina virtual abc.sln",
+  "SelectedNode": "\\proyectodba\\proyectodba.sln",
   "PreviewInSolutionExplorer": false
 }
