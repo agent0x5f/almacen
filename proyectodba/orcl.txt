@@ -1,0 +1,89 @@
+http://localhost:8080/apex/f?p=4550:1:8744496814959975
+
+//crea usuarios que manejan el programa
+create or replace function insertar_cuenta(nombre in varchar2,contra in varchar2)
+return boolean
+is
+resp varchar2(50);
+begin
+--compruebo si el usuario ya existe
+select count(*) into resp from cuentas where usuario=nombre;
+--si resp no es nulo, el usuario existe
+if resp=1 then
+return true;
+else
+--se agrega el nuevo usuario
+insert into cuentas(usuario,pass) values (nombre,contra);
+return false;
+end if;
+end;
+
+//como se llama desde consola sql developer
+//BUG: no se ven los mensajes, pero SI desde el oracle web
+declare
+resp boolean;
+begin
+dbms_output.enable; 
+resp:= insertar_cuenta('test1',123);
+if resp=true then
+dbms_output.put_line('error');
+else
+dbms_output.put_line('ok');
+end if;
+end;
+
+
+//crea viajes
+create or replace function insertar_viaje(iorigen in varchar2,idestino in varchar2,ifecha in date,ihora in number,icapacidad in number)
+return boolean
+is
+resp varchar2(50);
+begin
+--pueden existir varios viajes al mismo lugar al mismo tiempo
+--se agrega el nuevo viaje
+insert into viajes(origen,destino,fecha,hora,capacidad) values (iorigen,idestino,ifecha,ihora,icapacidad);
+return false;
+end;
+
+//sql developer
+declare
+resp boolean;
+begin
+dbms_output.enable; 
+resp:= insertar_viaje('Yucatan','DF','15,01,2019',12,200);
+if resp=true then
+dbms_output.put_line('error');
+else
+dbms_output.put_line('ok');
+end if;
+
+//crea clientes
+create or replace function insertar_cliente(inombre in varchar2,apellidop in varchar2,apellidom in varchar2,cont in number,ssn in varchar2)
+return boolean
+is
+resp varchar2(50);
+begin
+--compruebo si el usuario ya existe
+select count(*) into resp from cliente where nombre=inombre and apep=apellidop and apem=apellidom;
+--si resp no es nulo, el usuario existe
+if resp=1 then
+return true;
+else
+--se agrega el nuevo usuario
+insert into cliente(nombre,apep,apem,contador,ssn) values (inombre,apellidop,apellidom,cont,ssn);
+return false;
+end if;
+end;
+
+//probador sql dev
+declare
+resp boolean;
+begin
+dbms_output.enable; 
+resp:= insertar_cliente('Jose','Hernandez','Perez',0,'123abc');
+if resp=true then
+dbms_output.put_line('error');
+else
+dbms_output.put_line('ok');
+end if;
+end;
