@@ -17,23 +17,7 @@ namespace proyectodba
     {
         public Form1()
         {
-            InitializeComponent();
-
-            /*
-            //pruebo la conexion a la db
-            
-            //DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1
-            const string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
-            OracleConnection con = new OracleConnection(conexion);
-            con.Open();
-            string sql= "select usuario from cuentas where id = 1";
-            OracleCommand comando = new OracleCommand(sql,con);
-            OracleDataReader dr = comando.ExecuteReader();
-            dr.Read();
-            MessageBox.Show(dr[0].ToString());
-            con.Dispose();
-            */
-            
+            InitializeComponent();           
         }
  
         private void Boton_ok_Click(object sender, EventArgs e)
@@ -47,14 +31,56 @@ namespace proyectodba
             string sql = "select pass from cuentas where usuario = '"+ user +"'";
             OracleCommand comando = new OracleCommand(sql, con);
             OracleDataReader dr = comando.ExecuteReader();
-            dr.Read();   
-            
-            //si se permite la entrada, cambiar a la interfaz          
-            if(dr[0].ToString()==pass)
-            tabControl1.SelectTab(1);
+
+            //si esta vacio
+            if (user == "" || pass == "")
+                MessageBox.Show("Insertar datos");
             else
-            MessageBox.Show("datos invalidos");
-            con.Dispose();
+            while (dr.Read())
+            {
+                //si se permite la entrada, cambiar a la interfaz          
+                if (dr[0].ToString() == pass)
+                    tabControl1.SelectTab(1);
+                else
+                    MessageBox.Show("Error en datos");
+            }
+
+            con.Dispose();          
+                  
+        }
+
+        private void Crear_viaje_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void Boton_agregar_personal_Click(object sender, EventArgs e)
+        {
+            string sql = "insertar_cuenta";
+            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+            OracleConnection con = new OracleConnection(conexion);
+            OracleCommand comando = new OracleCommand(sql, con)
+            {
+                BindByName = true,
+                CommandType = CommandType.StoredProcedure
+            };
+            //se asignan los parametros de la funcion/procedimiento
+            var prm1 = new OracleParameter("nombre", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_user.Text };
+            comando.Parameters.Add(prm1);
+            var prm2 = new OracleParameter("contra", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_pass.Text };
+            comando.Parameters.Add(prm2);
+            //se crea el valor de retorno para la funcion
+            var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1,ParameterDirection.ReturnValue);           
+            comando.Parameters.Add(returnVal);
+
+            comando.Connection.Open();
+            comando.ExecuteNonQuery();
+
+            if (returnVal.Value.ToString() == "0")
+                MessageBox.Show("OK");
+            else
+                MessageBox.Show("Error-Ya existe");
+            comando.Connection.Close();
         }
     }
 }
