@@ -85,8 +85,8 @@
             this.label17 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.boton_mostrar_cuent = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.boton_eliminar_cuenta = new System.Windows.Forms.Button();
+            this.boton_modificar_cuenta = new System.Windows.Forms.Button();
             this.boton_agregar_personal = new System.Windows.Forms.Button();
             this.texto_pass = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
@@ -505,11 +505,17 @@
             // 
             // tabla_cuentas
             // 
+            this.tabla_cuentas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.tabla_cuentas.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.tabla_cuentas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tabla_cuentas.Location = new System.Drawing.Point(399, 22);
+            this.tabla_cuentas.MultiSelect = false;
             this.tabla_cuentas.Name = "tabla_cuentas";
+            this.tabla_cuentas.ReadOnly = true;
             this.tabla_cuentas.Size = new System.Drawing.Size(374, 358);
             this.tabla_cuentas.TabIndex = 5;
+            this.tabla_cuentas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tabla_cuentas_CellClick);
+      //      this.tabla_cuentas.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.tabla_cuentas_CellMouseClick);
             // 
             // groupBox3
             // 
@@ -635,8 +641,8 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.boton_mostrar_cuent);
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.boton_eliminar_cuenta);
+            this.groupBox1.Controls.Add(this.boton_modificar_cuenta);
             this.groupBox1.Controls.Add(this.boton_agregar_personal);
             this.groupBox1.Controls.Add(this.texto_pass);
             this.groupBox1.Controls.Add(this.label14);
@@ -657,25 +663,27 @@
             this.boton_mostrar_cuent.TabIndex = 11;
             this.boton_mostrar_cuent.Text = "Mostrar personal";
             this.boton_mostrar_cuent.UseVisualStyleBackColor = true;
-            this.boton_mostrar_cuent.Click += new System.EventHandler(this.boton_mostrar_cuentas_Click);
+            this.boton_mostrar_cuent.Click += new System.EventHandler(this.Boton_mostrar_cuentas_Click);
             // 
-            // button3
+            // boton_eliminar_cuenta
             // 
-            this.button3.Location = new System.Drawing.Point(176, 85);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 10;
-            this.button3.Text = "Eliminar";
-            this.button3.UseVisualStyleBackColor = true;
+            this.boton_eliminar_cuenta.Location = new System.Drawing.Point(176, 85);
+            this.boton_eliminar_cuenta.Name = "boton_eliminar_cuenta";
+            this.boton_eliminar_cuenta.Size = new System.Drawing.Size(75, 23);
+            this.boton_eliminar_cuenta.TabIndex = 10;
+            this.boton_eliminar_cuenta.Text = "Eliminar";
+            this.boton_eliminar_cuenta.UseVisualStyleBackColor = true;
+            this.boton_eliminar_cuenta.Click += new System.EventHandler(this.Boton_eliminar_cuenta_Click);
             // 
-            // button2
+            // boton_modificar_cuenta
             // 
-            this.button2.Location = new System.Drawing.Point(95, 85);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 9;
-            this.button2.Text = "Modificar";
-            this.button2.UseVisualStyleBackColor = true;
+            this.boton_modificar_cuenta.Location = new System.Drawing.Point(95, 85);
+            this.boton_modificar_cuenta.Name = "boton_modificar_cuenta";
+            this.boton_modificar_cuenta.Size = new System.Drawing.Size(75, 23);
+            this.boton_modificar_cuenta.TabIndex = 9;
+            this.boton_modificar_cuenta.Text = "Modificar";
+            this.boton_modificar_cuenta.UseVisualStyleBackColor = true;
+            this.boton_modificar_cuenta.Click += new System.EventHandler(this.Boton_modificar_cuenta_Click);
             // 
             // boton_agregar_personal
             // 
@@ -814,8 +822,8 @@
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Button boton_mostrar_cuent;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button boton_eliminar_cuenta;
+        private System.Windows.Forms.Button boton_modificar_cuenta;
         private System.Windows.Forms.DataGridView tabla_cuentas;
     }
 }

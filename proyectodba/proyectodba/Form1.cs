@@ -15,6 +15,7 @@ namespace proyectodba
 
     public partial class Form1 : Form
     {
+        string dato_puntero;
         public Form1()
         {
             InitializeComponent();           
@@ -83,7 +84,7 @@ namespace proyectodba
             comando.Connection.Close();
         }
 
-        private void boton_mostrar_cuentas_Click(object sender, EventArgs e)
+        private void Boton_mostrar_cuentas_Click(object sender, EventArgs e)
         {
             //muestra en la tabla las cuentas de personal registradas
             //aun usa sql directo, si se necesita cambiar a embedido
@@ -100,6 +101,44 @@ namespace proyectodba
             dt = ds.Tables[0];
             tabla_cuentas.DataSource = dt;
             con.Close();
+        }
+
+        private void Boton_eliminar_cuenta_Click(object sender, EventArgs e)
+        {
+            string sql = "eliminar_cuenta";
+            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+            OracleConnection con = new OracleConnection(conexion);
+            OracleCommand comando = new OracleCommand(sql, con)
+            {
+                BindByName = true,
+                CommandType = CommandType.StoredProcedure
+            };
+            //se asignan los parametros de la funcion/procedimiento
+            var prm1 = new OracleParameter("nombre", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = dato_puntero };
+            comando.Parameters.Add(prm1);
+            //se crea el valor de retorno para la funcion
+            var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1, ParameterDirection.ReturnValue);
+            comando.Parameters.Add(returnVal);
+
+            comando.Connection.Open();
+            comando.ExecuteNonQuery();
+
+            if (returnVal.Value.ToString() == "1")
+                MessageBox.Show("OK");
+            else
+                MessageBox.Show("Error");
+            comando.Connection.Close();
+        }
+
+        private void Boton_modificar_cuenta_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabla_cuentas_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewCell cell = (DataGridViewCell)tabla_cuentas.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            dato_puntero = cell.Value.ToString();
         }
     }
 }
