@@ -82,5 +82,24 @@ namespace proyectodba
                 MessageBox.Show("Error-Ya existe");
             comando.Connection.Close();
         }
+
+        private void boton_mostrar_cuentas_Click(object sender, EventArgs e)
+        {
+            //muestra en la tabla las cuentas de personal registradas
+            //aun usa sql directo, si se necesita cambiar a embedido
+            string sql = "select usuario,pass from cuentas";
+            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+            OracleConnection con = new OracleConnection(conexion);
+            OracleCommand comando = new OracleCommand(sql, con);
+
+            con.Open();
+            OracleDataAdapter da = new OracleDataAdapter(comando);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            DataTable dt = new DataTable();
+            dt = ds.Tables[0];
+            tabla_cuentas.DataSource = dt;
+            con.Close();
+        }
     }
 }

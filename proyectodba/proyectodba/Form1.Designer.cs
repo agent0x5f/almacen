@@ -69,13 +69,29 @@
             this.texto_origen = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.cuentas = new System.Windows.Forms.TabPage();
+            this.tabla_cuentas = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.boton_mostrar_cuent = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.boton_agregar_personal = new System.Windows.Forms.Button();
             this.texto_pass = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.texto_user = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.boton_agregar_personal = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.login.SuspendLayout();
             this.servidor.SuspendLayout();
@@ -86,6 +102,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.datos_viaje)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.cuentas.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tabla_cuentas)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -474,6 +492,7 @@
             // 
             // cuentas
             // 
+            this.cuentas.Controls.Add(this.tabla_cuentas);
             this.cuentas.Controls.Add(this.groupBox3);
             this.cuentas.Controls.Add(this.groupBox1);
             this.cuentas.Location = new System.Drawing.Point(4, 22);
@@ -484,8 +503,28 @@
             this.cuentas.Text = "cuentas";
             this.cuentas.UseVisualStyleBackColor = true;
             // 
+            // tabla_cuentas
+            // 
+            this.tabla_cuentas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tabla_cuentas.Location = new System.Drawing.Point(399, 22);
+            this.tabla_cuentas.Name = "tabla_cuentas";
+            this.tabla_cuentas.Size = new System.Drawing.Size(374, 358);
+            this.tabla_cuentas.TabIndex = 5;
+            // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.textBox7);
+            this.groupBox3.Controls.Add(this.label18);
+            this.groupBox3.Controls.Add(this.textBox8);
+            this.groupBox3.Controls.Add(this.label19);
+            this.groupBox3.Controls.Add(this.button5);
+            this.groupBox3.Controls.Add(this.button6);
+            this.groupBox3.Controls.Add(this.button7);
+            this.groupBox3.Controls.Add(this.button8);
+            this.groupBox3.Controls.Add(this.textBox5);
+            this.groupBox3.Controls.Add(this.label16);
+            this.groupBox3.Controls.Add(this.textBox6);
+            this.groupBox3.Controls.Add(this.label17);
             this.groupBox3.Location = new System.Drawing.Point(13, 160);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(361, 213);
@@ -493,8 +532,111 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "clientes";
             // 
+            // textBox7
+            // 
+            this.textBox7.Location = new System.Drawing.Point(133, 110);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(199, 20);
+            this.textBox7.TabIndex = 23;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(6, 110);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(100, 13);
+            this.label18.TabIndex = 22;
+            this.label18.Text = "Identificador Social:";
+            // 
+            // textBox8
+            // 
+            this.textBox8.Location = new System.Drawing.Point(133, 84);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(199, 20);
+            this.textBox8.TabIndex = 21;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(6, 84);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(88, 13);
+            this.label19.TabIndex = 20;
+            this.label19.Text = "Apellido materno:";
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(257, 169);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(75, 23);
+            this.button5.TabIndex = 19;
+            this.button5.Text = "Mostrar personal";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(176, 169);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(75, 23);
+            this.button6.TabIndex = 18;
+            this.button6.Text = "Eliminar";
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(95, 169);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 17;
+            this.button7.Text = "Modificar";
+            this.button7.UseVisualStyleBackColor = true;
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(9, 169);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(75, 23);
+            this.button8.TabIndex = 16;
+            this.button8.Text = "Agregar";
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(133, 53);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(199, 20);
+            this.textBox5.TabIndex = 15;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(6, 53);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(86, 13);
+            this.label16.TabIndex = 14;
+            this.label16.Text = "Apellido paterno:";
+            // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(133, 27);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(199, 20);
+            this.textBox6.TabIndex = 13;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(6, 27);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(47, 13);
+            this.label17.TabIndex = 12;
+            this.label17.Text = "Nombre:";
+            // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.boton_mostrar_cuent);
+            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.boton_agregar_personal);
             this.groupBox1.Controls.Add(this.texto_pass);
             this.groupBox1.Controls.Add(this.label14);
@@ -506,6 +648,44 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "personal";
+            // 
+            // boton_mostrar_cuent
+            // 
+            this.boton_mostrar_cuent.Location = new System.Drawing.Point(257, 85);
+            this.boton_mostrar_cuent.Name = "boton_mostrar_cuent";
+            this.boton_mostrar_cuent.Size = new System.Drawing.Size(75, 23);
+            this.boton_mostrar_cuent.TabIndex = 11;
+            this.boton_mostrar_cuent.Text = "Mostrar personal";
+            this.boton_mostrar_cuent.UseVisualStyleBackColor = true;
+            this.boton_mostrar_cuent.Click += new System.EventHandler(this.boton_mostrar_cuentas_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(176, 85);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 10;
+            this.button3.Text = "Eliminar";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(95, 85);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 9;
+            this.button2.Text = "Modificar";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // boton_agregar_personal
+            // 
+            this.boton_agregar_personal.Location = new System.Drawing.Point(9, 85);
+            this.boton_agregar_personal.Name = "boton_agregar_personal";
+            this.boton_agregar_personal.Size = new System.Drawing.Size(75, 23);
+            this.boton_agregar_personal.TabIndex = 8;
+            this.boton_agregar_personal.Text = "Agregar";
+            this.boton_agregar_personal.UseVisualStyleBackColor = true;
+            this.boton_agregar_personal.Click += new System.EventHandler(this.Boton_agregar_personal_Click);
             // 
             // texto_pass
             // 
@@ -539,16 +719,6 @@
             this.label15.TabIndex = 4;
             this.label15.Text = "usuario:";
             // 
-            // boton_agregar_personal
-            // 
-            this.boton_agregar_personal.Location = new System.Drawing.Point(9, 85);
-            this.boton_agregar_personal.Name = "boton_agregar_personal";
-            this.boton_agregar_personal.Size = new System.Drawing.Size(75, 23);
-            this.boton_agregar_personal.TabIndex = 8;
-            this.boton_agregar_personal.Text = "Agregar";
-            this.boton_agregar_personal.UseVisualStyleBackColor = true;
-            this.boton_agregar_personal.Click += new System.EventHandler(this.Boton_agregar_personal_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -572,6 +742,9 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.cuentas.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tabla_cuentas)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -628,6 +801,22 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox texto_user;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button boton_mostrar_cuent;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.DataGridView tabla_cuentas;
     }
 }
 
