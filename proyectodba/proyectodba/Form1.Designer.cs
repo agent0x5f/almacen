@@ -505,9 +505,14 @@
             // 
             // tabla_cuentas
             // 
+            this.tabla_cuentas.AllowUserToAddRows = false;
+            this.tabla_cuentas.AllowUserToDeleteRows = false;
+            this.tabla_cuentas.AllowUserToResizeColumns = false;
+            this.tabla_cuentas.AllowUserToResizeRows = false;
             this.tabla_cuentas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.tabla_cuentas.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.tabla_cuentas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tabla_cuentas.ColumnHeadersVisible = false;
             this.tabla_cuentas.Location = new System.Drawing.Point(399, 22);
             this.tabla_cuentas.MultiSelect = false;
             this.tabla_cuentas.Name = "tabla_cuentas";
@@ -515,7 +520,6 @@
             this.tabla_cuentas.Size = new System.Drawing.Size(374, 358);
             this.tabla_cuentas.TabIndex = 5;
             this.tabla_cuentas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tabla_cuentas_CellClick);
-      //      this.tabla_cuentas.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.tabla_cuentas_CellMouseClick);
             // 
             // groupBox3
             // 
@@ -734,6 +738,8 @@
             this.BackColor = System.Drawing.Color.Gray;
             this.ClientSize = new System.Drawing.Size(784, 411);
             this.Controls.Add(this.tabControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "AEROLINEAS DEL POZOL";
             this.tabControl1.ResumeLayout(false);

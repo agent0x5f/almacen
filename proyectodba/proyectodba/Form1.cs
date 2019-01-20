@@ -132,13 +132,49 @@ namespace proyectodba
 
         private void Boton_modificar_cuenta_Click(object sender, EventArgs e)
         {
+            string sql = "cambiar_cuenta";
+            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+            OracleConnection con = new OracleConnection(conexion);
+            OracleCommand comando = new OracleCommand(sql, con)
+            {
+                BindByName = true,
+                CommandType = CommandType.StoredProcedure
+            };
+            //se asignan los parametros de la funcion/procedimiento
+            var prm1 = new OracleParameter("nref", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = dato_puntero };
+            comando.Parameters.Add(prm1);
+            var prm2 = new OracleParameter("inombre", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_user.Text };
+            comando.Parameters.Add(prm2);
+            var prm3 = new OracleParameter("icontra", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_pass.Text };
+            comando.Parameters.Add(prm3);
+            //se crea el valor de retorno para la funcion
+            var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1, ParameterDirection.ReturnValue);
+            comando.Parameters.Add(returnVal);
 
+            comando.Connection.Open();
+            comando.ExecuteNonQuery();
+
+            if (returnVal.Value.ToString() == "1")
+                MessageBox.Show("OK");
+            else
+                MessageBox.Show("Error");
+            comando.Connection.Close();
         }
 
         private void tabla_cuentas_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            DataGridViewCell cell = (DataGridViewCell)tabla_cuentas.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            dato_puntero = cell.Value.ToString();
+            if(e.RowIndex!=-1)
+            {
+                if (e.ColumnIndex != -1)
+                {
+                    DataGridViewCell cell = (DataGridViewCell)tabla_cuentas.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    dato_puntero = cell.Value.ToString();
+
+                    texto_user.Text = tabla_cuentas.Rows[e.RowIndex].Cells[0].Value.ToString();
+                    texto_pass.Text = tabla_cuentas.Rows[e.RowIndex].Cells[1].Value.ToString();
+                }
+            }
+
         }
     }
 }
