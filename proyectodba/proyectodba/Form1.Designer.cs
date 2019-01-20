@@ -71,17 +71,17 @@
             this.cuentas = new System.Windows.Forms.TabPage();
             this.tabla_cuentas = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.texto_clientes_is = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.texto_clientes_am = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.boton_clientes_mostrar = new System.Windows.Forms.Button();
+            this.boton_clientes_eliminar = new System.Windows.Forms.Button();
+            this.boton_clientes_cambiar = new System.Windows.Forms.Button();
+            this.boton_clientes_agregar = new System.Windows.Forms.Button();
+            this.texto_clientes_ap = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.texto_clientes_nombre = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.boton_mostrar_cuent = new System.Windows.Forms.Button();
@@ -512,28 +512,27 @@
             this.tabla_cuentas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.tabla_cuentas.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.tabla_cuentas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tabla_cuentas.ColumnHeadersVisible = false;
             this.tabla_cuentas.Location = new System.Drawing.Point(399, 22);
             this.tabla_cuentas.MultiSelect = false;
             this.tabla_cuentas.Name = "tabla_cuentas";
             this.tabla_cuentas.ReadOnly = true;
             this.tabla_cuentas.Size = new System.Drawing.Size(374, 358);
             this.tabla_cuentas.TabIndex = 5;
-            this.tabla_cuentas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tabla_cuentas_CellClick);
+            this.tabla_cuentas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Tabla_cuentas_CellClick);
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.textBox7);
+            this.groupBox3.Controls.Add(this.texto_clientes_is);
             this.groupBox3.Controls.Add(this.label18);
-            this.groupBox3.Controls.Add(this.textBox8);
+            this.groupBox3.Controls.Add(this.texto_clientes_am);
             this.groupBox3.Controls.Add(this.label19);
-            this.groupBox3.Controls.Add(this.button5);
-            this.groupBox3.Controls.Add(this.button6);
-            this.groupBox3.Controls.Add(this.button7);
-            this.groupBox3.Controls.Add(this.button8);
-            this.groupBox3.Controls.Add(this.textBox5);
+            this.groupBox3.Controls.Add(this.boton_clientes_mostrar);
+            this.groupBox3.Controls.Add(this.boton_clientes_eliminar);
+            this.groupBox3.Controls.Add(this.boton_clientes_cambiar);
+            this.groupBox3.Controls.Add(this.boton_clientes_agregar);
+            this.groupBox3.Controls.Add(this.texto_clientes_ap);
             this.groupBox3.Controls.Add(this.label16);
-            this.groupBox3.Controls.Add(this.textBox6);
+            this.groupBox3.Controls.Add(this.texto_clientes_nombre);
             this.groupBox3.Controls.Add(this.label17);
             this.groupBox3.Location = new System.Drawing.Point(13, 160);
             this.groupBox3.Name = "groupBox3";
@@ -541,29 +540,30 @@
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "clientes";
+            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
             // 
-            // textBox7
+            // texto_clientes_is
             // 
-            this.textBox7.Location = new System.Drawing.Point(133, 110);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(199, 20);
-            this.textBox7.TabIndex = 23;
+            this.texto_clientes_is.Location = new System.Drawing.Point(133, 110);
+            this.texto_clientes_is.Name = "texto_clientes_is";
+            this.texto_clientes_is.Size = new System.Drawing.Size(199, 20);
+            this.texto_clientes_is.TabIndex = 17;
             // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(6, 110);
+            this.label18.Location = new System.Drawing.Point(6, 113);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(100, 13);
+            this.label18.Size = new System.Drawing.Size(119, 13);
             this.label18.TabIndex = 22;
-            this.label18.Text = "Identificador Social:";
+            this.label18.Text = "IDEstudiante(Opcional):";
             // 
-            // textBox8
+            // texto_clientes_am
             // 
-            this.textBox8.Location = new System.Drawing.Point(133, 84);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(199, 20);
-            this.textBox8.TabIndex = 21;
+            this.texto_clientes_am.Location = new System.Drawing.Point(133, 84);
+            this.texto_clientes_am.Name = "texto_clientes_am";
+            this.texto_clientes_am.Size = new System.Drawing.Size(199, 20);
+            this.texto_clientes_am.TabIndex = 16;
             // 
             // label19
             // 
@@ -574,48 +574,52 @@
             this.label19.TabIndex = 20;
             this.label19.Text = "Apellido materno:";
             // 
-            // button5
+            // boton_clientes_mostrar
             // 
-            this.button5.Location = new System.Drawing.Point(257, 169);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 19;
-            this.button5.Text = "Mostrar personal";
-            this.button5.UseVisualStyleBackColor = true;
+            this.boton_clientes_mostrar.Location = new System.Drawing.Point(257, 169);
+            this.boton_clientes_mostrar.Name = "boton_clientes_mostrar";
+            this.boton_clientes_mostrar.Size = new System.Drawing.Size(75, 23);
+            this.boton_clientes_mostrar.TabIndex = 21;
+            this.boton_clientes_mostrar.Text = "Mostrar personal";
+            this.boton_clientes_mostrar.UseVisualStyleBackColor = true;
+            this.boton_clientes_mostrar.Click += new System.EventHandler(this.Boton_clientes_mostrar_Click);
             // 
-            // button6
+            // boton_clientes_eliminar
             // 
-            this.button6.Location = new System.Drawing.Point(176, 169);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(75, 23);
-            this.button6.TabIndex = 18;
-            this.button6.Text = "Eliminar";
-            this.button6.UseVisualStyleBackColor = true;
+            this.boton_clientes_eliminar.Location = new System.Drawing.Point(176, 169);
+            this.boton_clientes_eliminar.Name = "boton_clientes_eliminar";
+            this.boton_clientes_eliminar.Size = new System.Drawing.Size(75, 23);
+            this.boton_clientes_eliminar.TabIndex = 20;
+            this.boton_clientes_eliminar.Text = "Eliminar";
+            this.boton_clientes_eliminar.UseVisualStyleBackColor = true;
+            this.boton_clientes_eliminar.Click += new System.EventHandler(this.Boton_clientes_eliminar_Click);
             // 
-            // button7
+            // boton_clientes_cambiar
             // 
-            this.button7.Location = new System.Drawing.Point(95, 169);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 17;
-            this.button7.Text = "Modificar";
-            this.button7.UseVisualStyleBackColor = true;
+            this.boton_clientes_cambiar.Location = new System.Drawing.Point(95, 169);
+            this.boton_clientes_cambiar.Name = "boton_clientes_cambiar";
+            this.boton_clientes_cambiar.Size = new System.Drawing.Size(75, 23);
+            this.boton_clientes_cambiar.TabIndex = 19;
+            this.boton_clientes_cambiar.Text = "Modificar";
+            this.boton_clientes_cambiar.UseVisualStyleBackColor = true;
+            this.boton_clientes_cambiar.Click += new System.EventHandler(this.Boton_clientes_cambiar_Click);
             // 
-            // button8
+            // boton_clientes_agregar
             // 
-            this.button8.Location = new System.Drawing.Point(9, 169);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(75, 23);
-            this.button8.TabIndex = 16;
-            this.button8.Text = "Agregar";
-            this.button8.UseVisualStyleBackColor = true;
+            this.boton_clientes_agregar.Location = new System.Drawing.Point(9, 169);
+            this.boton_clientes_agregar.Name = "boton_clientes_agregar";
+            this.boton_clientes_agregar.Size = new System.Drawing.Size(75, 23);
+            this.boton_clientes_agregar.TabIndex = 18;
+            this.boton_clientes_agregar.Text = "Agregar";
+            this.boton_clientes_agregar.UseVisualStyleBackColor = true;
+            this.boton_clientes_agregar.Click += new System.EventHandler(this.Boton_clientes_agregar_Click);
             // 
-            // textBox5
+            // texto_clientes_ap
             // 
-            this.textBox5.Location = new System.Drawing.Point(133, 53);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(199, 20);
-            this.textBox5.TabIndex = 15;
+            this.texto_clientes_ap.Location = new System.Drawing.Point(133, 53);
+            this.texto_clientes_ap.Name = "texto_clientes_ap";
+            this.texto_clientes_ap.Size = new System.Drawing.Size(199, 20);
+            this.texto_clientes_ap.TabIndex = 15;
             // 
             // label16
             // 
@@ -626,12 +630,12 @@
             this.label16.TabIndex = 14;
             this.label16.Text = "Apellido paterno:";
             // 
-            // textBox6
+            // texto_clientes_nombre
             // 
-            this.textBox6.Location = new System.Drawing.Point(133, 27);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(199, 20);
-            this.textBox6.TabIndex = 13;
+            this.texto_clientes_nombre.Location = new System.Drawing.Point(133, 27);
+            this.texto_clientes_nombre.Name = "texto_clientes_nombre";
+            this.texto_clientes_nombre.Size = new System.Drawing.Size(199, 20);
+            this.texto_clientes_nombre.TabIndex = 13;
             // 
             // label17
             // 
@@ -658,6 +662,7 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "personal";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // boton_mostrar_cuent
             // 
@@ -815,17 +820,17 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox texto_user;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox texto_clientes_is;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox texto_clientes_am;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.Button boton_clientes_mostrar;
+        private System.Windows.Forms.Button boton_clientes_eliminar;
+        private System.Windows.Forms.Button boton_clientes_cambiar;
+        private System.Windows.Forms.Button boton_clientes_agregar;
+        private System.Windows.Forms.TextBox texto_clientes_ap;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox texto_clientes_nombre;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Button boton_mostrar_cuent;
         private System.Windows.Forms.Button boton_eliminar_cuenta;

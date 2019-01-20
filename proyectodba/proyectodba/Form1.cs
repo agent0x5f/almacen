@@ -16,6 +16,7 @@ namespace proyectodba
     public partial class Form1 : Form
     {
         string dato_puntero;
+        int control_activo = 0;
         public Form1()
         {
             InitializeComponent();           
@@ -161,7 +162,7 @@ namespace proyectodba
             comando.Connection.Close();
         }
 
-        private void tabla_cuentas_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void Tabla_cuentas_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if(e.RowIndex!=-1)
             {
@@ -169,12 +170,121 @@ namespace proyectodba
                 {
                     DataGridViewCell cell = (DataGridViewCell)tabla_cuentas.Rows[e.RowIndex].Cells[e.ColumnIndex];
                     dato_puntero = cell.Value.ToString();
-
-                    texto_user.Text = tabla_cuentas.Rows[e.RowIndex].Cells[0].Value.ToString();
-                    texto_pass.Text = tabla_cuentas.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    if (control_activo == 1)
+                    {
+                        texto_user.Text = tabla_cuentas.Rows[e.RowIndex].Cells[0].Value.ToString();
+                        texto_pass.Text = tabla_cuentas.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    }
+                    if(control_activo == 3)
+                    {
+                        texto_clientes_nombre.Text = tabla_cuentas.Rows[e.RowIndex].Cells[0].Value.ToString();
+                        texto_clientes_ap.Text = tabla_cuentas.Rows[e.RowIndex].Cells[1].Value.ToString();
+                        texto_clientes_am.Text = tabla_cuentas.Rows[e.RowIndex].Cells[2].Value.ToString();
+                        texto_clientes_is.Text = tabla_cuentas.Rows[e.RowIndex].Cells[3].Value.ToString();
+                    }
                 }
             }
 
+        }
+     
+        private void Boton_clientes_agregar_Click(object sender, EventArgs e)
+        {
+            string sql = "insertar_cliente";
+            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+            OracleConnection con = new OracleConnection(conexion);
+            OracleCommand comando = new OracleCommand(sql, con)
+            {
+                BindByName = true,
+                CommandType = CommandType.StoredProcedure
+            };
+            //se asignan los parametros de la funcion/procedimiento
+            var prm1 = new OracleParameter("inombre", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_nombre.Text };
+            comando.Parameters.Add(prm1);
+            var prm2 = new OracleParameter("iapep", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_ap.Text };
+            comando.Parameters.Add(prm2);
+            var prm3 = new OracleParameter("iapem", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_am.Text };
+            comando.Parameters.Add(prm3);
+            var prm4 = new OracleParameter("issn", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_is.Text };
+            comando.Parameters.Add(prm4);
+            //se crea el valor de retorno para la funcion
+            var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1, ParameterDirection.ReturnValue);
+            comando.Parameters.Add(returnVal);
+
+            comando.Connection.Open();
+            comando.ExecuteNonQuery();
+
+            if (returnVal.Value.ToString() == "0")
+                MessageBox.Show("OK");
+            else
+                MessageBox.Show("Error-Ya existe");
+            comando.Connection.Close();
+
+
+        }
+
+        private void Boton_clientes_cambiar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Boton_clientes_eliminar_Click(object sender, EventArgs e)
+        {
+            string sql = "eliminar_cliente";
+            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+            OracleConnection con = new OracleConnection(conexion);
+            OracleCommand comando = new OracleCommand(sql, con)
+            {
+                BindByName = true,
+                CommandType = CommandType.StoredProcedure
+            };
+            //se asignan los parametros de la funcion/procedimiento
+            var prm1 = new OracleParameter("inombre", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_nombre.Text };
+            comando.Parameters.Add(prm1);
+            var prm2 = new OracleParameter("iapep", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_ap.Text };
+            comando.Parameters.Add(prm2);
+            var prm3 = new OracleParameter("iapem", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_am.Text };
+            comando.Parameters.Add(prm3);
+            //se crea el valor de retorno para la funcion
+            var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1, ParameterDirection.ReturnValue);
+            comando.Parameters.Add(returnVal);
+
+            comando.Connection.Open();
+            comando.ExecuteNonQuery();
+
+            if (returnVal.Value.ToString() == "1")
+                MessageBox.Show("OK");
+            else
+                MessageBox.Show("Error");
+            comando.Connection.Close();
+        }
+
+        private void Boton_clientes_mostrar_Click(object sender, EventArgs e)
+        {
+            //muestra en la tabla las cuentas de personal registradas
+            //aun usa sql directo, si se necesita cambiar a embedido
+            string sql = "select nombre,apep,apem,ssn,contador from cliente";
+            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+            OracleConnection con = new OracleConnection(conexion);
+            OracleCommand comando = new OracleCommand(sql, con);
+
+            con.Open();
+            OracleDataAdapter da = new OracleDataAdapter(comando);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            DataTable dt = new DataTable();
+            dt = ds.Tables[0];
+            tabla_cuentas.DataSource = dt;
+            con.Close();
+        }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+            control_activo = 3;
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+            control_activo = 1;
         }
     }
 }
