@@ -421,5 +421,82 @@ namespace proyectodba
         {
             control_activo = 4;
         }
+
+        private void Boton_buscar_viaje_Click(object sender, EventArgs e)
+        {
+            //muestra en la tabla los viajes DISPONIBLES    
+            //aun usa sql directo, si se necesita cambiar a embedido
+            string sql;
+            if (texto_boleto_origen.Text == "" && texto_boleto_destino.Text == "")
+            {
+                 sql = "select id,origen,destino,fecha,hora,capacidad from viajes where estado='DISPONIBLE'";
+            }
+            else
+            {
+                sql = "select id,origen,destino,fecha,hora,capacidad from viajes where estado='DISPONIBLE' and origen='"+texto_boleto_origen.Text+"' and destino='"+texto_boleto_destino.Text+ "'and fecha > sysdate";
+            }
+                string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+            OracleConnection con = new OracleConnection(conexion);
+            OracleCommand comando = new OracleCommand(sql, con);
+
+            con.Open();
+            OracleDataAdapter da = new OracleDataAdapter(comando);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            DataTable dt = new DataTable();
+            dt = ds.Tables[0];
+            tabla_ver_vuelos.DataSource = dt;
+            con.Close();
+        }
+
+        private void tabla_ver_vuelos_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1)
+            {
+                if (e.ColumnIndex != -1)
+                {
+                    DataGridViewCell cell = (DataGridViewCell)tabla_ver_vuelos.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    dato_puntero = tabla_ver_vuelos.Rows[e.RowIndex].Cells[0].Value.ToString();
+                    if (control_activo == 7)
+                    {
+                        texto_id_viaje.Text = tabla_ver_vuelos.Rows[e.RowIndex].Cells[0].Value.ToString();
+                    }
+                    if(control_activo == 8)
+                    {
+                        texto_id_cliente.Text = tabla_ver_vuelos.Rows[e.RowIndex].Cells[0].Value.ToString();
+                    }
+                }
+            }
+        }
+
+        private void groupBox7_Enter(object sender, EventArgs e)
+        {
+            control_activo = 7;
+        }
+
+        private void groupBox8_Enter(object sender, EventArgs e)
+        {
+            control_activo = 8;
+        }
+
+        private void boton_buscar_cliente_Click(object sender, EventArgs e)
+        {
+            //muestra en la tabla los clientes con el mismo nombr
+            //aun usa sql directo, si se necesita cambiar a embedido
+            string sql;
+            sql = "select id,nombre,apep,apem from cliente where nombre='"+texto_boleto_nombre.Text+"'";
+            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+            OracleConnection con = new OracleConnection(conexion);
+            OracleCommand comando = new OracleCommand(sql, con);
+
+            con.Open();
+            OracleDataAdapter da = new OracleDataAdapter(comando);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            DataTable dt = new DataTable();
+            dt = ds.Tables[0];
+            tabla_ver_vuelos.DataSource = dt;
+            con.Close();
+        }
     }
 }

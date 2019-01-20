@@ -36,28 +36,26 @@
             this.texto_usuario = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.servidor = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.boton_comprar_boleto = new System.Windows.Forms.Button();
+            this.texto_boleto_nombre = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.tabla_ver_vuelos = new System.Windows.Forms.DataGridView();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.texto_boleto_destino = new System.Windows.Forms.TextBox();
+            this.texto_boleto_origen = new System.Windows.Forms.TextBox();
             this.Boton_buscar_viaje = new System.Windows.Forms.Button();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.admin = new System.Windows.Forms.TabPage();
             this.datos_viaje = new System.Windows.Forms.DataGridView();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.texto_capacidad = new System.Windows.Forms.NumericUpDown();
+            this.boton_mostrar_viajes = new System.Windows.Forms.Button();
+            this.texto_hora = new System.Windows.Forms.NumericUpDown();
+            this.fecha_picker = new System.Windows.Forms.DateTimePicker();
             this.cancelar_viaje = new System.Windows.Forms.Button();
             this.crear_viaje = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -89,25 +87,25 @@
             this.label14 = new System.Windows.Forms.Label();
             this.texto_user = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.boton_mostrar_viajes = new System.Windows.Forms.Button();
-            this.fecha_picker = new System.Windows.Forms.DateTimePicker();
-            this.texto_hora = new System.Windows.Forms.NumericUpDown();
-            this.texto_capacidad = new System.Windows.Forms.NumericUpDown();
+            this.texto_id_viaje = new System.Windows.Forms.TextBox();
+            this.boton_nuevo_cliente = new System.Windows.Forms.Button();
+            this.boton_buscar_cliente = new System.Windows.Forms.Button();
+            this.texto_id_cliente = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.login.SuspendLayout();
             this.servidor.SuspendLayout();
             this.groupBox8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tabla_ver_vuelos)).BeginInit();
             this.groupBox7.SuspendLayout();
             this.admin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datos_viaje)).BeginInit();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.texto_capacidad)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.texto_hora)).BeginInit();
             this.cuentas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabla_cuentas)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.texto_hora)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.texto_capacidad)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -185,9 +183,8 @@
             // 
             // servidor
             // 
-            this.servidor.Controls.Add(this.button1);
             this.servidor.Controls.Add(this.groupBox8);
-            this.servidor.Controls.Add(this.dataGridView1);
+            this.servidor.Controls.Add(this.tabla_ver_vuelos);
             this.servidor.Controls.Add(this.groupBox7);
             this.servidor.Location = new System.Drawing.Point(4, 22);
             this.servidor.Name = "servidor";
@@ -197,142 +194,103 @@
             this.servidor.Text = "servidor";
             this.servidor.UseVisualStyleBackColor = true;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(139, 329);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Comprar";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // groupBox8
             // 
-            this.groupBox8.Controls.Add(this.textBox3);
-            this.groupBox8.Controls.Add(this.label7);
-            this.groupBox8.Controls.Add(this.textBox4);
-            this.groupBox8.Controls.Add(this.label8);
-            this.groupBox8.Controls.Add(this.textBox2);
-            this.groupBox8.Controls.Add(this.label6);
-            this.groupBox8.Controls.Add(this.textBox1);
+            this.groupBox8.Controls.Add(this.texto_id_cliente);
+            this.groupBox8.Controls.Add(this.boton_buscar_cliente);
+            this.groupBox8.Controls.Add(this.boton_nuevo_cliente);
+            this.groupBox8.Controls.Add(this.boton_comprar_boleto);
+            this.groupBox8.Controls.Add(this.texto_boleto_nombre);
             this.groupBox8.Controls.Add(this.label5);
-            this.groupBox8.Location = new System.Drawing.Point(14, 145);
+            this.groupBox8.Location = new System.Drawing.Point(14, 130);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(359, 161);
+            this.groupBox8.Size = new System.Drawing.Size(247, 243);
             this.groupBox8.TabIndex = 4;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "datos del pasajero";
+            this.groupBox8.Enter += new System.EventHandler(this.groupBox8_Enter);
             // 
-            // textBox3
+            // boton_comprar_boleto
             // 
-            this.textBox3.Location = new System.Drawing.Point(99, 126);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(182, 20);
-            this.textBox3.TabIndex = 7;
+            this.boton_comprar_boleto.Location = new System.Drawing.Point(93, 214);
+            this.boton_comprar_boleto.Name = "boton_comprar_boleto";
+            this.boton_comprar_boleto.Size = new System.Drawing.Size(75, 23);
+            this.boton_comprar_boleto.TabIndex = 5;
+            this.boton_comprar_boleto.Text = "Comprar";
+            this.boton_comprar_boleto.UseVisualStyleBackColor = true;
             // 
-            // label7
+            // texto_boleto_nombre
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(16, 126);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(29, 13);
-            this.label7.TabIndex = 6;
-            this.label7.Text = "Curp";
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(96, 92);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(182, 20);
-            this.textBox4.TabIndex = 5;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(13, 92);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(30, 13);
-            this.label8.TabIndex = 4;
-            this.label8.Text = "APM";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(96, 67);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(182, 20);
-            this.textBox2.TabIndex = 3;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(13, 67);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(28, 13);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "APP";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(93, 33);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(182, 20);
-            this.textBox1.TabIndex = 1;
+            this.texto_boleto_nombre.Location = new System.Drawing.Point(54, 30);
+            this.texto_boleto_nombre.Name = "texto_boleto_nombre";
+            this.texto_boleto_nombre.Size = new System.Drawing.Size(182, 20);
+            this.texto_boleto_nombre.TabIndex = 1;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(10, 33);
+            this.label5.Location = new System.Drawing.Point(4, 33);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(44, 13);
             this.label5.TabIndex = 0;
             this.label5.Text = "Nombre";
             // 
-            // dataGridView1
+            // tabla_ver_vuelos
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(379, 16);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(394, 357);
-            this.dataGridView1.TabIndex = 3;
+            this.tabla_ver_vuelos.AllowUserToAddRows = false;
+            this.tabla_ver_vuelos.AllowUserToDeleteRows = false;
+            this.tabla_ver_vuelos.AllowUserToResizeColumns = false;
+            this.tabla_ver_vuelos.AllowUserToResizeRows = false;
+            this.tabla_ver_vuelos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.tabla_ver_vuelos.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.tabla_ver_vuelos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tabla_ver_vuelos.Location = new System.Drawing.Point(267, 16);
+            this.tabla_ver_vuelos.MultiSelect = false;
+            this.tabla_ver_vuelos.Name = "tabla_ver_vuelos";
+            this.tabla_ver_vuelos.ReadOnly = true;
+            this.tabla_ver_vuelos.Size = new System.Drawing.Size(506, 357);
+            this.tabla_ver_vuelos.TabIndex = 3;
+            this.tabla_ver_vuelos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tabla_ver_vuelos_CellClick);
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.texto_id_viaje);
+            this.groupBox7.Controls.Add(this.texto_boleto_destino);
+            this.groupBox7.Controls.Add(this.texto_boleto_origen);
             this.groupBox7.Controls.Add(this.Boton_buscar_viaje);
-            this.groupBox7.Controls.Add(this.comboBox2);
-            this.groupBox7.Controls.Add(this.comboBox1);
             this.groupBox7.Controls.Add(this.label4);
             this.groupBox7.Controls.Add(this.label3);
             this.groupBox7.Location = new System.Drawing.Point(14, 16);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(359, 108);
+            this.groupBox7.Size = new System.Drawing.Size(247, 108);
             this.groupBox7.TabIndex = 2;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "viaje";
+            this.groupBox7.Enter += new System.EventHandler(this.groupBox7_Enter);
+            // 
+            // texto_boleto_destino
+            // 
+            this.texto_boleto_destino.Location = new System.Drawing.Point(68, 46);
+            this.texto_boleto_destino.Name = "texto_boleto_destino";
+            this.texto_boleto_destino.Size = new System.Drawing.Size(122, 20);
+            this.texto_boleto_destino.TabIndex = 6;
+            // 
+            // texto_boleto_origen
+            // 
+            this.texto_boleto_origen.Location = new System.Drawing.Point(68, 17);
+            this.texto_boleto_origen.Name = "texto_boleto_origen";
+            this.texto_boleto_origen.Size = new System.Drawing.Size(122, 20);
+            this.texto_boleto_origen.TabIndex = 5;
             // 
             // Boton_buscar_viaje
             // 
-            this.Boton_buscar_viaje.Location = new System.Drawing.Point(125, 73);
+            this.Boton_buscar_viaje.Location = new System.Drawing.Point(93, 72);
             this.Boton_buscar_viaje.Name = "Boton_buscar_viaje";
             this.Boton_buscar_viaje.Size = new System.Drawing.Size(75, 23);
             this.Boton_buscar_viaje.TabIndex = 4;
             this.Boton_buscar_viaje.Text = "buscar";
             this.Boton_buscar_viaje.UseVisualStyleBackColor = true;
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(102, 46);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(173, 21);
-            this.comboBox2.TabIndex = 3;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(102, 11);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(173, 21);
-            this.comboBox1.TabIndex = 2;
+            this.Boton_buscar_viaje.Click += new System.EventHandler(this.Boton_buscar_viaje_Click);
             // 
             // label4
             // 
@@ -380,28 +338,6 @@
             this.datos_viaje.TabIndex = 8;
             this.datos_viaje.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datos_viaje_CellClick);
             // 
-            // cancelar_viaje
-            // 
-            this.cancelar_viaje.BackColor = System.Drawing.Color.Red;
-            this.cancelar_viaje.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cancelar_viaje.Location = new System.Drawing.Point(110, 324);
-            this.cancelar_viaje.Name = "cancelar_viaje";
-            this.cancelar_viaje.Size = new System.Drawing.Size(75, 23);
-            this.cancelar_viaje.TabIndex = 8;
-            this.cancelar_viaje.Text = "Cancelar";
-            this.cancelar_viaje.UseVisualStyleBackColor = false;
-            this.cancelar_viaje.Click += new System.EventHandler(this.cancelar_viaje_Click);
-            // 
-            // crear_viaje
-            // 
-            this.crear_viaje.Location = new System.Drawing.Point(31, 253);
-            this.crear_viaje.Name = "crear_viaje";
-            this.crear_viaje.Size = new System.Drawing.Size(75, 23);
-            this.crear_viaje.TabIndex = 6;
-            this.crear_viaje.Text = "Crear viaje";
-            this.crear_viaje.UseVisualStyleBackColor = true;
-            this.crear_viaje.Click += new System.EventHandler(this.Crear_viaje_Click);
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.texto_capacidad);
@@ -424,6 +360,76 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "viajes";
             this.groupBox4.Enter += new System.EventHandler(this.groupBox4_Enter);
+            // 
+            // texto_capacidad
+            // 
+            this.texto_capacidad.Location = new System.Drawing.Point(81, 153);
+            this.texto_capacidad.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+            this.texto_capacidad.Name = "texto_capacidad";
+            this.texto_capacidad.Size = new System.Drawing.Size(120, 20);
+            this.texto_capacidad.TabIndex = 9;
+            this.texto_capacidad.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // boton_mostrar_viajes
+            // 
+            this.boton_mostrar_viajes.Location = new System.Drawing.Point(110, 253);
+            this.boton_mostrar_viajes.Name = "boton_mostrar_viajes";
+            this.boton_mostrar_viajes.Size = new System.Drawing.Size(75, 23);
+            this.boton_mostrar_viajes.TabIndex = 7;
+            this.boton_mostrar_viajes.Text = "Mostrar";
+            this.boton_mostrar_viajes.UseVisualStyleBackColor = true;
+            this.boton_mostrar_viajes.Click += new System.EventHandler(this.boton_mostrar_viajes_Click);
+            // 
+            // texto_hora
+            // 
+            this.texto_hora.Location = new System.Drawing.Point(81, 92);
+            this.texto_hora.Maximum = new decimal(new int[] {
+            23,
+            0,
+            0,
+            0});
+            this.texto_hora.Name = "texto_hora";
+            this.texto_hora.Size = new System.Drawing.Size(120, 20);
+            this.texto_hora.TabIndex = 4;
+            // 
+            // fecha_picker
+            // 
+            this.fecha_picker.CustomFormat = "dd,MM,yyyy";
+            this.fecha_picker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.fecha_picker.Location = new System.Drawing.Point(81, 66);
+            this.fecha_picker.Name = "fecha_picker";
+            this.fecha_picker.Size = new System.Drawing.Size(120, 20);
+            this.fecha_picker.TabIndex = 3;
+            // 
+            // cancelar_viaje
+            // 
+            this.cancelar_viaje.BackColor = System.Drawing.Color.Red;
+            this.cancelar_viaje.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cancelar_viaje.Location = new System.Drawing.Point(110, 324);
+            this.cancelar_viaje.Name = "cancelar_viaje";
+            this.cancelar_viaje.Size = new System.Drawing.Size(75, 23);
+            this.cancelar_viaje.TabIndex = 8;
+            this.cancelar_viaje.Text = "Cancelar";
+            this.cancelar_viaje.UseVisualStyleBackColor = false;
+            this.cancelar_viaje.Click += new System.EventHandler(this.cancelar_viaje_Click);
+            // 
+            // crear_viaje
+            // 
+            this.crear_viaje.Location = new System.Drawing.Point(31, 253);
+            this.crear_viaje.Name = "crear_viaje";
+            this.crear_viaje.Size = new System.Drawing.Size(75, 23);
+            this.crear_viaje.TabIndex = 6;
+            this.crear_viaje.Text = "Crear viaje";
+            this.crear_viaje.UseVisualStyleBackColor = true;
+            this.crear_viaje.Click += new System.EventHandler(this.Crear_viaje_Click);
             // 
             // label13
             // 
@@ -730,53 +736,38 @@
             this.label15.TabIndex = 4;
             this.label15.Text = "usuario:";
             // 
-            // boton_mostrar_viajes
+            // texto_id_viaje
             // 
-            this.boton_mostrar_viajes.Location = new System.Drawing.Point(110, 253);
-            this.boton_mostrar_viajes.Name = "boton_mostrar_viajes";
-            this.boton_mostrar_viajes.Size = new System.Drawing.Size(75, 23);
-            this.boton_mostrar_viajes.TabIndex = 7;
-            this.boton_mostrar_viajes.Text = "Mostrar";
-            this.boton_mostrar_viajes.UseVisualStyleBackColor = true;
-            this.boton_mostrar_viajes.Click += new System.EventHandler(this.boton_mostrar_viajes_Click);
+            this.texto_id_viaje.Location = new System.Drawing.Point(199, 75);
+            this.texto_id_viaje.Name = "texto_id_viaje";
+            this.texto_id_viaje.Size = new System.Drawing.Size(37, 20);
+            this.texto_id_viaje.TabIndex = 7;
             // 
-            // fecha_picker
+            // boton_nuevo_cliente
             // 
-            this.fecha_picker.CustomFormat = "dd,MM,yyyy";
-            this.fecha_picker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.fecha_picker.Location = new System.Drawing.Point(81, 66);
-            this.fecha_picker.Name = "fecha_picker";
-            this.fecha_picker.Size = new System.Drawing.Size(120, 20);
-            this.fecha_picker.TabIndex = 3;
+            this.boton_nuevo_cliente.Location = new System.Drawing.Point(79, 118);
+            this.boton_nuevo_cliente.Name = "boton_nuevo_cliente";
+            this.boton_nuevo_cliente.Size = new System.Drawing.Size(89, 45);
+            this.boton_nuevo_cliente.TabIndex = 8;
+            this.boton_nuevo_cliente.Text = "Nuevo";
+            this.boton_nuevo_cliente.UseVisualStyleBackColor = true;
             // 
-            // texto_hora
+            // boton_buscar_cliente
             // 
-            this.texto_hora.Location = new System.Drawing.Point(81, 92);
-            this.texto_hora.Maximum = new decimal(new int[] {
-            23,
-            0,
-            0,
-            0});
-            this.texto_hora.Name = "texto_hora";
-            this.texto_hora.Size = new System.Drawing.Size(120, 20);
-            this.texto_hora.TabIndex = 4;
+            this.boton_buscar_cliente.Location = new System.Drawing.Point(79, 56);
+            this.boton_buscar_cliente.Name = "boton_buscar_cliente";
+            this.boton_buscar_cliente.Size = new System.Drawing.Size(89, 41);
+            this.boton_buscar_cliente.TabIndex = 9;
+            this.boton_buscar_cliente.Text = "Ya es cliente";
+            this.boton_buscar_cliente.UseVisualStyleBackColor = true;
+            this.boton_buscar_cliente.Click += new System.EventHandler(this.boton_buscar_cliente_Click);
             // 
-            // texto_capacidad
+            // texto_id_cliente
             // 
-            this.texto_capacidad.Location = new System.Drawing.Point(81, 153);
-            this.texto_capacidad.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.texto_capacidad.Name = "texto_capacidad";
-            this.texto_capacidad.Size = new System.Drawing.Size(120, 20);
-            this.texto_capacidad.TabIndex = 9;
-            this.texto_capacidad.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
+            this.texto_id_cliente.Location = new System.Drawing.Point(199, 77);
+            this.texto_id_cliente.Name = "texto_id_cliente";
+            this.texto_id_cliente.Size = new System.Drawing.Size(37, 20);
+            this.texto_id_cliente.TabIndex = 10;
             // 
             // Form1
             // 
@@ -795,21 +786,21 @@
             this.servidor.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tabla_ver_vuelos)).EndInit();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.admin.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.datos_viaje)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.texto_capacidad)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.texto_hora)).EndInit();
             this.cuentas.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tabla_cuentas)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.texto_hora)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.texto_capacidad)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -827,22 +818,13 @@
         private System.Windows.Forms.TabPage admin;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox texto_boleto_nombre;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView tabla_ver_vuelos;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Button Boton_buscar_viaje;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button boton_comprar_boleto;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox texto_destino;
@@ -881,6 +863,13 @@
         private System.Windows.Forms.DateTimePicker fecha_picker;
         private System.Windows.Forms.NumericUpDown texto_hora;
         private System.Windows.Forms.NumericUpDown texto_capacidad;
+        private System.Windows.Forms.TextBox texto_boleto_destino;
+        private System.Windows.Forms.TextBox texto_boleto_origen;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox texto_id_viaje;
+        private System.Windows.Forms.Button boton_buscar_cliente;
+        private System.Windows.Forms.Button boton_nuevo_cliente;
+        private System.Windows.Forms.TextBox texto_id_cliente;
     }
 }
 
