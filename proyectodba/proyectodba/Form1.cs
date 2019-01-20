@@ -89,7 +89,7 @@ namespace proyectodba
         {
             //muestra en la tabla las cuentas de personal registradas
             //aun usa sql directo, si se necesita cambiar a embedido
-            string sql = "select usuario,pass from cuentas";
+            string sql = "select id,usuario,pass from cuentas";
             string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
             OracleConnection con = new OracleConnection(conexion);
             OracleCommand comando = new OracleCommand(sql, con);
@@ -169,18 +169,18 @@ namespace proyectodba
                 if (e.ColumnIndex != -1)
                 {
                     DataGridViewCell cell = (DataGridViewCell)tabla_cuentas.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                    dato_puntero = cell.Value.ToString();
+                    dato_puntero = tabla_cuentas.Rows[e.RowIndex].Cells[0].Value.ToString();
                     if (control_activo == 1)
                     {
-                        texto_user.Text = tabla_cuentas.Rows[e.RowIndex].Cells[0].Value.ToString();
-                        texto_pass.Text = tabla_cuentas.Rows[e.RowIndex].Cells[1].Value.ToString();
+                        texto_user.Text = tabla_cuentas.Rows[e.RowIndex].Cells[1].Value.ToString();
+                        texto_pass.Text = tabla_cuentas.Rows[e.RowIndex].Cells[2].Value.ToString();
                     }
                     if(control_activo == 3)
                     {
-                        texto_clientes_nombre.Text = tabla_cuentas.Rows[e.RowIndex].Cells[0].Value.ToString();
-                        texto_clientes_ap.Text = tabla_cuentas.Rows[e.RowIndex].Cells[1].Value.ToString();
-                        texto_clientes_am.Text = tabla_cuentas.Rows[e.RowIndex].Cells[2].Value.ToString();
-                        texto_clientes_is.Text = tabla_cuentas.Rows[e.RowIndex].Cells[3].Value.ToString();
+                        texto_clientes_nombre.Text = tabla_cuentas.Rows[e.RowIndex].Cells[1].Value.ToString();
+                        texto_clientes_ap.Text = tabla_cuentas.Rows[e.RowIndex].Cells[2].Value.ToString();
+                        texto_clientes_am.Text = tabla_cuentas.Rows[e.RowIndex].Cells[3].Value.ToString();
+                        texto_clientes_is.Text = tabla_cuentas.Rows[e.RowIndex].Cells[4].Value.ToString();
                     }
                 }
             }
@@ -224,7 +224,37 @@ namespace proyectodba
 
         private void Boton_clientes_cambiar_Click(object sender, EventArgs e)
         {
+            string sql = "cambiar_cliente";
+            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+            OracleConnection con = new OracleConnection(conexion);
+            OracleCommand comando = new OracleCommand(sql, con)
+            {
+                BindByName = true,
+                CommandType = CommandType.StoredProcedure
+            };
+            //se asignan los parametros de la funcion/procedimiento
+            var prm1 = new OracleParameter("nref", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = dato_puntero };
+            comando.Parameters.Add(prm1);
+            var prm2 = new OracleParameter("inombre", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_nombre.Text };
+            comando.Parameters.Add(prm2);
+            var prm3 = new OracleParameter("iapep", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_ap.Text };
+            comando.Parameters.Add(prm3);
+            var prm4 = new OracleParameter("iapem", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_am.Text };
+            comando.Parameters.Add(prm4);
+            var prm5 = new OracleParameter("issn", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_is.Text };
+            comando.Parameters.Add(prm5);
+            //se crea el valor de retorno para la funcion
+            var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1, ParameterDirection.ReturnValue);
+            comando.Parameters.Add(returnVal);
 
+            comando.Connection.Open();
+            comando.ExecuteNonQuery();
+
+            if (returnVal.Value.ToString() == "1")
+                MessageBox.Show("OK");
+            else
+                MessageBox.Show("Error");
+            comando.Connection.Close();
         }
 
         private void Boton_clientes_eliminar_Click(object sender, EventArgs e)
@@ -262,7 +292,7 @@ namespace proyectodba
         {
             //muestra en la tabla las cuentas de personal registradas
             //aun usa sql directo, si se necesita cambiar a embedido
-            string sql = "select nombre,apep,apem,ssn,contador from cliente";
+            string sql = "select id,nombre,apep,apem,ssn,contador from cliente";
             string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
             OracleConnection con = new OracleConnection(conexion);
             OracleCommand comando = new OracleCommand(sql, con);
