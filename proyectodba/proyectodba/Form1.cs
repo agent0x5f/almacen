@@ -70,7 +70,7 @@ namespace proyectodba
             comando.Parameters.Add(prm3);
             var prm4 = new OracleParameter("ihora", OracleDbType.Int32, 10, ParameterDirection.Input) { Value = texto_hora.Value.ToString()};
             comando.Parameters.Add(prm4);
-            var prm5 = new OracleParameter("icapacidad", OracleDbType.Int32, 10, ParameterDirection.Input) { Value = texto_capacidad.Text };
+            var prm5 = new OracleParameter("icapacidad", OracleDbType.Int32, 10, ParameterDirection.Input) { Value = texto_capacidad.Value.ToString() };
             comando.Parameters.Add(prm5);
             //se crea el valor de retorno para la funcion
             var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1, ParameterDirection.ReturnValue);
@@ -212,6 +212,7 @@ namespace proyectodba
                         texto_clientes_am.Text = tabla_cuentas.Rows[e.RowIndex].Cells[3].Value.ToString();
                         texto_clientes_is.Text = tabla_cuentas.Rows[e.RowIndex].Cells[4].Value.ToString();
                     }
+                   
                 }
             }
 
@@ -351,7 +352,7 @@ namespace proyectodba
         {
             //muestra en la tabla los viajes registrados
             //aun usa sql directo, si se necesita cambiar a embebido
-            string sql = "select id,origen,destino,fecha,hora,capacidad from viajes";
+            string sql = "select id,origen,destino,fecha,hora,capacidad,estado from viajes";
             string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
             OracleConnection con = new OracleConnection(conexion);
             OracleCommand comando = new OracleCommand(sql, con);
@@ -364,6 +365,38 @@ namespace proyectodba
             dt = ds.Tables[0];
             datos_viaje.DataSource = dt;
             con.Close();
+        }
+
+        private void cancelar_viaje_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void datos_viaje_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1)
+            {
+                if (e.ColumnIndex != -1)
+                {
+                    DataGridViewCell cell = (DataGridViewCell)datos_viaje.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    dato_puntero = datos_viaje.Rows[e.RowIndex].Cells[0].Value.ToString();
+                    if (control_activo == 4)
+                    {
+                        texto_origen.Text = datos_viaje.Rows[e.RowIndex].Cells[1].Value.ToString();
+                        texto_destino.Text = datos_viaje.Rows[e.RowIndex].Cells[2].Value.ToString();
+                        fecha_picker.Text = datos_viaje.Rows[e.RowIndex].Cells[3].Value.ToString();
+                        texto_hora.Text = datos_viaje.Rows[e.RowIndex].Cells[4].Value.ToString();
+                        texto_capacidad.Text = datos_viaje.Rows[e.RowIndex].Cells[5].Value.ToString();
+                    }
+                   
+
+                }
+            }
+        }
+
+        private void groupBox4_Enter(object sender, EventArgs e)
+        {
+            control_activo = 4;
         }
     }
 }

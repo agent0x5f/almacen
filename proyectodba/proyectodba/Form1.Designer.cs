@@ -58,7 +58,6 @@
             this.cancelar_viaje = new System.Windows.Forms.Button();
             this.crear_viaje = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.texto_capacidad = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -93,6 +92,7 @@
             this.boton_mostrar_viajes = new System.Windows.Forms.Button();
             this.fecha_picker = new System.Windows.Forms.DateTimePicker();
             this.texto_hora = new System.Windows.Forms.NumericUpDown();
+            this.texto_capacidad = new System.Windows.Forms.NumericUpDown();
             this.tabControl1.SuspendLayout();
             this.login.SuspendLayout();
             this.servidor.SuspendLayout();
@@ -107,6 +107,7 @@
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.texto_hora)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.texto_capacidad)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -353,10 +354,7 @@
             // 
             // admin
             // 
-            this.admin.Controls.Add(this.boton_mostrar_viajes);
             this.admin.Controls.Add(this.datos_viaje);
-            this.admin.Controls.Add(this.cancelar_viaje);
-            this.admin.Controls.Add(this.crear_viaje);
             this.admin.Controls.Add(this.groupBox4);
             this.admin.Location = new System.Drawing.Point(4, 22);
             this.admin.Name = "admin";
@@ -371,28 +369,32 @@
             this.datos_viaje.AllowUserToDeleteRows = false;
             this.datos_viaje.AllowUserToResizeColumns = false;
             this.datos_viaje.AllowUserToResizeRows = false;
-            this.datos_viaje.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
-            this.datos_viaje.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllHeaders;
+            this.datos_viaje.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.datos_viaje.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.datos_viaje.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.datos_viaje.Location = new System.Drawing.Point(313, 20);
+            this.datos_viaje.Location = new System.Drawing.Point(221, 20);
+            this.datos_viaje.MultiSelect = false;
             this.datos_viaje.Name = "datos_viaje";
-            this.datos_viaje.Size = new System.Drawing.Size(460, 353);
+            this.datos_viaje.ReadOnly = true;
+            this.datos_viaje.Size = new System.Drawing.Size(552, 353);
             this.datos_viaje.TabIndex = 8;
+            this.datos_viaje.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datos_viaje_CellClick);
             // 
             // cancelar_viaje
             // 
             this.cancelar_viaje.BackColor = System.Drawing.Color.Red;
             this.cancelar_viaje.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cancelar_viaje.Location = new System.Drawing.Point(221, 331);
+            this.cancelar_viaje.Location = new System.Drawing.Point(110, 324);
             this.cancelar_viaje.Name = "cancelar_viaje";
             this.cancelar_viaje.Size = new System.Drawing.Size(75, 23);
             this.cancelar_viaje.TabIndex = 8;
             this.cancelar_viaje.Text = "Cancelar";
             this.cancelar_viaje.UseVisualStyleBackColor = false;
+            this.cancelar_viaje.Click += new System.EventHandler(this.cancelar_viaje_Click);
             // 
             // crear_viaje
             // 
-            this.crear_viaje.Location = new System.Drawing.Point(13, 331);
+            this.crear_viaje.Location = new System.Drawing.Point(31, 253);
             this.crear_viaje.Name = "crear_viaje";
             this.crear_viaje.Size = new System.Drawing.Size(75, 23);
             this.crear_viaje.TabIndex = 6;
@@ -402,9 +404,12 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.texto_capacidad);
+            this.groupBox4.Controls.Add(this.boton_mostrar_viajes);
             this.groupBox4.Controls.Add(this.texto_hora);
             this.groupBox4.Controls.Add(this.fecha_picker);
-            this.groupBox4.Controls.Add(this.texto_capacidad);
+            this.groupBox4.Controls.Add(this.cancelar_viaje);
+            this.groupBox4.Controls.Add(this.crear_viaje);
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Controls.Add(this.label12);
             this.groupBox4.Controls.Add(this.label11);
@@ -412,24 +417,18 @@
             this.groupBox4.Controls.Add(this.label10);
             this.groupBox4.Controls.Add(this.texto_origen);
             this.groupBox4.Controls.Add(this.label9);
-            this.groupBox4.Location = new System.Drawing.Point(13, 20);
+            this.groupBox4.Location = new System.Drawing.Point(7, 20);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(294, 305);
+            this.groupBox4.Size = new System.Drawing.Size(208, 353);
             this.groupBox4.TabIndex = 3;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "viajes";
-            // 
-            // texto_capacidad
-            // 
-            this.texto_capacidad.Location = new System.Drawing.Point(80, 146);
-            this.texto_capacidad.Name = "texto_capacidad";
-            this.texto_capacidad.Size = new System.Drawing.Size(199, 20);
-            this.texto_capacidad.TabIndex = 5;
+            this.groupBox4.Enter += new System.EventHandler(this.groupBox4_Enter);
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(6, 153);
+            this.label13.Location = new System.Drawing.Point(3, 153);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(61, 13);
             this.label13.TabIndex = 8;
@@ -438,7 +437,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(33, 94);
+            this.label12.Location = new System.Drawing.Point(30, 94);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(33, 13);
             this.label12.TabIndex = 6;
@@ -447,7 +446,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(31, 72);
+            this.label11.Location = new System.Drawing.Point(28, 72);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(40, 13);
             this.label11.TabIndex = 4;
@@ -455,15 +454,15 @@
             // 
             // texto_destino
             // 
-            this.texto_destino.Location = new System.Drawing.Point(84, 39);
+            this.texto_destino.Location = new System.Drawing.Point(81, 39);
             this.texto_destino.Name = "texto_destino";
-            this.texto_destino.Size = new System.Drawing.Size(199, 20);
+            this.texto_destino.Size = new System.Drawing.Size(120, 20);
             this.texto_destino.TabIndex = 2;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(25, 42);
+            this.label10.Location = new System.Drawing.Point(22, 42);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(46, 13);
             this.label10.TabIndex = 2;
@@ -471,15 +470,15 @@
             // 
             // texto_origen
             // 
-            this.texto_origen.Location = new System.Drawing.Point(84, 13);
+            this.texto_origen.Location = new System.Drawing.Point(81, 13);
             this.texto_origen.Name = "texto_origen";
-            this.texto_origen.Size = new System.Drawing.Size(199, 20);
+            this.texto_origen.Size = new System.Drawing.Size(120, 20);
             this.texto_origen.TabIndex = 1;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(25, 16);
+            this.label9.Location = new System.Drawing.Point(22, 16);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(41, 13);
             this.label9.TabIndex = 0;
@@ -507,11 +506,11 @@
             this.tabla_cuentas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.tabla_cuentas.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.tabla_cuentas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tabla_cuentas.Location = new System.Drawing.Point(399, 22);
+            this.tabla_cuentas.Location = new System.Drawing.Point(351, 22);
             this.tabla_cuentas.MultiSelect = false;
             this.tabla_cuentas.Name = "tabla_cuentas";
             this.tabla_cuentas.ReadOnly = true;
-            this.tabla_cuentas.Size = new System.Drawing.Size(374, 358);
+            this.tabla_cuentas.Size = new System.Drawing.Size(422, 358);
             this.tabla_cuentas.TabIndex = 5;
             this.tabla_cuentas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Tabla_cuentas_CellClick);
             // 
@@ -531,7 +530,7 @@
             this.groupBox3.Controls.Add(this.label17);
             this.groupBox3.Location = new System.Drawing.Point(13, 160);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(361, 213);
+            this.groupBox3.Size = new System.Drawing.Size(332, 213);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "clientes";
@@ -541,7 +540,7 @@
             // 
             this.texto_clientes_is.Location = new System.Drawing.Point(133, 110);
             this.texto_clientes_is.Name = "texto_clientes_is";
-            this.texto_clientes_is.Size = new System.Drawing.Size(199, 20);
+            this.texto_clientes_is.Size = new System.Drawing.Size(161, 20);
             this.texto_clientes_is.TabIndex = 17;
             // 
             // label18
@@ -557,7 +556,7 @@
             // 
             this.texto_clientes_am.Location = new System.Drawing.Point(133, 84);
             this.texto_clientes_am.Name = "texto_clientes_am";
-            this.texto_clientes_am.Size = new System.Drawing.Size(199, 20);
+            this.texto_clientes_am.Size = new System.Drawing.Size(161, 20);
             this.texto_clientes_am.TabIndex = 16;
             // 
             // label19
@@ -613,7 +612,7 @@
             // 
             this.texto_clientes_ap.Location = new System.Drawing.Point(133, 53);
             this.texto_clientes_ap.Name = "texto_clientes_ap";
-            this.texto_clientes_ap.Size = new System.Drawing.Size(199, 20);
+            this.texto_clientes_ap.Size = new System.Drawing.Size(161, 20);
             this.texto_clientes_ap.TabIndex = 15;
             // 
             // label16
@@ -629,7 +628,7 @@
             // 
             this.texto_clientes_nombre.Location = new System.Drawing.Point(133, 27);
             this.texto_clientes_nombre.Name = "texto_clientes_nombre";
-            this.texto_clientes_nombre.Size = new System.Drawing.Size(199, 20);
+            this.texto_clientes_nombre.Size = new System.Drawing.Size(161, 20);
             this.texto_clientes_nombre.TabIndex = 13;
             // 
             // label17
@@ -653,7 +652,7 @@
             this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Location = new System.Drawing.Point(13, 22);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(361, 124);
+            this.groupBox1.Size = new System.Drawing.Size(332, 124);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "personal";
@@ -733,7 +732,7 @@
             // 
             // boton_mostrar_viajes
             // 
-            this.boton_mostrar_viajes.Location = new System.Drawing.Point(97, 331);
+            this.boton_mostrar_viajes.Location = new System.Drawing.Point(110, 253);
             this.boton_mostrar_viajes.Name = "boton_mostrar_viajes";
             this.boton_mostrar_viajes.Size = new System.Drawing.Size(75, 23);
             this.boton_mostrar_viajes.TabIndex = 7;
@@ -745,14 +744,14 @@
             // 
             this.fecha_picker.CustomFormat = "dd,MM,yyyy";
             this.fecha_picker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.fecha_picker.Location = new System.Drawing.Point(84, 66);
+            this.fecha_picker.Location = new System.Drawing.Point(81, 66);
             this.fecha_picker.Name = "fecha_picker";
-            this.fecha_picker.Size = new System.Drawing.Size(200, 20);
+            this.fecha_picker.Size = new System.Drawing.Size(120, 20);
             this.fecha_picker.TabIndex = 3;
             // 
             // texto_hora
             // 
-            this.texto_hora.Location = new System.Drawing.Point(84, 92);
+            this.texto_hora.Location = new System.Drawing.Point(81, 92);
             this.texto_hora.Maximum = new decimal(new int[] {
             23,
             0,
@@ -761,6 +760,23 @@
             this.texto_hora.Name = "texto_hora";
             this.texto_hora.Size = new System.Drawing.Size(120, 20);
             this.texto_hora.TabIndex = 4;
+            // 
+            // texto_capacidad
+            // 
+            this.texto_capacidad.Location = new System.Drawing.Point(81, 153);
+            this.texto_capacidad.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+            this.texto_capacidad.Name = "texto_capacidad";
+            this.texto_capacidad.Size = new System.Drawing.Size(120, 20);
+            this.texto_capacidad.TabIndex = 9;
+            this.texto_capacidad.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
             // 
             // Form1
             // 
@@ -793,6 +809,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.texto_hora)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.texto_capacidad)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -832,7 +849,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox texto_origen;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox texto_capacidad;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TabPage cuentas;
         private System.Windows.Forms.GroupBox groupBox3;
@@ -864,6 +880,7 @@
         private System.Windows.Forms.Button boton_mostrar_viajes;
         private System.Windows.Forms.DateTimePicker fecha_picker;
         private System.Windows.Forms.NumericUpDown texto_hora;
+        private System.Windows.Forms.NumericUpDown texto_capacidad;
     }
 }
 
