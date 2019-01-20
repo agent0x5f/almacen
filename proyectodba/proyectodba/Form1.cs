@@ -369,7 +369,30 @@ namespace proyectodba
 
         private void cancelar_viaje_Click(object sender, EventArgs e)
         {
+            string sql = "cancelar_viaje";
+            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+            OracleConnection con = new OracleConnection(conexion);
+            OracleCommand comando = new OracleCommand(sql, con)
+            {
+                BindByName = true,
+                CommandType = CommandType.StoredProcedure
+            };
+            //se asignan los parametros de la funcion/procedimiento
+            var prm1 = new OracleParameter("nref", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = dato_puntero };
+            comando.Parameters.Add(prm1);
+           
+            //se crea el valor de retorno para la funcion
+            var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1, ParameterDirection.ReturnValue);
+            comando.Parameters.Add(returnVal);
 
+            comando.Connection.Open();
+            comando.ExecuteNonQuery();
+
+            if (returnVal.Value.ToString() == "1")
+                MessageBox.Show("OK");
+            else
+                MessageBox.Show("Error");
+            comando.Connection.Close();
         }
 
         private void datos_viaje_CellClick(object sender, DataGridViewCellEventArgs e)
