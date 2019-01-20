@@ -53,7 +53,37 @@ namespace proyectodba
 
         private void Crear_viaje_Click(object sender, EventArgs e)
         {
-            
+            string sql = "insertar_viaje";
+            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+            OracleConnection con = new OracleConnection(conexion);
+            OracleCommand comando = new OracleCommand(sql, con)
+            {
+                BindByName = true,
+                CommandType = CommandType.StoredProcedure
+            };
+            //se asignan los parametros de la funcion/procedimiento
+            var prm1 = new OracleParameter("iorigen", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_origen.Text };
+            comando.Parameters.Add(prm1);
+            var prm2 = new OracleParameter("idestino", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_destino.Text };
+            comando.Parameters.Add(prm2);
+            var prm3 = new OracleParameter("ifecha", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = fecha_picker.Value.ToString("dd,MM,yyyy")};
+            comando.Parameters.Add(prm3);
+            var prm4 = new OracleParameter("ihora", OracleDbType.Int32, 10, ParameterDirection.Input) { Value = texto_hora.Value.ToString()};
+            comando.Parameters.Add(prm4);
+            var prm5 = new OracleParameter("icapacidad", OracleDbType.Int32, 10, ParameterDirection.Input) { Value = texto_capacidad.Text };
+            comando.Parameters.Add(prm5);
+            //se crea el valor de retorno para la funcion
+            var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1, ParameterDirection.ReturnValue);
+            comando.Parameters.Add(returnVal);
+
+            comando.Connection.Open();
+            comando.ExecuteNonQuery();
+
+            if (returnVal.Value.ToString() == "1")
+                MessageBox.Show("OK");
+            else
+                MessageBox.Show("Error-Ya existe");
+            comando.Connection.Close();
         }
 
         private void Boton_agregar_personal_Click(object sender, EventArgs e)
@@ -315,6 +345,25 @@ namespace proyectodba
         private void groupBox1_Enter(object sender, EventArgs e)
         {
             control_activo = 1;
+        }
+
+        private void boton_mostrar_viajes_Click(object sender, EventArgs e)
+        {
+            //muestra en la tabla los viajes registrados
+            //aun usa sql directo, si se necesita cambiar a embebido
+            string sql = "select id,origen,destino,fecha,hora,capacidad from viajes";
+            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+            OracleConnection con = new OracleConnection(conexion);
+            OracleCommand comando = new OracleCommand(sql, con);
+
+            con.Open();
+            OracleDataAdapter da = new OracleDataAdapter(comando);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            DataTable dt = new DataTable();
+            dt = ds.Tables[0];
+            datos_viaje.DataSource = dt;
+            con.Close();
         }
     }
 }
