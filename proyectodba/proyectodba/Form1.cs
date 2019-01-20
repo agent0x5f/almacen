@@ -30,7 +30,7 @@ namespace proyectodba
             const string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
             OracleConnection con = new OracleConnection(conexion);
             con.Open();
-            string sql = "select pass from cuentas where usuario = '"+ user +"'";
+            string sql = "select pass,admin from cuentas where usuario = '"+ user +"'";
             OracleCommand comando = new OracleCommand(sql, con);
             OracleDataReader dr = comando.ExecuteReader();
 
@@ -40,11 +40,26 @@ namespace proyectodba
             else
             while (dr.Read())
             {
-                //si se permite la entrada, cambiar a la interfaz          
-                if (dr[0].ToString() == pass)
-                    tabControl1.SelectTab(1);
-                else
-                    MessageBox.Show("Error en datos");
+                    //si se permite la entrada, cambiar a la interfaz correspondiente        
+                    if (dr[0].ToString() == pass)
+                    {
+                        if (dr[1].ToString() == "SI")
+                        {
+                            tabControl1.SelectTab(2);
+                            groupBox1.Visible = true;
+                            boton_regresar_servidor.Visible = true;
+                            boton_regresar_cliente.Visible = false;
+                        }
+                        else
+                        {
+                            tabControl1.SelectTab(1);
+                            groupBox1.Visible = false;
+                            boton_regresar_servidor.Visible = false;
+                            boton_regresar_cliente.Visible = true;
+                        }
+                    }
+                    else
+                        MessageBox.Show("Error en datos");
             }
 
             con.Dispose();          
@@ -53,73 +68,93 @@ namespace proyectodba
 
         private void Crear_viaje_Click(object sender, EventArgs e)
         {
-            string sql = "insertar_viaje";
-            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
-            OracleConnection con = new OracleConnection(conexion);
-            OracleCommand comando = new OracleCommand(sql, con)
-            {
-                BindByName = true,
-                CommandType = CommandType.StoredProcedure
-            };
-            //se asignan los parametros de la funcion/procedimiento
-            var prm1 = new OracleParameter("iorigen", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_origen.Text };
-            comando.Parameters.Add(prm1);
-            var prm2 = new OracleParameter("idestino", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_destino.Text };
-            comando.Parameters.Add(prm2);
-            var prm3 = new OracleParameter("ifecha", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = fecha_picker.Value.ToString("dd,MM,yyyy")};
-            comando.Parameters.Add(prm3);
-            var prm4 = new OracleParameter("ihora", OracleDbType.Int32, 10, ParameterDirection.Input) { Value = texto_hora.Value.ToString()};
-            comando.Parameters.Add(prm4);
-            var prm5 = new OracleParameter("icapacidad", OracleDbType.Int32, 10, ParameterDirection.Input) { Value = texto_capacidad.Value.ToString() };
-            comando.Parameters.Add(prm5);
-            //se crea el valor de retorno para la funcion
-            var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1, ParameterDirection.ReturnValue);
-            comando.Parameters.Add(returnVal);
-
-            comando.Connection.Open();
-            comando.ExecuteNonQuery();
-
-            if (returnVal.Value.ToString() == "1")
-                MessageBox.Show("OK");
+            //comprobar la entrada
+            if (texto_origen.Text == "" || texto_destino.Text == "")
+                MessageBox.Show("Error-Rellenar los datos primero");
             else
-                MessageBox.Show("Error-Ya existe");
-            comando.Connection.Close();
+            {
+                string sql = "insertar_viaje";
+                string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+                OracleConnection con = new OracleConnection(conexion);
+                OracleCommand comando = new OracleCommand(sql, con)
+                {
+                    BindByName = true,
+                    CommandType = CommandType.StoredProcedure
+                };
+                //se asignan los parametros de la funcion/procedimiento
+                var prm1 = new OracleParameter("iorigen", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_origen.Text };
+                comando.Parameters.Add(prm1);
+                var prm2 = new OracleParameter("idestino", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_destino.Text };
+                comando.Parameters.Add(prm2);
+                var prm3 = new OracleParameter("ifecha", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = fecha_picker.Value.ToString("dd,MM,yyyy") };
+                comando.Parameters.Add(prm3);
+                var prm4 = new OracleParameter("ihora", OracleDbType.Int32, 10, ParameterDirection.Input) { Value = texto_hora.Value.ToString() };
+                comando.Parameters.Add(prm4);
+                var prm5 = new OracleParameter("icapacidad", OracleDbType.Int32, 10, ParameterDirection.Input) { Value = texto_capacidad.Value.ToString() };
+                comando.Parameters.Add(prm5);
+                //se crea el valor de retorno para la funcion
+                var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1, ParameterDirection.ReturnValue);
+                comando.Parameters.Add(returnVal);
+
+                comando.Connection.Open();
+                comando.ExecuteNonQuery();
+
+                if (returnVal.Value.ToString() == "1")
+                    MessageBox.Show("OK");
+                else
+                    MessageBox.Show("Error-Ya existe");
+                comando.Connection.Close();
+            }
         }
 
         private void Boton_agregar_personal_Click(object sender, EventArgs e)
         {
-            string sql = "insertar_cuenta";
-            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
-            OracleConnection con = new OracleConnection(conexion);
-            OracleCommand comando = new OracleCommand(sql, con)
-            {
-                BindByName = true,
-                CommandType = CommandType.StoredProcedure
-            };
-            //se asignan los parametros de la funcion/procedimiento
-            var prm1 = new OracleParameter("nombre", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_user.Text };
-            comando.Parameters.Add(prm1);
-            var prm2 = new OracleParameter("contra", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_pass.Text };
-            comando.Parameters.Add(prm2);
-            //se crea el valor de retorno para la funcion
-            var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1,ParameterDirection.ReturnValue);           
-            comando.Parameters.Add(returnVal);
+            string derechos;
 
-            comando.Connection.Open();
-            comando.ExecuteNonQuery();
-
-            if (returnVal.Value.ToString() == "0")
-                MessageBox.Show("OK");
+            if (check_admin.Checked == true)
+                derechos = "SI";
             else
-                MessageBox.Show("Error-Ya existe");
-            comando.Connection.Close();
+                derechos = "NO";
+            //comprobar la entrada
+            if (texto_user.Text == "" || texto_pass.Text == "")
+                MessageBox.Show("Error-Rellenar los datos primero");
+            else
+            {
+                string sql = "insertar_cuenta";
+                string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+                OracleConnection con = new OracleConnection(conexion);
+                OracleCommand comando = new OracleCommand(sql, con)
+                {
+                    BindByName = true,
+                    CommandType = CommandType.StoredProcedure
+                };
+                //se asignan los parametros de la funcion/procedimiento
+                var prm1 = new OracleParameter("nombre", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_user.Text };
+                comando.Parameters.Add(prm1);
+                var prm2 = new OracleParameter("contra", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_pass.Text };
+                comando.Parameters.Add(prm2);
+                var prm3 = new OracleParameter("tipo", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = derechos };
+                comando.Parameters.Add(prm3);
+                //se crea el valor de retorno para la funcion
+                var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1, ParameterDirection.ReturnValue);
+                comando.Parameters.Add(returnVal);
+
+                comando.Connection.Open();
+                comando.ExecuteNonQuery();
+
+                if (returnVal.Value.ToString() == "0")
+                    MessageBox.Show("OK");
+                else
+                    MessageBox.Show("Error-Ya existe");
+                comando.Connection.Close();
+            }
         }
 
         private void Boton_mostrar_cuentas_Click(object sender, EventArgs e)
         {
             //muestra en la tabla las cuentas de personal registradas
             //aun usa sql directo, si se necesita cambiar a embedido
-            string sql = "select id,usuario,pass from cuentas";
+            string sql = "select id,usuario,pass,admin from cuentas";
             string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
             OracleConnection con = new OracleConnection(conexion);
             OracleCommand comando = new OracleCommand(sql, con);
@@ -220,37 +255,45 @@ namespace proyectodba
      
         private void Boton_clientes_agregar_Click(object sender, EventArgs e)
         {
-            string sql = "insertar_cliente";
-            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
-            OracleConnection con = new OracleConnection(conexion);
-            OracleCommand comando = new OracleCommand(sql, con)
-            {
-                BindByName = true,
-                CommandType = CommandType.StoredProcedure
-            };
-            //se asignan los parametros de la funcion/procedimiento
-            var prm1 = new OracleParameter("inombre", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_nombre.Text };
-            comando.Parameters.Add(prm1);
-            var prm2 = new OracleParameter("iapep", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_ap.Text };
-            comando.Parameters.Add(prm2);
-            var prm3 = new OracleParameter("iapem", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_am.Text };
-            comando.Parameters.Add(prm3);
-            var prm4 = new OracleParameter("issn", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_is.Text };
-            comando.Parameters.Add(prm4);
-            //se crea el valor de retorno para la funcion
-            var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1, ParameterDirection.ReturnValue);
-            comando.Parameters.Add(returnVal);
-
-            comando.Connection.Open();
-            comando.ExecuteNonQuery();
-
-            if (returnVal.Value.ToString() == "0")
-                MessageBox.Show("OK");
+            //comprobar la entrada
+            //solo requiero de nombre y primer apellido
+            if (texto_clientes_nombre.Text == "" || texto_clientes_ap.Text == "")
+                MessageBox.Show("Error-Rellenar los datos primero");
             else
-                MessageBox.Show("Error-Ya existe");
-            comando.Connection.Close();
+            {
+                string sql = "insertar_cliente";
+                string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+                OracleConnection con = new OracleConnection(conexion);
+                OracleCommand comando = new OracleCommand(sql, con)
+                {
+                    BindByName = true,
+                    CommandType = CommandType.StoredProcedure
+                };
+                //se asignan los parametros de la funcion/procedimiento
+                var prm1 = new OracleParameter("inombre", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_nombre.Text };
+                comando.Parameters.Add(prm1);
+                var prm2 = new OracleParameter("iapep", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_ap.Text };
+                comando.Parameters.Add(prm2);
+                var prm3 = new OracleParameter("iapem", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_am.Text };
+                comando.Parameters.Add(prm3);
+                var prm4 = new OracleParameter("issn", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_clientes_is.Text };
+                comando.Parameters.Add(prm4);
+                //se crea el valor de retorno para la funcion
+                var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1, ParameterDirection.ReturnValue);
+                comando.Parameters.Add(returnVal);
 
+                comando.Connection.Open();
+                comando.ExecuteNonQuery();
 
+                if (returnVal.Value.ToString() == "0")
+                    MessageBox.Show("OK");
+                else
+                    MessageBox.Show("Error-Ya existe");
+                comando.Connection.Close();
+
+                groupBox1.Visible = true;
+                tabControl1.SelectTab(1);
+            }
         }
 
         private void Boton_clientes_cambiar_Click(object sender, EventArgs e)
@@ -484,7 +527,14 @@ namespace proyectodba
             //muestra en la tabla los clientes con el mismo nombr
             //aun usa sql directo, si se necesita cambiar a embedido
             string sql;
-            sql = "select id,nombre,apep,apem from cliente where nombre='"+texto_boleto_nombre.Text+"'";
+            if (texto_boleto_nombre.Text == "")
+            {
+                sql = "select id,nombre,apep,apem from cliente";
+            }
+            else
+            {
+                sql = "select id,nombre,apep,apem from cliente where nombre='" + texto_boleto_nombre.Text + "'";
+            }
             string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
             OracleConnection con = new OracleConnection(conexion);
             OracleCommand comando = new OracleCommand(sql, con);
@@ -497,6 +547,53 @@ namespace proyectodba
             dt = ds.Tables[0];
             tabla_ver_vuelos.DataSource = dt;
             con.Close();
+
+            texto_id_cliente.Text = "";
+        }
+
+        private void boton_nuevo_cliente_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectTab(3);
+            groupBox1.Visible = false;
+            boton_regresar_servidor.Visible = false;
+            boton_regresar_cliente.Visible = true;
+        }
+
+        private void ir_cuentas_clientes_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectTab(3);
+            boton_regresar_cliente.Visible = false;
+            boton_regresar_servidor.Visible = true;
+        }
+
+        private void boton_regresar_servidor_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectTab(2);
+        }
+
+        private void boton_logout_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectTab(0);
+        }
+
+        private void boton_salir_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectTab(0);
+        }
+
+        private void boton_regresar_cliente_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectTab(1);
+        }
+
+        private void cuentas_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void check_admin_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

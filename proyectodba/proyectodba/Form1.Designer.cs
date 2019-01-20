@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.Button boton_clientes_eliminar;
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.login = new System.Windows.Forms.TabPage();
             this.Boton_ok = new System.Windows.Forms.Button();
@@ -37,11 +38,15 @@
             this.label1 = new System.Windows.Forms.Label();
             this.servidor = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.texto_id_cliente = new System.Windows.Forms.TextBox();
+            this.boton_buscar_cliente = new System.Windows.Forms.Button();
+            this.boton_nuevo_cliente = new System.Windows.Forms.Button();
             this.boton_comprar_boleto = new System.Windows.Forms.Button();
             this.texto_boleto_nombre = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tabla_ver_vuelos = new System.Windows.Forms.DataGridView();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.texto_id_viaje = new System.Windows.Forms.TextBox();
             this.texto_boleto_destino = new System.Windows.Forms.TextBox();
             this.texto_boleto_origen = new System.Windows.Forms.TextBox();
             this.Boton_buscar_viaje = new System.Windows.Forms.Button();
@@ -66,12 +71,12 @@
             this.cuentas = new System.Windows.Forms.TabPage();
             this.tabla_cuentas = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.boton_regresar_servidor = new System.Windows.Forms.Button();
             this.texto_clientes_is = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.texto_clientes_am = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.boton_clientes_mostrar = new System.Windows.Forms.Button();
-            this.boton_clientes_eliminar = new System.Windows.Forms.Button();
             this.boton_clientes_cambiar = new System.Windows.Forms.Button();
             this.boton_clientes_agregar = new System.Windows.Forms.Button();
             this.texto_clientes_ap = new System.Windows.Forms.TextBox();
@@ -87,10 +92,13 @@
             this.label14 = new System.Windows.Forms.Label();
             this.texto_user = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.texto_id_viaje = new System.Windows.Forms.TextBox();
-            this.boton_nuevo_cliente = new System.Windows.Forms.Button();
-            this.boton_buscar_cliente = new System.Windows.Forms.Button();
-            this.texto_id_cliente = new System.Windows.Forms.TextBox();
+            this.ir_cuentas_clientes = new System.Windows.Forms.Button();
+            this.boton_logout = new System.Windows.Forms.Button();
+            this.boton_salir = new System.Windows.Forms.Button();
+            this.boton_regresar_cliente = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.check_admin = new System.Windows.Forms.CheckBox();
+            boton_clientes_eliminar = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.login.SuspendLayout();
             this.servidor.SuspendLayout();
@@ -107,6 +115,18 @@
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // boton_clientes_eliminar
+            // 
+            boton_clientes_eliminar.BackColor = System.Drawing.Color.Red;
+            boton_clientes_eliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            boton_clientes_eliminar.Location = new System.Drawing.Point(254, 140);
+            boton_clientes_eliminar.Name = "boton_clientes_eliminar";
+            boton_clientes_eliminar.Size = new System.Drawing.Size(75, 23);
+            boton_clientes_eliminar.TabIndex = 21;
+            boton_clientes_eliminar.Text = "Eliminar";
+            boton_clientes_eliminar.UseVisualStyleBackColor = false;
+            boton_clientes_eliminar.Click += new System.EventHandler(this.Boton_clientes_eliminar_Click);
             // 
             // tabControl1
             // 
@@ -196,6 +216,7 @@
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.boton_salir);
             this.groupBox8.Controls.Add(this.texto_id_cliente);
             this.groupBox8.Controls.Add(this.boton_buscar_cliente);
             this.groupBox8.Controls.Add(this.boton_nuevo_cliente);
@@ -210,14 +231,43 @@
             this.groupBox8.Text = "datos del pasajero";
             this.groupBox8.Enter += new System.EventHandler(this.groupBox8_Enter);
             // 
+            // texto_id_cliente
+            // 
+            this.texto_id_cliente.Location = new System.Drawing.Point(199, 77);
+            this.texto_id_cliente.Name = "texto_id_cliente";
+            this.texto_id_cliente.Size = new System.Drawing.Size(37, 20);
+            this.texto_id_cliente.TabIndex = 10;
+            // 
+            // boton_buscar_cliente
+            // 
+            this.boton_buscar_cliente.Location = new System.Drawing.Point(101, 66);
+            this.boton_buscar_cliente.Name = "boton_buscar_cliente";
+            this.boton_buscar_cliente.Size = new System.Drawing.Size(89, 45);
+            this.boton_buscar_cliente.TabIndex = 9;
+            this.boton_buscar_cliente.Text = "Ya es cliente";
+            this.boton_buscar_cliente.UseVisualStyleBackColor = true;
+            this.boton_buscar_cliente.Click += new System.EventHandler(this.boton_buscar_cliente_Click);
+            // 
+            // boton_nuevo_cliente
+            // 
+            this.boton_nuevo_cliente.Location = new System.Drawing.Point(0, 66);
+            this.boton_nuevo_cliente.Name = "boton_nuevo_cliente";
+            this.boton_nuevo_cliente.Size = new System.Drawing.Size(89, 45);
+            this.boton_nuevo_cliente.TabIndex = 8;
+            this.boton_nuevo_cliente.Text = "Nuevo";
+            this.boton_nuevo_cliente.UseVisualStyleBackColor = true;
+            this.boton_nuevo_cliente.Click += new System.EventHandler(this.boton_nuevo_cliente_Click);
+            // 
             // boton_comprar_boleto
             // 
-            this.boton_comprar_boleto.Location = new System.Drawing.Point(93, 214);
+            this.boton_comprar_boleto.BackColor = System.Drawing.Color.Green;
+            this.boton_comprar_boleto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton_comprar_boleto.Location = new System.Drawing.Point(7, 126);
             this.boton_comprar_boleto.Name = "boton_comprar_boleto";
-            this.boton_comprar_boleto.Size = new System.Drawing.Size(75, 23);
+            this.boton_comprar_boleto.Size = new System.Drawing.Size(229, 60);
             this.boton_comprar_boleto.TabIndex = 5;
             this.boton_comprar_boleto.Text = "Comprar";
-            this.boton_comprar_boleto.UseVisualStyleBackColor = true;
+            this.boton_comprar_boleto.UseVisualStyleBackColor = false;
             // 
             // texto_boleto_nombre
             // 
@@ -268,6 +318,13 @@
             this.groupBox7.Text = "viaje";
             this.groupBox7.Enter += new System.EventHandler(this.groupBox7_Enter);
             // 
+            // texto_id_viaje
+            // 
+            this.texto_id_viaje.Location = new System.Drawing.Point(199, 75);
+            this.texto_id_viaje.Name = "texto_id_viaje";
+            this.texto_id_viaje.Size = new System.Drawing.Size(37, 20);
+            this.texto_id_viaje.TabIndex = 7;
+            // 
             // texto_boleto_destino
             // 
             this.texto_boleto_destino.Location = new System.Drawing.Point(68, 46);
@@ -284,7 +341,7 @@
             // 
             // Boton_buscar_viaje
             // 
-            this.Boton_buscar_viaje.Location = new System.Drawing.Point(93, 72);
+            this.Boton_buscar_viaje.Location = new System.Drawing.Point(79, 72);
             this.Boton_buscar_viaje.Name = "Boton_buscar_viaje";
             this.Boton_buscar_viaje.Size = new System.Drawing.Size(75, 23);
             this.Boton_buscar_viaje.TabIndex = 4;
@@ -340,6 +397,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.boton_logout);
+            this.groupBox4.Controls.Add(this.ir_cuentas_clientes);
             this.groupBox4.Controls.Add(this.texto_capacidad);
             this.groupBox4.Controls.Add(this.boton_mostrar_viajes);
             this.groupBox4.Controls.Add(this.texto_hora);
@@ -371,7 +430,7 @@
             0});
             this.texto_capacidad.Name = "texto_capacidad";
             this.texto_capacidad.Size = new System.Drawing.Size(120, 20);
-            this.texto_capacidad.TabIndex = 9;
+            this.texto_capacidad.TabIndex = 5;
             this.texto_capacidad.Value = new decimal(new int[] {
             100,
             0,
@@ -380,7 +439,7 @@
             // 
             // boton_mostrar_viajes
             // 
-            this.boton_mostrar_viajes.Location = new System.Drawing.Point(110, 253);
+            this.boton_mostrar_viajes.Location = new System.Drawing.Point(112, 194);
             this.boton_mostrar_viajes.Name = "boton_mostrar_viajes";
             this.boton_mostrar_viajes.Size = new System.Drawing.Size(75, 23);
             this.boton_mostrar_viajes.TabIndex = 7;
@@ -413,7 +472,7 @@
             // 
             this.cancelar_viaje.BackColor = System.Drawing.Color.Red;
             this.cancelar_viaje.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cancelar_viaje.Location = new System.Drawing.Point(110, 324);
+            this.cancelar_viaje.Location = new System.Drawing.Point(70, 223);
             this.cancelar_viaje.Name = "cancelar_viaje";
             this.cancelar_viaje.Size = new System.Drawing.Size(75, 23);
             this.cancelar_viaje.TabIndex = 8;
@@ -423,7 +482,7 @@
             // 
             // crear_viaje
             // 
-            this.crear_viaje.Location = new System.Drawing.Point(31, 253);
+            this.crear_viaje.Location = new System.Drawing.Point(33, 194);
             this.crear_viaje.Name = "crear_viaje";
             this.crear_viaje.Size = new System.Drawing.Size(75, 23);
             this.crear_viaje.TabIndex = 6;
@@ -492,6 +551,8 @@
             // 
             // cuentas
             // 
+            this.cuentas.Controls.Add(this.boton_regresar_cliente);
+            this.cuentas.Controls.Add(this.boton_regresar_servidor);
             this.cuentas.Controls.Add(this.tabla_cuentas);
             this.cuentas.Controls.Add(this.groupBox3);
             this.cuentas.Controls.Add(this.groupBox1);
@@ -502,6 +563,7 @@
             this.cuentas.TabIndex = 3;
             this.cuentas.Text = "cuentas";
             this.cuentas.UseVisualStyleBackColor = true;
+            this.cuentas.Click += new System.EventHandler(this.cuentas_Click);
             // 
             // tabla_cuentas
             // 
@@ -527,20 +589,32 @@
             this.groupBox3.Controls.Add(this.texto_clientes_am);
             this.groupBox3.Controls.Add(this.label19);
             this.groupBox3.Controls.Add(this.boton_clientes_mostrar);
-            this.groupBox3.Controls.Add(this.boton_clientes_eliminar);
+            this.groupBox3.Controls.Add(boton_clientes_eliminar);
             this.groupBox3.Controls.Add(this.boton_clientes_cambiar);
             this.groupBox3.Controls.Add(this.boton_clientes_agregar);
             this.groupBox3.Controls.Add(this.texto_clientes_ap);
             this.groupBox3.Controls.Add(this.label16);
             this.groupBox3.Controls.Add(this.texto_clientes_nombre);
             this.groupBox3.Controls.Add(this.label17);
-            this.groupBox3.Location = new System.Drawing.Point(13, 160);
+            this.groupBox3.Location = new System.Drawing.Point(6, 170);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(332, 213);
+            this.groupBox3.Size = new System.Drawing.Size(332, 174);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "clientes";
             this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
+            // 
+            // boton_regresar_servidor
+            // 
+            this.boton_regresar_servidor.BackColor = System.Drawing.Color.Gray;
+            this.boton_regresar_servidor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton_regresar_servidor.Location = new System.Drawing.Point(71, 350);
+            this.boton_regresar_servidor.Name = "boton_regresar_servidor";
+            this.boton_regresar_servidor.Size = new System.Drawing.Size(75, 23);
+            this.boton_regresar_servidor.TabIndex = 23;
+            this.boton_regresar_servidor.Text = "Regresar";
+            this.boton_regresar_servidor.UseVisualStyleBackColor = false;
+            this.boton_regresar_servidor.Click += new System.EventHandler(this.boton_regresar_servidor_Click);
             // 
             // texto_clientes_is
             // 
@@ -576,27 +650,17 @@
             // 
             // boton_clientes_mostrar
             // 
-            this.boton_clientes_mostrar.Location = new System.Drawing.Point(257, 169);
+            this.boton_clientes_mostrar.Location = new System.Drawing.Point(173, 140);
             this.boton_clientes_mostrar.Name = "boton_clientes_mostrar";
             this.boton_clientes_mostrar.Size = new System.Drawing.Size(75, 23);
-            this.boton_clientes_mostrar.TabIndex = 21;
+            this.boton_clientes_mostrar.TabIndex = 20;
             this.boton_clientes_mostrar.Text = "Mostrar personal";
             this.boton_clientes_mostrar.UseVisualStyleBackColor = true;
             this.boton_clientes_mostrar.Click += new System.EventHandler(this.Boton_clientes_mostrar_Click);
             // 
-            // boton_clientes_eliminar
-            // 
-            this.boton_clientes_eliminar.Location = new System.Drawing.Point(176, 169);
-            this.boton_clientes_eliminar.Name = "boton_clientes_eliminar";
-            this.boton_clientes_eliminar.Size = new System.Drawing.Size(75, 23);
-            this.boton_clientes_eliminar.TabIndex = 20;
-            this.boton_clientes_eliminar.Text = "Eliminar";
-            this.boton_clientes_eliminar.UseVisualStyleBackColor = true;
-            this.boton_clientes_eliminar.Click += new System.EventHandler(this.Boton_clientes_eliminar_Click);
-            // 
             // boton_clientes_cambiar
             // 
-            this.boton_clientes_cambiar.Location = new System.Drawing.Point(95, 169);
+            this.boton_clientes_cambiar.Location = new System.Drawing.Point(92, 140);
             this.boton_clientes_cambiar.Name = "boton_clientes_cambiar";
             this.boton_clientes_cambiar.Size = new System.Drawing.Size(75, 23);
             this.boton_clientes_cambiar.TabIndex = 19;
@@ -606,7 +670,7 @@
             // 
             // boton_clientes_agregar
             // 
-            this.boton_clientes_agregar.Location = new System.Drawing.Point(9, 169);
+            this.boton_clientes_agregar.Location = new System.Drawing.Point(6, 140);
             this.boton_clientes_agregar.Name = "boton_clientes_agregar";
             this.boton_clientes_agregar.Size = new System.Drawing.Size(75, 23);
             this.boton_clientes_agregar.TabIndex = 18;
@@ -648,6 +712,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.check_admin);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.boton_mostrar_cuent);
             this.groupBox1.Controls.Add(this.boton_eliminar_cuenta);
             this.groupBox1.Controls.Add(this.boton_modificar_cuenta);
@@ -656,9 +722,9 @@
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.texto_user);
             this.groupBox1.Controls.Add(this.label15);
-            this.groupBox1.Location = new System.Drawing.Point(13, 22);
+            this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(332, 124);
+            this.groupBox1.Size = new System.Drawing.Size(332, 158);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "personal";
@@ -666,27 +732,29 @@
             // 
             // boton_mostrar_cuent
             // 
-            this.boton_mostrar_cuent.Location = new System.Drawing.Point(257, 85);
+            this.boton_mostrar_cuent.Location = new System.Drawing.Point(170, 111);
             this.boton_mostrar_cuent.Name = "boton_mostrar_cuent";
             this.boton_mostrar_cuent.Size = new System.Drawing.Size(75, 23);
-            this.boton_mostrar_cuent.TabIndex = 11;
+            this.boton_mostrar_cuent.TabIndex = 10;
             this.boton_mostrar_cuent.Text = "Mostrar personal";
             this.boton_mostrar_cuent.UseVisualStyleBackColor = true;
             this.boton_mostrar_cuent.Click += new System.EventHandler(this.Boton_mostrar_cuentas_Click);
             // 
             // boton_eliminar_cuenta
             // 
-            this.boton_eliminar_cuenta.Location = new System.Drawing.Point(176, 85);
+            this.boton_eliminar_cuenta.BackColor = System.Drawing.Color.Red;
+            this.boton_eliminar_cuenta.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton_eliminar_cuenta.Location = new System.Drawing.Point(248, 111);
             this.boton_eliminar_cuenta.Name = "boton_eliminar_cuenta";
             this.boton_eliminar_cuenta.Size = new System.Drawing.Size(75, 23);
-            this.boton_eliminar_cuenta.TabIndex = 10;
+            this.boton_eliminar_cuenta.TabIndex = 11;
             this.boton_eliminar_cuenta.Text = "Eliminar";
-            this.boton_eliminar_cuenta.UseVisualStyleBackColor = true;
+            this.boton_eliminar_cuenta.UseVisualStyleBackColor = false;
             this.boton_eliminar_cuenta.Click += new System.EventHandler(this.Boton_eliminar_cuenta_Click);
             // 
             // boton_modificar_cuenta
             // 
-            this.boton_modificar_cuenta.Location = new System.Drawing.Point(95, 85);
+            this.boton_modificar_cuenta.Location = new System.Drawing.Point(92, 111);
             this.boton_modificar_cuenta.Name = "boton_modificar_cuenta";
             this.boton_modificar_cuenta.Size = new System.Drawing.Size(75, 23);
             this.boton_modificar_cuenta.TabIndex = 9;
@@ -696,7 +764,7 @@
             // 
             // boton_agregar_personal
             // 
-            this.boton_agregar_personal.Location = new System.Drawing.Point(9, 85);
+            this.boton_agregar_personal.Location = new System.Drawing.Point(6, 111);
             this.boton_agregar_personal.Name = "boton_agregar_personal";
             this.boton_agregar_personal.Size = new System.Drawing.Size(75, 23);
             this.boton_agregar_personal.TabIndex = 8;
@@ -706,7 +774,7 @@
             // 
             // texto_pass
             // 
-            this.texto_pass.Location = new System.Drawing.Point(95, 48);
+            this.texto_pass.Location = new System.Drawing.Point(95, 42);
             this.texto_pass.Name = "texto_pass";
             this.texto_pass.Size = new System.Drawing.Size(199, 20);
             this.texto_pass.TabIndex = 7;
@@ -714,7 +782,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(6, 51);
+            this.label14.Location = new System.Drawing.Point(18, 45);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(63, 13);
             this.label14.TabIndex = 6;
@@ -722,7 +790,7 @@
             // 
             // texto_user
             // 
-            this.texto_user.Location = new System.Drawing.Point(95, 22);
+            this.texto_user.Location = new System.Drawing.Point(95, 16);
             this.texto_user.Name = "texto_user";
             this.texto_user.Size = new System.Drawing.Size(199, 20);
             this.texto_user.TabIndex = 5;
@@ -730,44 +798,80 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(6, 25);
+            this.label15.Location = new System.Drawing.Point(25, 19);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(44, 13);
             this.label15.TabIndex = 4;
             this.label15.Text = "usuario:";
             // 
-            // texto_id_viaje
+            // ir_cuentas_clientes
             // 
-            this.texto_id_viaje.Location = new System.Drawing.Point(199, 75);
-            this.texto_id_viaje.Name = "texto_id_viaje";
-            this.texto_id_viaje.Size = new System.Drawing.Size(37, 20);
-            this.texto_id_viaje.TabIndex = 7;
+            this.ir_cuentas_clientes.BackColor = System.Drawing.Color.Gray;
+            this.ir_cuentas_clientes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ir_cuentas_clientes.Location = new System.Drawing.Point(70, 290);
+            this.ir_cuentas_clientes.Name = "ir_cuentas_clientes";
+            this.ir_cuentas_clientes.Size = new System.Drawing.Size(120, 57);
+            this.ir_cuentas_clientes.TabIndex = 10;
+            this.ir_cuentas_clientes.Text = "Manejo de cuentas y clientes";
+            this.ir_cuentas_clientes.UseVisualStyleBackColor = false;
+            this.ir_cuentas_clientes.Click += new System.EventHandler(this.ir_cuentas_clientes_Click);
             // 
-            // boton_nuevo_cliente
+            // boton_logout
             // 
-            this.boton_nuevo_cliente.Location = new System.Drawing.Point(79, 118);
-            this.boton_nuevo_cliente.Name = "boton_nuevo_cliente";
-            this.boton_nuevo_cliente.Size = new System.Drawing.Size(89, 45);
-            this.boton_nuevo_cliente.TabIndex = 8;
-            this.boton_nuevo_cliente.Text = "Nuevo";
-            this.boton_nuevo_cliente.UseVisualStyleBackColor = true;
+            this.boton_logout.BackColor = System.Drawing.Color.DarkRed;
+            this.boton_logout.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.boton_logout.ForeColor = System.Drawing.Color.GhostWhite;
+            this.boton_logout.Location = new System.Drawing.Point(0, 324);
+            this.boton_logout.Name = "boton_logout";
+            this.boton_logout.Size = new System.Drawing.Size(39, 23);
+            this.boton_logout.TabIndex = 11;
+            this.boton_logout.Text = "X";
+            this.boton_logout.UseVisualStyleBackColor = false;
+            this.boton_logout.Click += new System.EventHandler(this.boton_logout_Click);
             // 
-            // boton_buscar_cliente
+            // boton_salir
             // 
-            this.boton_buscar_cliente.Location = new System.Drawing.Point(79, 56);
-            this.boton_buscar_cliente.Name = "boton_buscar_cliente";
-            this.boton_buscar_cliente.Size = new System.Drawing.Size(89, 41);
-            this.boton_buscar_cliente.TabIndex = 9;
-            this.boton_buscar_cliente.Text = "Ya es cliente";
-            this.boton_buscar_cliente.UseVisualStyleBackColor = true;
-            this.boton_buscar_cliente.Click += new System.EventHandler(this.boton_buscar_cliente_Click);
+            this.boton_salir.BackColor = System.Drawing.Color.DarkRed;
+            this.boton_salir.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.boton_salir.ForeColor = System.Drawing.Color.GhostWhite;
+            this.boton_salir.Location = new System.Drawing.Point(0, 214);
+            this.boton_salir.Name = "boton_salir";
+            this.boton_salir.Size = new System.Drawing.Size(39, 23);
+            this.boton_salir.TabIndex = 12;
+            this.boton_salir.Text = "X";
+            this.boton_salir.UseVisualStyleBackColor = false;
+            this.boton_salir.Click += new System.EventHandler(this.boton_salir_Click);
             // 
-            // texto_id_cliente
+            // boton_regresar_cliente
             // 
-            this.texto_id_cliente.Location = new System.Drawing.Point(199, 77);
-            this.texto_id_cliente.Name = "texto_id_cliente";
-            this.texto_id_cliente.Size = new System.Drawing.Size(37, 20);
-            this.texto_id_cliente.TabIndex = 10;
+            this.boton_regresar_cliente.BackColor = System.Drawing.Color.Gray;
+            this.boton_regresar_cliente.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton_regresar_cliente.Location = new System.Drawing.Point(165, 350);
+            this.boton_regresar_cliente.Name = "boton_regresar_cliente";
+            this.boton_regresar_cliente.Size = new System.Drawing.Size(75, 23);
+            this.boton_regresar_cliente.TabIndex = 24;
+            this.boton_regresar_cliente.Text = "Regresar";
+            this.boton_regresar_cliente.UseVisualStyleBackColor = false;
+            this.boton_regresar_cliente.Click += new System.EventHandler(this.boton_regresar_cliente_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(18, 78);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(79, 13);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Administrador?:";
+            // 
+            // check_admin
+            // 
+            this.check_admin.AutoSize = true;
+            this.check_admin.Location = new System.Drawing.Point(103, 78);
+            this.check_admin.Name = "check_admin";
+            this.check_admin.Size = new System.Drawing.Size(15, 14);
+            this.check_admin.TabIndex = 13;
+            this.check_admin.UseVisualStyleBackColor = true;
+            this.check_admin.CheckedChanged += new System.EventHandler(this.check_admin_CheckedChanged);
             // 
             // Form1
             // 
@@ -848,7 +952,6 @@
         private System.Windows.Forms.TextBox texto_clientes_am;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Button boton_clientes_mostrar;
-        private System.Windows.Forms.Button boton_clientes_eliminar;
         private System.Windows.Forms.Button boton_clientes_cambiar;
         private System.Windows.Forms.Button boton_clientes_agregar;
         private System.Windows.Forms.TextBox texto_clientes_ap;
@@ -870,6 +973,13 @@
         private System.Windows.Forms.Button boton_buscar_cliente;
         private System.Windows.Forms.Button boton_nuevo_cliente;
         private System.Windows.Forms.TextBox texto_id_cliente;
+        private System.Windows.Forms.Button boton_regresar_servidor;
+        private System.Windows.Forms.Button ir_cuentas_clientes;
+        private System.Windows.Forms.Button boton_logout;
+        private System.Windows.Forms.Button boton_salir;
+        private System.Windows.Forms.Button boton_regresar_cliente;
+        private System.Windows.Forms.CheckBox check_admin;
+        private System.Windows.Forms.Label label6;
     }
 }
 
