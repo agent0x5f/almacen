@@ -586,14 +586,71 @@ namespace proyectodba
             tabControl1.SelectTab(1);
         }
 
-        private void cuentas_Click(object sender, EventArgs e)
+        private void boton_comprar_boleto_Click(object sender, EventArgs e)
         {
+            if (texto_id_cliente.Text == "" || texto_id_viaje.Text == "")
+                MessageBox.Show("Error-Escoger #Cliente y #Viaje primero");
+            else
+            {
+                DialogResult respuesta = MessageBox.Show("Confirmar compra?" + "Cliente N: " + texto_id_cliente.Text + "Viaje N: " + texto_id_viaje.Text + "", "Confirmar compra", MessageBoxButtons.YesNo);
+                if (respuesta == DialogResult.Yes)
+                {
+                    string sql = "insertar_boleto";
+                    string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+                    OracleConnection con = new OracleConnection(conexion);
+                    OracleCommand comando = new OracleCommand(sql, con)
+                    {
+                        BindByName = true,
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    //se asignan los parametros de la funcion/procedimiento
+                    var prm1 = new OracleParameter("icliente", OracleDbType.Int32, ParameterDirection.Input) { Value = texto_id_cliente.Text };
+                    comando.Parameters.Add(prm1);
+                    var prm2 = new OracleParameter("iviaje", OracleDbType.Int32, ParameterDirection.Input) { Value = texto_id_viaje.Text };
+                    comando.Parameters.Add(prm2);
 
+                    //se crea el valor de retorno para la funcion
+                    var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1, ParameterDirection.ReturnValue);
+                    comando.Parameters.Add(returnVal);
+
+                    comando.Connection.Open();
+                    comando.ExecuteNonQuery();
+
+                    if (returnVal.Value.ToString() == "1")
+                    {
+                        MessageBox.Show("OK");
+                        Form form2 = new Form();
+                        Label letreo1 = new Label() { Text="Hola" ,Location=new Point(50,50)};
+                        form2.Controls.Add(letreo1);
+
+                        form2.ShowDialog();
+
+                    }
+                    else
+                        MessageBox.Show("Error de red");
+                    comando.Connection.Close();
+                }
+            }
         }
 
-        private void check_admin_CheckedChanged(object sender, EventArgs e)
+        private void boton_ver_boletos_Click(object sender, EventArgs e)
         {
+            //muestra en la tabla todos los boletos
+            string sql;
+            sql = "select id,idvuelo,idcliente from boleto";
+            
+            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+            OracleConnection con = new OracleConnection(conexion);
+            OracleCommand comando = new OracleCommand(sql, con);
 
+            con.Open();
+            OracleDataAdapter da = new OracleDataAdapter(comando);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            DataTable dt = new DataTable();
+            dt = ds.Tables[0];
+            datos_viaje.DataSource = dt;
+            con.Close();
         }
     }
 }
