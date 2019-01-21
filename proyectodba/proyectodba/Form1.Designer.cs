@@ -38,7 +38,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.servidor = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.boton_salir = new System.Windows.Forms.Button();
             this.texto_id_cliente = new System.Windows.Forms.TextBox();
             this.boton_buscar_cliente = new System.Windows.Forms.Button();
@@ -48,7 +47,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tabla_ver_vuelos = new System.Windows.Forms.DataGridView();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.texto_id_viaje = new System.Windows.Forms.TextBox();
             this.texto_boleto_destino = new System.Windows.Forms.TextBox();
             this.texto_boleto_origen = new System.Windows.Forms.TextBox();
@@ -100,9 +98,6 @@
             this.label14 = new System.Windows.Forms.Label();
             this.texto_user = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.boton_ver_boletos = new System.Windows.Forms.Button();
-            this.label20 = new System.Windows.Forms.Label();
-            this.letrero_boletos_vendidos = new System.Windows.Forms.Label();
             boton_clientes_eliminar = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.login.SuspendLayout();
@@ -221,7 +216,6 @@
             // 
             // groupBox8
             // 
-            this.groupBox8.Controls.Add(this.label8);
             this.groupBox8.Controls.Add(this.boton_salir);
             this.groupBox8.Controls.Add(this.texto_id_cliente);
             this.groupBox8.Controls.Add(this.boton_buscar_cliente);
@@ -236,15 +230,6 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "datos del pasajero";
             this.groupBox8.Enter += new System.EventHandler(this.groupBox8_Enter);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(183, 81);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(14, 13);
-            this.label8.TabIndex = 13;
-            this.label8.Text = "#";
             // 
             // boton_salir
             // 
@@ -268,9 +253,9 @@
             // 
             // boton_buscar_cliente
             // 
-            this.boton_buscar_cliente.Location = new System.Drawing.Point(93, 66);
+            this.boton_buscar_cliente.Location = new System.Drawing.Point(101, 66);
             this.boton_buscar_cliente.Name = "boton_buscar_cliente";
-            this.boton_buscar_cliente.Size = new System.Drawing.Size(84, 45);
+            this.boton_buscar_cliente.Size = new System.Drawing.Size(89, 45);
             this.boton_buscar_cliente.TabIndex = 9;
             this.boton_buscar_cliente.Text = "Ya es cliente";
             this.boton_buscar_cliente.UseVisualStyleBackColor = true;
@@ -280,7 +265,7 @@
             // 
             this.boton_nuevo_cliente.Location = new System.Drawing.Point(0, 66);
             this.boton_nuevo_cliente.Name = "boton_nuevo_cliente";
-            this.boton_nuevo_cliente.Size = new System.Drawing.Size(87, 45);
+            this.boton_nuevo_cliente.Size = new System.Drawing.Size(89, 45);
             this.boton_nuevo_cliente.TabIndex = 8;
             this.boton_nuevo_cliente.Text = "Nuevo";
             this.boton_nuevo_cliente.UseVisualStyleBackColor = true;
@@ -333,7 +318,6 @@
             // 
             // groupBox7
             // 
-            this.groupBox7.Controls.Add(this.label7);
             this.groupBox7.Controls.Add(this.texto_id_viaje);
             this.groupBox7.Controls.Add(this.texto_boleto_destino);
             this.groupBox7.Controls.Add(this.texto_boleto_origen);
@@ -347,15 +331,6 @@
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "viaje";
             this.groupBox7.Enter += new System.EventHandler(this.groupBox7_Enter);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(185, 79);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(14, 13);
-            this.label7.TabIndex = 8;
-            this.label7.Text = "#";
             // 
             // texto_id_viaje
             // 
@@ -431,14 +406,11 @@
             this.datos_viaje.Name = "datos_viaje";
             this.datos_viaje.ReadOnly = true;
             this.datos_viaje.Size = new System.Drawing.Size(552, 353);
-            this.datos_viaje.TabIndex = 15;
+            this.datos_viaje.TabIndex = 8;
             this.datos_viaje.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datos_viaje_CellClick);
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.letrero_boletos_vendidos);
-            this.groupBox4.Controls.Add(this.label20);
-            this.groupBox4.Controls.Add(this.boton_ver_boletos);
             this.groupBox4.Controls.Add(this.boton_logout);
             this.groupBox4.Controls.Add(this.ir_cuentas_clientes);
             this.groupBox4.Controls.Add(this.texto_capacidad);
@@ -470,7 +442,7 @@
             this.boton_logout.Location = new System.Drawing.Point(0, 324);
             this.boton_logout.Name = "boton_logout";
             this.boton_logout.Size = new System.Drawing.Size(39, 23);
-            this.boton_logout.TabIndex = 12;
+            this.boton_logout.TabIndex = 11;
             this.boton_logout.Text = "X";
             this.boton_logout.UseVisualStyleBackColor = false;
             this.boton_logout.Click += new System.EventHandler(this.boton_logout_Click);
@@ -479,17 +451,17 @@
             // 
             this.ir_cuentas_clientes.BackColor = System.Drawing.Color.Gray;
             this.ir_cuentas_clientes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ir_cuentas_clientes.Location = new System.Drawing.Point(81, 307);
+            this.ir_cuentas_clientes.Location = new System.Drawing.Point(70, 290);
             this.ir_cuentas_clientes.Name = "ir_cuentas_clientes";
-            this.ir_cuentas_clientes.Size = new System.Drawing.Size(109, 40);
-            this.ir_cuentas_clientes.TabIndex = 11;
+            this.ir_cuentas_clientes.Size = new System.Drawing.Size(120, 57);
+            this.ir_cuentas_clientes.TabIndex = 10;
             this.ir_cuentas_clientes.Text = "Manejo de cuentas y clientes";
             this.ir_cuentas_clientes.UseVisualStyleBackColor = false;
             this.ir_cuentas_clientes.Click += new System.EventHandler(this.ir_cuentas_clientes_Click);
             // 
             // texto_capacidad
             // 
-            this.texto_capacidad.Location = new System.Drawing.Point(80, 117);
+            this.texto_capacidad.Location = new System.Drawing.Point(81, 153);
             this.texto_capacidad.Maximum = new decimal(new int[] {
             999,
             0,
@@ -506,11 +478,11 @@
             // 
             // boton_mostrar_viajes
             // 
-            this.boton_mostrar_viajes.Location = new System.Drawing.Point(87, 143);
+            this.boton_mostrar_viajes.Location = new System.Drawing.Point(112, 194);
             this.boton_mostrar_viajes.Name = "boton_mostrar_viajes";
-            this.boton_mostrar_viajes.Size = new System.Drawing.Size(103, 23);
+            this.boton_mostrar_viajes.Size = new System.Drawing.Size(75, 23);
             this.boton_mostrar_viajes.TabIndex = 7;
-            this.boton_mostrar_viajes.Text = "Mostrar viajes";
+            this.boton_mostrar_viajes.Text = "Mostrar";
             this.boton_mostrar_viajes.UseVisualStyleBackColor = true;
             this.boton_mostrar_viajes.Click += new System.EventHandler(this.boton_mostrar_viajes_Click);
             // 
@@ -539,7 +511,7 @@
             // 
             this.cancelar_viaje.BackColor = System.Drawing.Color.Red;
             this.cancelar_viaje.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cancelar_viaje.Location = new System.Drawing.Point(51, 172);
+            this.cancelar_viaje.Location = new System.Drawing.Point(70, 223);
             this.cancelar_viaje.Name = "cancelar_viaje";
             this.cancelar_viaje.Size = new System.Drawing.Size(75, 23);
             this.cancelar_viaje.TabIndex = 8;
@@ -549,7 +521,7 @@
             // 
             // crear_viaje
             // 
-            this.crear_viaje.Location = new System.Drawing.Point(6, 143);
+            this.crear_viaje.Location = new System.Drawing.Point(33, 194);
             this.crear_viaje.Name = "crear_viaje";
             this.crear_viaje.Size = new System.Drawing.Size(75, 23);
             this.crear_viaje.TabIndex = 6;
@@ -560,7 +532,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(2, 117);
+            this.label13.Location = new System.Drawing.Point(3, 153);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(61, 13);
             this.label13.TabIndex = 8;
@@ -630,6 +602,7 @@
             this.cuentas.TabIndex = 3;
             this.cuentas.Text = "cuentas";
             this.cuentas.UseVisualStyleBackColor = true;
+            this.cuentas.Click += new System.EventHandler(this.cuentas_Click);
             // 
             // boton_regresar_cliente
             // 
@@ -816,6 +789,7 @@
             this.check_admin.Size = new System.Drawing.Size(15, 14);
             this.check_admin.TabIndex = 13;
             this.check_admin.UseVisualStyleBackColor = true;
+            this.check_admin.CheckedChanged += new System.EventHandler(this.check_admin_CheckedChanged);
             // 
             // label6
             // 
@@ -899,36 +873,6 @@
             this.label15.Size = new System.Drawing.Size(44, 13);
             this.label15.TabIndex = 4;
             this.label15.Text = "usuario:";
-            // 
-            // boton_ver_boletos
-            // 
-            this.boton_ver_boletos.BackColor = System.Drawing.Color.Gray;
-            this.boton_ver_boletos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.boton_ver_boletos.Location = new System.Drawing.Point(80, 249);
-            this.boton_ver_boletos.Name = "boton_ver_boletos";
-            this.boton_ver_boletos.Size = new System.Drawing.Size(110, 43);
-            this.boton_ver_boletos.TabIndex = 10;
-            this.boton_ver_boletos.Text = "Ver boletos";
-            this.boton_ver_boletos.UseVisualStyleBackColor = false;
-            this.boton_ver_boletos.Click += new System.EventHandler(this.boton_ver_boletos_Click);
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(6, 219);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(91, 13);
-            this.label20.TabIndex = 13;
-            this.label20.Text = "Boletos vendidos:";
-            // 
-            // letrero_boletos_vendidos
-            // 
-            this.letrero_boletos_vendidos.AutoSize = true;
-            this.letrero_boletos_vendidos.Location = new System.Drawing.Point(103, 219);
-            this.letrero_boletos_vendidos.Name = "letrero_boletos_vendidos";
-            this.letrero_boletos_vendidos.Size = new System.Drawing.Size(13, 13);
-            this.letrero_boletos_vendidos.TabIndex = 14;
-            this.letrero_boletos_vendidos.Text = "0";
             // 
             // Form1
             // 
@@ -1037,11 +981,6 @@
         private System.Windows.Forms.Button boton_regresar_cliente;
         private System.Windows.Forms.CheckBox check_admin;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button boton_ver_boletos;
-        private System.Windows.Forms.Label letrero_boletos_vendidos;
-        private System.Windows.Forms.Label label20;
     }
 }
 
