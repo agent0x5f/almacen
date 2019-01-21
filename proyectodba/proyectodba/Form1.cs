@@ -586,19 +586,11 @@ namespace proyectodba
             tabControl1.SelectTab(1);
         }
 
-        private void cuentas_Click(object sender, EventArgs e)
-        {
+     
 
-        }
-
-        private void check_admin_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-            private void boton_comprar_boleto_Click(object sender, EventArgs e)
+        private void boton_comprar_boleto_Click(object sender, EventArgs e)
             {
-                if (texto_id_cliente.Text == "" || texto_id_viaje.Text == "")
+              if (texto_id_cliente.Text == "" || texto_id_viaje.Text == "")
                     MessageBox.Show("Error-Escoger #Cliente y #Viaje primero");
                 else
                 {
@@ -618,22 +610,52 @@ namespace proyectodba
                         comando.Parameters.Add(prm1);
                         var prm2 = new OracleParameter("iviaje", OracleDbType.Int32, ParameterDirection.Input) { Value = texto_id_viaje.Text };
                         comando.Parameters.Add(prm2);
-
                         //se crea el valor de retorno para la funcion
                         var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1, ParameterDirection.ReturnValue);
                         comando.Parameters.Add(returnVal);
-
                         comando.Connection.Open();
                         comando.ExecuteNonQuery();
+                    comando.Connection.Close();
+                                 
+                    sql = "select id,nombre,apep,apem,contador as vuelos,ssn from cliente where id='" + texto_id_cliente.Text + "'";              
+                    comando = new OracleCommand(sql, con);
+                    con.Open();
+                    OracleDataAdapter da = new OracleDataAdapter(comando);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds);
+                    DataTable dt = new DataTable();
+                    dt = ds.Tables[0];
+                    DataGridView auxtabla = new DataGridView();
+                    auxtabla.DataSource = dt;
+                    con.Close();
 
-                        if (returnVal.Value.ToString() == "1")
+                    if (returnVal.Value.ToString() == "1")
                         {
                             MessageBox.Show("OK");
                             Form form2 = new Form();
-                            Label letreo1 = new Label() { Text = "Hola", Location = new Point(50, 50) };
-                            form2.Controls.Add(letreo1);
+                            form2.Text="AEROLINEAS DEL POZOL";
+                        form2.Size = new Size(400, 300);
+                           Label letreo1 = new Label() { Text = "Cliente #:"+texto_id_cliente.Text, Location = new Point(50, 40) };
+                            auxtabla.Location = new Point(50, 300);
+                            form2.Controls.Add(auxtabla);
+                        form2.Show();
+                        Label letreo2 = new Label() { Text = "Vuelo   #:" + texto_id_viaje.Text, Location = new Point(50, 70) };
+                        Label datos_n = new Label() { Text = "Nombre:   " + auxtabla[1, 0].Value.ToString(), Location = new Point(50, 100),Size = new Size(200, 20) };
+                        Label datos_ap = new Label() {Text = "AP:       " + auxtabla[2, 0].Value.ToString(), Location = new Point(50, 130),Size = new Size(200, 20) };
+                        Label datos_am = new Label() {Text = "AM:       " + auxtabla[3, 0].Value.ToString(), Location = new Point(50, 160),Size = new Size(200, 20) };
+                        Label datos_c = new Label() { Text = "NVuelos:  " + auxtabla[4, 0].Value.ToString(), Location = new Point(50, 190),Size = new Size(200, 20) };
+                        Label datos_ssn = new Label(){Text = "SSN:      " + auxtabla[5, 0].Value.ToString(), Location = new Point(50, 220),Size = new Size(200, 20)};
+                        
+                        
+                        form2.Controls.Add(letreo1);
+                        form2.Controls.Add(datos_n);
+                        form2.Controls.Add(datos_ap);
+                        form2.Controls.Add(datos_am);
+                        form2.Controls.Add(datos_c);
+                        form2.Controls.Add(datos_ssn);
+                        form2.Controls.Add(letreo2);
 
-                            form2.ShowDialog();
+                        form2.Refresh();
 
                         }
                         else
@@ -643,25 +665,25 @@ namespace proyectodba
                 }
             }
 
-            private void boton_ver_boletos_Click(object sender, EventArgs e)
-            {
-                //muestra en la tabla todos los boletos
-                string sql;
-                sql = "select id,idvuelo,idcliente from boleto";
+    
+        private void boton_ver_boletos_Click_1(object sender, EventArgs e)
+        {
+            //muestra en la tabla todos los boletos
+            string sql;
+            sql = "select id,idvuelo,idcliente from boleto";
 
-                string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
-                OracleConnection con = new OracleConnection(conexion);
-                OracleCommand comando = new OracleCommand(sql, con);
+            string conexion = "DATA SOURCE=localhost;PASSWORD=5695;PERSIST SECURITY INFO=True;USER ID=HR1";
+            OracleConnection con = new OracleConnection(conexion);
+            OracleCommand comando = new OracleCommand(sql, con);
 
-                con.Open();
-                OracleDataAdapter da = new OracleDataAdapter(comando);
-                DataSet ds = new DataSet();
-                da.Fill(ds);
-                DataTable dt = new DataTable();
-                dt = ds.Tables[0];
-                datos_viaje.DataSource = dt;
-                con.Close();
-            }
-        
+            con.Open();
+            OracleDataAdapter da = new OracleDataAdapter(comando);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            DataTable dt = new DataTable();
+            dt = ds.Tables[0];
+            datos_viaje.DataSource = dt;
+            con.Close();
+        }
     }
 }
