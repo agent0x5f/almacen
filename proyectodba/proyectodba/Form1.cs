@@ -180,7 +180,7 @@ namespace proyectodba
                 CommandType = CommandType.StoredProcedure
             };
             //se asignan los parametros de la funcion/procedimiento
-            var prm1 = new OracleParameter("nombre", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = dato_puntero };
+            var prm1 = new OracleParameter("nombre", OracleDbType.Varchar2, 50, ParameterDirection.Input) { Value = texto_user.Text };
             comando.Parameters.Add(prm1);
             //se crea el valor de retorno para la funcion
             var returnVal = new OracleParameter("resp", OracleDbType.Int32, 1, ParameterDirection.ReturnValue);
@@ -684,6 +684,11 @@ namespace proyectodba
             dt = ds.Tables[0];
             datos_viaje.DataSource = dt;
             con.Close();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

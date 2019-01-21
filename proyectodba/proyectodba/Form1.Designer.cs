@@ -56,6 +56,7 @@
             this.admin = new System.Windows.Forms.TabPage();
             this.datos_viaje = new System.Windows.Forms.DataGridView();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.boton_ver_boletos = new System.Windows.Forms.Button();
             this.boton_logout = new System.Windows.Forms.Button();
             this.ir_cuentas_clientes = new System.Windows.Forms.Button();
             this.texto_capacidad = new System.Windows.Forms.NumericUpDown();
@@ -65,6 +66,7 @@
             this.cancelar_viaje = new System.Windows.Forms.Button();
             this.crear_viaje = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.texto_destino = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -97,8 +99,6 @@
             this.label14 = new System.Windows.Forms.Label();
             this.texto_user = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.boton_ver_boletos = new System.Windows.Forms.Button();
-            this.label12 = new System.Windows.Forms.Label();
             boton_clientes_eliminar = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.login.SuspendLayout();
@@ -135,7 +135,7 @@
             this.tabControl1.Controls.Add(this.servidor);
             this.tabControl1.Controls.Add(this.admin);
             this.tabControl1.Controls.Add(this.cuentas);
-            this.tabControl1.Location = new System.Drawing.Point(-5, -22);
+            this.tabControl1.Location = new System.Drawing.Point(-3, -22);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(798, 412);
@@ -436,6 +436,18 @@
             this.groupBox4.Text = "viajes";
             this.groupBox4.Enter += new System.EventHandler(this.groupBox4_Enter);
             // 
+            // boton_ver_boletos
+            // 
+            this.boton_ver_boletos.BackColor = System.Drawing.Color.Gray;
+            this.boton_ver_boletos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boton_ver_boletos.Location = new System.Drawing.Point(79, 212);
+            this.boton_ver_boletos.Name = "boton_ver_boletos";
+            this.boton_ver_boletos.Size = new System.Drawing.Size(111, 57);
+            this.boton_ver_boletos.TabIndex = 12;
+            this.boton_ver_boletos.Text = "Ver boletos";
+            this.boton_ver_boletos.UseVisualStyleBackColor = false;
+            this.boton_ver_boletos.Click += new System.EventHandler(this.boton_ver_boletos_Click_1);
+            // 
             // boton_logout
             // 
             this.boton_logout.BackColor = System.Drawing.Color.DarkRed;
@@ -539,6 +551,15 @@
             this.label13.Size = new System.Drawing.Size(61, 13);
             this.label13.TabIndex = 8;
             this.label13.Text = "Capacidad:";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(30, 94);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(33, 13);
+            this.label12.TabIndex = 6;
+            this.label12.Text = "Hora:";
             // 
             // label11
             // 
@@ -865,27 +886,6 @@
             this.label15.TabIndex = 4;
             this.label15.Text = "usuario:";
             // 
-            // boton_ver_boletos
-            // 
-            this.boton_ver_boletos.BackColor = System.Drawing.Color.Gray;
-            this.boton_ver_boletos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.boton_ver_boletos.Location = new System.Drawing.Point(79, 212);
-            this.boton_ver_boletos.Name = "boton_ver_boletos";
-            this.boton_ver_boletos.Size = new System.Drawing.Size(111, 57);
-            this.boton_ver_boletos.TabIndex = 12;
-            this.boton_ver_boletos.Text = "Ver boletos";
-            this.boton_ver_boletos.UseVisualStyleBackColor = false;
-            this.boton_ver_boletos.Click += new System.EventHandler(this.boton_ver_boletos_Click_1);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(30, 94);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(33, 13);
-            this.label12.TabIndex = 6;
-            this.label12.Text = "Hora:";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -897,6 +897,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "AEROLINEAS DEL POZOL";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.login.ResumeLayout(false);
             this.login.PerformLayout();
