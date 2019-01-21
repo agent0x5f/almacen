@@ -99,8 +99,6 @@
             this.label15 = new System.Windows.Forms.Label();
             this.boton_ver_boletos = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             boton_clientes_eliminar = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.login.SuspendLayout();
@@ -137,7 +135,7 @@
             this.tabControl1.Controls.Add(this.servidor);
             this.tabControl1.Controls.Add(this.admin);
             this.tabControl1.Controls.Add(this.cuentas);
-            this.tabControl1.Location = new System.Drawing.Point(-5, 4);
+            this.tabControl1.Location = new System.Drawing.Point(-5, -22);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(798, 412);
@@ -414,8 +412,6 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.label8);
-            this.groupBox4.Controls.Add(this.label7);
             this.groupBox4.Controls.Add(this.boton_ver_boletos);
             this.groupBox4.Controls.Add(this.boton_logout);
             this.groupBox4.Controls.Add(this.ir_cuentas_clientes);
@@ -890,24 +886,6 @@
             this.label12.TabIndex = 6;
             this.label12.Text = "Hora:";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(1, 212);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(77, 13);
-            this.label7.TabIndex = 13;
-            this.label7.Text = "Total vendidos";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 230);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(13, 13);
-            this.label8.TabIndex = 14;
-            this.label8.Text = "0";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1015,8 +993,6 @@
         private System.Windows.Forms.CheckBox check_admin;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button boton_ver_boletos;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label12;
     }
 }
